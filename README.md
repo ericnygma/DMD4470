@@ -1,4 +1,4 @@
-## Welcome to GitHub Pages
+## Welcome to Andy's GitHub Page
 
 You can use the [editor on GitHub](https://github.com/ericnygma/DMD4470/edit/main/README.md) to maintain and preview the content for your website in Markdown files.
 
