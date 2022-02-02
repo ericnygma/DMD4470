@@ -5,3 +5,13 @@
 body {
     background-color: aqua;
 }
+
+.batman {
+    color:darkgray;
+    background-color: black;
+}
+
+.joker {
+    color: purple;
+    background-color: green;
+}

@@ -1,6 +1,6 @@
 var colorWell;
-    var body = document.querySelector('body');
-    var defaultColor = "#0000ff";
+var body = document.querySelector('body');
+var defaultColor = "#0000ff";
 
 window.addEventListener("load", startup, false);
 //test this line
@@ -44,3 +44,7 @@ function setStyles(){
 }
 }
 
+
+const updateTheme = document.getElementsByClassName('updateTheme');
+
+updateTheme.classList
