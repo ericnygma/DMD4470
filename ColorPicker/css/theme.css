@@ -2,16 +2,14 @@
     text-align: center;
 }
 
-body {
-    background-color: aqua;
-}
+
 
 .batman {
     color:darkgray;
     background-color: black;
 }
 
-.joker {
+.riddler {
     color: purple;
     background-color: green;
 }
