@@ -1,5 +1,8 @@
-.center-aligned {
+body {
+    display:flexbox;
+    margin:auto;
     text-align: center;
+    width: 310px;
 }
 
 .batman {
