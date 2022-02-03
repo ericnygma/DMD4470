@@ -1,7 +1,6 @@
 var colorWell;
 var body = document.querySelector('body');
-var defaultColor = "#0000ff";
-const picker = document.getElementById('themePicker');
+var defaultColor = "#f7feff";
 
 window.addEventListener("load", startup, false);
 window.addEventListener("load", remember, false);
@@ -9,24 +8,47 @@ window.addEventListener("load", remember, false);
 function startup() {
   colorWell = document.querySelector("#colorWell");
   colorWell.value = defaultColor;
-  colorWell.addEventListener("input", updateBody, false);
-  colorWell.addEventListener("change", updateAll, false);
-  colorWell.select();
-  
+  //tracking color change
+  colorWell.addEventListener("input", bodyColor, false);
+  colorWell.addEventListener("change", updateBody, false);
+  //colorWell.select();
+  localStorage.getItem('backgroundColor');
   
 }
-// updates the body color
-function updateBody(e){
+// Preview color change on body
+function bodyColor(e){
     if(body){
         body.style.backgroundColor = e.target.value;
-    
+        //localStorage.setItem('backgroundColor', colorWell.value);
     }
 } 
-function updateAll(e) {
-    body.forEach(function(){
+// Changes body color and save value to localStorage
+function updateBody(e) {
         body.style.backgroundColor = e.target.value;
-    });
+        localStorage.setItem('backgroundColor', colorWell.value);
+    }; 
+
+    //Changes theme
+const picker = document.getElementById('themePicker');
+picker[0].focus();
+picker[1].addEventListener("click", batman);
+picker[2].addEventListener("click", riddler);
+
+//change theme to batman class and saves to localStorage
+function batman() {
+    body.classList.remove('riddler');
+    body.style.backgroundColor = null;
+    body.classList.add('batman');
+    localStorage.setItem('theme', 1);
 }
+//change theme to riddler class and save to localStorage
+function riddler() {
+    body.classList.remove('batman');
+    body.style.backgroundColor = null;
+    body.classList.add('riddler');
+    localStorage.setItem('theme', 2);
+};
+
 
 //Local Storage
 function remember(){
@@ -36,7 +58,7 @@ if(!localStorage.getItem('backgroundColor')){
     setStyles();
 }
 function populateStorage(){
-    localStorage.setItem('backgroundColor', body.style.backgroundColor.value);
+    localStorage.setItem('backgroundColor', backgroundColor.value);
     setStyles();
 }
 //sets of from local storage
@@ -50,21 +72,11 @@ function setStyles(){
 }
 }
 
-var selTheme = document.querySelector('.batman');
+
  
 
 
-//Changes theme
 
-picker[1].addEventListener("click", batman)
-picker[2].addEventListener("click", riddler);
+ 
 
-function batman() {
-    body.classList.add('batman');
-  console.log('im batman');
-}
 
-function riddler() {
-    body.classList.add('riddler');
-  console.log('im the riddler');
-}
