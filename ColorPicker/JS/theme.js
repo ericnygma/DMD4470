@@ -13,8 +13,16 @@ function startup() {
   colorWell.addEventListener("change", updateBody, false);
   //colorWell.select();
   localStorage.getItem('backgroundColor');
-  
+};
+
+//load localStorage
+function remember() {
+    var storedColor = localStorage.getItem('backgroundColor');
+    if(storedColor){
+        body.style.backgroundColor = storedColor;
+       }
 }
+
 // Preview color change on body
 function bodyColor(e){
     if(body){
@@ -30,7 +38,6 @@ function updateBody(e) {
 
     //Changes theme
 const picker = document.getElementById('themePicker');
-picker[0].focus();
 picker[1].addEventListener("click", batman);
 picker[2].addEventListener("click", riddler);
 
@@ -50,30 +57,6 @@ function riddler() {
 };
 
 
-//Local Storage
-function remember(){
-if(!localStorage.getItem('backgroundColor')){
-    populateStorage();
-} else {
-    setStyles();
-}
-function populateStorage(){
-    localStorage.setItem('backgroundColor', backgroundColor.value);
-    setStyles();
-}
-//sets of from local storage
-
-function setStyles(){
-    var currentColor = localStorage.getItem('backgroundColor');
-
-    body.style.backgroundColor.value = currentColor;
-
-    body.style.backgroundColor = '#' + currentColor;
-}
-}
-
-
- 
 
 
 
