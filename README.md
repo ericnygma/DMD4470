@@ -1,5 +1,8 @@
 ## Welcome to Andy's GitHub Page
 
+### In class
+[ClassChat](https://ericnygma.github.io/DMD4470/inclass/class-roster/)
+
 You can use the [editor on GitHub](https://github.com/ericnygma/DMD4470/edit/main/README.md) to maintain and preview the content for your website in Markdown files.
 
 Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
