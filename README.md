@@ -1,7 +1,10 @@
 ## Welcome to Andy's GitHub Page
 
 ### In class
-[ClassChat](https://ericnygma.github.io/DMD4470/inclass/class-roster/)
+- [ClassChat](https://ericnygma.github.io/DMD4470/inclass/class-roster/)
+
+### Assignments
+- [ColorPicker](https://ericnygma.github.io/DMD4470/color-picker/)
 
 You can use the [editor on GitHub](https://github.com/ericnygma/DMD4470/edit/main/README.md) to maintain and preview the content for your website in Markdown files.
 
