@@ -5,6 +5,7 @@
 
 ## Assignments
 - [ColorPicker](https://ericnygma.github.io/DMD4470/color-picker/)
+- [Phonebook](https://ericnygma.github.io/DMD4470/phonebook/)
 
 
 ### Markdown
