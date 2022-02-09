@@ -1,18 +1,23 @@
+// Declare
 const url = 'https://uconndxlab.github.io/json-phonebook-example/dxlab-staff.json';
-var phonebook = [];
 const ul = document.getElementById('allContacts');
+var phonebook = [];
 
 
-async function myContacts(){
+async function myPhonebook(){
     const response = await fetch(url);
     const object = await response.json();
     const contact = await object.contacts;
-
+    console.log(contact);
     contact.forEach(obj => {
-        document.getElementById('allContacts').innerHTML = `
+        ul.innerHTML += `
             <div>
                 <li>Name:<strong> ${obj.lastname}, ${obj.firstname} </strong></li>
+                <li>Title: ${obj.title}</li>
+                <li>Phone: ${obj.phone}</li>
                 <li>Email: ${obj.email}</li>
+                <li>Birthday: ${obj.birthdate}</li>
+                
                
             </div>`;
     
@@ -29,7 +34,7 @@ async function myContacts(){
     // console.log(contact.length);
 })
 }
-myContacts();
+myPhonebook();
 
 
 
@@ -37,16 +42,16 @@ myContacts();
 
 
 class Person {
-    constructor(firstname, lastname, title, phone, email, birthday){
+    constructor(firstname, lastname, title, phone, email, birthdate){
         this.firstname = firstname;
         this.lastname = lastname;
         this.title = title;
         this.phone = phone;
         this.email = email;
-        this.birthday = birthday;
+        this.birthdate = birthdate;
         this.fullname = this.lastname +", "+ this.firstname;
 
         phonebook.push(this)
     }
 }
-// var contact = new Person();
+// let contact = new Person();
