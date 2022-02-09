@@ -1,0 +1,13 @@
+.contactList {
+    background-color: aqua;
+   
+}
+
+.displayContact {
+    background-color:blue;
+    
+}
+.container {
+    display: flex;
+    
+}
