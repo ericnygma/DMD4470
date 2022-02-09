@@ -1,7 +1,6 @@
-// Declare
+// Declare variables
 const url = 'https://uconndxlab.github.io/json-phonebook-example/dxlab-staff.json';
 const ul = document.getElementById('allContacts');
-var phonebook = [];
 
 
 async function myPhonebook(){
@@ -9,40 +8,19 @@ async function myPhonebook(){
     const object = await response.json();
     const contact = await object.contacts;
     console.log(contact);
+    // sort the contact in array by lastname
+    contact.sort((a,b) => a.lastname.localeCompare(b.lastname));
     contact.forEach(obj => {
-        ul.innerHTML += `
-            <div>
-                <li>Name:<strong> ${obj.lastname}, ${obj.firstname} </strong></li>
-                <li>Title: ${obj.title}</li>
-                <li>Phone: ${obj.phone}</li>
-                <li>Email: ${obj.email}</li>
-                <li>Birthday: ${obj.birthdate}</li>
-                
-               
-            </div>`;
-    
-    // contact.forEach(obj => {
+        let contact = new Person(obj.lastname, obj.firstname, obj.title, obj.phone, obj.email, obj.birthdate);
+        contact.displayToPage();
        
-        
-    //     console.log(obj);
-    //     let p = document.createElement('p')
-    //     document.getElementById('contactInfo').innerHTML = obj.firstname;
-    //     document.getElementById('contactInfo').innerHTML = obj.phone;
-    // })
-    
-    // console.log(contact[1].firstname);
-    // console.log(contact.length);
 })
 }
 myPhonebook();
 
-
-
-
-
-
+// creates a class for new contacts
 class Person {
-    constructor(firstname, lastname, title, phone, email, birthdate){
+    constructor(lastname, firstname, title, phone, email, birthdate){
         this.firstname = firstname;
         this.lastname = lastname;
         this.title = title;
@@ -50,8 +28,17 @@ class Person {
         this.email = email;
         this.birthdate = birthdate;
         this.fullname = this.lastname +", "+ this.firstname;
+    }
 
-        phonebook.push(this)
+    displayToPage(){
+        ul.innerHTML += `
+             <div>
+                <li>Name:<strong> ${this.lastname}, ${this.firstname} </strong></li>
+                <li>Title: ${this.title}</li>
+                <li>Phone: ${this.phone}</li>
+                <li>Email: ${this.email}</li>
+                <li>Birthday: ${this.birthdate}</li>
+             
+            </div>`;
     }
 }
-// let contact = new Person();
