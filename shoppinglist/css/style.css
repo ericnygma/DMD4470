@@ -2,6 +2,8 @@
 
 body{
     font-family: 'Atma', cursive;
+    text-align: center;
+    margin: 5%;
 }
 
 input[type=text] {
@@ -20,6 +22,7 @@ input[type=text]:focus {
   /*Styling list items  */
 li { 
     text-decoration: none;
+    /* text-align: justify; */
 }
 li:hover {
       color: crimson;
@@ -27,12 +30,30 @@ li:hover {
       cursor: pointer;
   }
 
+  li::marker {
+      color:blue;
+      
+  }
+
   .parent {
       position: relative;
   }
 
-  #shoplist {
+  #inputItem {
     position: absolute;
     width: 50%;
     bottom: 10px;
+}
+
+#list-wrapper {
+    background-color: aqua;
+    width: 200px;
+    height: 10px;
+    margin-bottom: 25px;
+}
+#myList {
+    background-color: blue;
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    text-align: justify;
 }

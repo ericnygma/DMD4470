@@ -14,8 +14,13 @@
     <h1>Andy's Shopping List</h1>
     <div class="container">
         
-    
-    <div id="shoplist">
+        <div id="list-wrapper">
+            <ul id="myList">
+                <!-- list item will display here -->
+            </ul>
+        </div>
+
+    <div id="inputItem">
         <p>
             <input type="text" id="newItem" placeholder="Add items...">
             <button id="save-btn">Save</button>
@@ -23,16 +28,11 @@
         
     </div>
 
-    <div>
-        <ul id="myList">
-            <li>Sample 1</li>
-            <li>Sample 2</li>
-        </ul>
-    </div>
+    
 </div>  
     
     
     
-    <script src="js/main.js"></script>
+    <script src="js/main.js" type="module"></script>
 </body>
 </html>
