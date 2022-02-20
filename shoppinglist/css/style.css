@@ -45,14 +45,10 @@ li:hover {
     bottom: 10px;
 }
 
-#list-wrapper {
-    background-color: aqua;
-    width: 200px;
-    height: 10px;
-    margin-bottom: 25px;
-}
+
 #myList {
-    background-color: blue;
+    width: 80%;
+    margin-left: 50px;
     margin-bottom: 25px;
     padding-bottom: 15px;
     text-align: justify;
