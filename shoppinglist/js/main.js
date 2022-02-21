@@ -53,25 +53,32 @@ saveBtn.addEventListener("click", function(){
 // LISTEN TO MULTIPLE DOCUMENTS IN COLLECTION
 
 const unsubscribe = onSnapshot(q, (querySnapshot) => {
-//   const listOfDoc = [];
+  outputList.innerHTML = " ";
   querySnapshot.forEach((doc) => {
     // listOfDoc.push(doc.id);
     // console.log("Here the 1st list ", doc.id);
+    var listName = doc.id;
     let newLi = document.createElement('li');
-    newLi.classList.add('item')
-    outputList.appendChild(newLi).innerHTML = doc.id;
+    newLi.classList.add('item');
+    newLi.innerHTML = listName;
+    // outputList.appendChild(newLi).innerHTML = doc.id;
+    outputList.appendChild(newLi);
+
+    
   });
-//   console.log("Current item in list: ", listOfDoc.join(", "));
+
   
 });
 
 
 
+// var item = document.querySelector('.item').value
+
 
 
 // delete a document in collection
 // TODO: FUNCTION TO DELETE DOCUMENT WHEN ITEM IS CLICKED
-await deleteDoc(doc(listRef, " "));
+await deleteDoc(doc(listRef, "bbq"));
 
 
  const item = document.querySelector(".item");
