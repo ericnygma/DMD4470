@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://kit.fontawesome.com/8842063a5c.js" crossorigin="anonymous"></script>
+    <title>listie</title>
+</head>
+<body>
+    <div class="container">
+        <div class="wrapper">
+            <div class="greeting">
+                
+                <h2 id="hiUser">Good Morning User,</h2>
+            </div>
+
+            <div id="list-wrapper">
+                <!-- <h1 id="date">Today Feb 22, 2022 </h1> -->
+
+                <div class="list-holder">
+                    <ul id="myList">
+                        
+                        <li class="list-item" id="ftask">
+                            <input class="checkbox mt-0" type="checkbox" onclick="isChecked()" value="" aria-label="Checkbox for following text input">
+                            First Task  <span class="edit"><i class="fa-solid fa-pencil fa-xs"></i></span> <span> <i class="fa-solid fa-xmark"></i></span> 
+                            <div class="p">
+                                <p class="details mt-0 mb-0" style="font-size: small;">Notes: here are some notes</p>
+                            </div>
+                            
+                            <div class="task">
+                                <form action="" class="makeIt" style="display: none;">
+                                    <div class="input-group">
+
+                                       <input type="text1" name="task" id="" placeholder="Update task" class="tmi mt-0 mb-0">
+                                        <input type="text2" name="note" id="" placeholder="Update notes" class="tmi mt-0 mb-0">
+                                        <input type="button" value="Save"> 
+                                        <button>Cancel</button>
+                                    </div>
+                                    
+                                    <!-- <input type="button" value="Save"> 
+                                    <button>Cancel</button> -->
+                                </form>
+                            </div>
+                        </li>
+                        <div class="sec-group">
+                            <li class="list-group-item">
+                                <input class="checkbox me-1" onclick="isChecked()" type="checkbox" value="" aria-label="Checkbox for following text input">
+                                Second checkbox  
+                                <span class="edit">
+                                    <i class="fa-solid fa-pencil fa-xs"></i>
+                                </span> 
+                                <span> 
+                                    <i class="fa-solid fa-xmark"></i>
+                                </span> 
+                                <div class="p">
+                              </li>
+                              <div class="sec-notes">
+                                <p class="details mt-0 mb-0" style="font-size: small;">Notes: here are some more notes</p>
+                              </div>
+                              <div class="addTask" style="display: none;">
+                                <div class="taskInput">
+                                    <input type="text2" name="" id="" placeholder="Update Task">
+                                </div>
+                                <div class="detailInput">
+                                    <textarea name="" id="" cols="15" rows="1" class="task-detail" placeholder="Update Details"></textarea>
+                                </div>
+                                
+                                
+                                <input type="button" value="Save"> 
+                                <button>Cancel</button>    
+                              </div>
+                        </div>
+                       
+                        
+                        
+                    </ul>
+                    <div class="input-group">
+                        <!-- <span class="input-group-text">First and last name</span> -->
+                        <input style="display: block;" type="text" aria-label="First name" class="form-control" placeholder="Task">
+                        <input style="display: block;" type="text" aria-label="Last name" class="form-control" placeholder="Notes">
+                        <button type="submit">Save</button>
+                      </div>
+                </div>
+                
+            </div>
+            <div id="inputTask">
+                <input type="text">
+                <button type="submit">Save</button>
+            </div>
+        </div>
+    </div>
+    <script src="js/app.js"></script>
+</body>
+</html>

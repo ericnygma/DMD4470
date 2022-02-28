@@ -1,0 +1,11 @@
+#doit {
+    text-align: center;
+}
+span{
+    float: right;
+    margin-left: 15px;
+}
+.btn-update {
+    float: right;
+    margin: 5px;
+}
