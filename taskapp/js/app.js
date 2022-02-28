@@ -1,16 +1,40 @@
-var exampleModal = document.getElementById('exampleModal')
-exampleModal.addEventListener('show.bs.modal', function (event) {
-  // Button that triggered the modal
-  var button = event.relatedTarget
-  // Extract info from data-bs-* attributes
-  var recipient = button.getAttribute('data-bs-whatever')
-  // If necessary, you could initiate an AJAX request here
-  // and then do the updating in a callback.
-  //
-  // Update the modal's content.
-  var modalTitle = exampleModal.querySelector('.modal-title')
-  var modalBodyInput = exampleModal.querySelector('.modal-body input')
+//   Get today's date
+const d = new Date();
+    var h2 = document.createElement('h2');
+    h2.innerHTML = "Today " + d.toLocaleDateString();
+    document.querySelector('.greeting').appendChild(h2);
 
-  modalTitle.textContent = 'New message to ' + recipient
-  modalBodyInput.value = recipient
-})
+
+//    const pencil = document.querySelectorAll('.pencil');  
+
+//    pencil.addEventListener('click',function(){
+//        console.log('do you want to edit');
+//        const hidden = document.querySelector('.hidden');
+//       if (hidden.style.display === "none") {
+//         hidden.style.display = "block";
+//       } else {
+//         hidden.style.display = "none";
+   
+//       }
+//  })
+
+//  let del = document.getElementsByClassName('delete'); 
+//  del.addEventListener('click', function(){
+//      console.log('you sure you want to delete');
+//  })
+
+//  const trash = document.getElementsByClassName('.bi-trash');
+//     trash.addEventListener('click', function(){
+//         console.log("trash");
+//     })
+
+  const pencil = document.querySelector('.pencil');
+  pencil.forEach().addEventListener('click', function(){ console.log("fire") });
+//   addEventListener('click', function(){ console.log("fire")})
+
+//   document.getElementsByClassName('pencil').addEventListener('click', function(){ console.log("fire") });
+  
+  document.querySelector('.form-check').addEventListener('click', function(){
+      const pencil = document.querySelector('.pencil');
+      pencil.style.display = "none";
+  })

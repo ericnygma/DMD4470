@@ -15,43 +15,59 @@
 <body>
     <div class="container">
         <!-- Content here -->
-        <h1 id="doit">DO IT</h1>
+        <h1 id="doit">DO DI TING</h1>
+        <div id="date" class="greeting">
+            <!-- <h1 id="date">Today Feb 22, 2022 </h1> -->
+        </div>
 
         <div id="task-area">
-            <div class="form-check form-control-sm">
-                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox">
                 <label class="form-check-label" for="flexCheckDefault">
                   Task Item # 1
                 </label> 
-                <span class="edit"><i class="bi bi-pencil-square"></i></i></span> 
-                <span class="delete"><i class="bi bi-x-square"></i></span>
                 
+                <span class="trash"><i class="bi bi-trash"></i></span>
+                <span class="pencil"><i class="bi bi-pencil-square"></i></span> 
                 <!-- DROPDOWN TO UPDATE TASK -->
-                <div id="update" style="display: none;">
+                <div id="update" class="hidden" style="display: none;">
                     <div class="mb-3">
                     
-                        <input type="text" class="form-control form-control-sm" id="FormControlInput1" placeholder="Task Item # 1">
+                        <input type="text" class="form-control" id="FormControlInput1" placeholder="Task Item # 1">
                       </div>
                       <div class="mb-3">
                         <label for="textarea1" class="form-label">Notes:</label>
-                        <textarea class="form-control form-control-sm" id="FormControlTextarea1" rows="2"></textarea>
+                        <textarea class="form-control" id="FormControlTextarea1" rows="2"></textarea>
                         
-                        <button type="button" class="btn btn-primary btn-update" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">Edit</button>
+                        <button type="button" class="btn btn-primary btn-update">Edit</button>
                       </div>
                 </div>
-                
-        
-               
-                                       
-
-              <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
-                <label class="form-check-label" for="flexCheckChecked">
-                  Checked checkbox
-                </label>
-              </div>
-            
         </div>
+
+
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
+            <label class="form-check-label" for="flexCheckChecked">
+              Task Item # 2
+            </label>
+            
+            <span class="trash"><i class="bi bi-trash"></i></span>
+            <span class="pencil"><i class="bi bi-pencil-square"></i></span> 
+
+             <!-- DROPDOWN TO UPDATE TASK -->
+             <div id="update" style="display: none;">
+                <div class="mb-3">
+                
+                    <input type="text" class="form-control form-control-sm" id="FormControlInput1" placeholder="Task Item # 2">
+                  </div>
+                  <div class="mb-3">
+                    <label for="textarea1" class="form-label">Notes:</label>
+                    <textarea class="form-control form-control-sm" id="FormControlTextarea1" rows="2"></textarea>
+                    
+                    <button type="button" class="btn btn-primary btn-update">Edit</button>
+                  </div>
+            </div>
+          </div>
       </div>
       
      
@@ -67,34 +83,3 @@
 </html>
 
 
-<!-- modal -->
-<!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">Open modal for @mdo</button>
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@fat">Open modal for @fat</button>
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@getbootstrap">Open modal for @getbootstrap</button> -->
-
-<!-- <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">New message</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <form>
-          <div class="mb-3">
-            <label for="recipient-name" class="col-form-label">Task:</label>
-            <input type="text" class="form-control" id="recipient-name">
-          </div>
-          <div class="mb-3">
-            <label for="message-text" class="col-form-label">Notes:</label>
-            <textarea class="form-control" id="message-text"></textarea>
-          </div>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Send message</button>
-      </div>
-    </div>
-  </div>
-</div> -->

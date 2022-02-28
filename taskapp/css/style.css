@@ -1,5 +1,7 @@
 #doit {
     text-align: center;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
 }
 span{
     float: right;
@@ -8,4 +10,7 @@ span{
 .btn-update {
     float: right;
     margin: 5px;
+}
+#task-area {
+    margin-left: 2%;
 }
