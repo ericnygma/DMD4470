@@ -23,27 +23,27 @@
         <div id="task-area">
             <div class="form-check">
                 <input class="form-check-input" type="checkbox">
-                <label class="form-check-label" for="flexCheckDefault">
+                <label class="form-check-label" id="task1" for="flexCheckDefault">
                   Task Item # 1
                 </label> 
                 
-                <span class="trash"><i class="bi bi-trash"></i></span>
-                <span class="pencil"><i class="bi bi-pencil-square"></i></span> 
+                <span class="trash"><i class="bi bi-trash"></i>
+                    <i class="bi bi-pencil-square"></i></span> 
                 <!-- DROPDOWN TO UPDATE TASK -->
-                <div id="update" class="hidden" style="display: none;">
+                <div id="update" class="hidden" style="display: none;">    <!-- style="display: none;"-->
                     <div class="mb-3">
                     
                         <input type="text" class="form-control" id="FormControlInput1" placeholder="Task Item # 1">
                       </div>
                       <div class="mb-3">
                         <label for="textarea1" class="form-label">Notes:</label>
-                        <textarea class="form-control" id="FormControlTextarea1" rows="2"></textarea>
+                        <textarea class="form-control control form-control-sm" id="FormControlTextarea1" rows="2"></textarea>
                         
-                        <button type="button" class="btn btn-primary btn-update">Edit</button>
+                        <button type="button" class="btn-update">Edit</button>
                       </div>
                 </div>
         </div>
-
+        <br><hr>    <!--THIS DIVIDES THE TASK-->
 
         <div class="form-check">
             <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
@@ -55,24 +55,82 @@
             <span class="pencil"><i class="bi bi-pencil-square"></i></span> 
 
              <!-- DROPDOWN TO UPDATE TASK -->
-             <div id="update" style="display: none;">
+             <div id="update">  <!-- style="display: none;"-->
                 <div class="mb-3">
                 
                     <input type="text" class="form-control form-control-sm" id="FormControlInput1" placeholder="Task Item # 2">
                   </div>
                   <div class="mb-3">
-                    <label for="textarea1" class="form-label">Notes:</label>
+                    <!-- <label for="textarea1" class="form-label">Notes:</label> -->
                     <textarea class="form-control form-control-sm" id="FormControlTextarea1" rows="2"></textarea>
                     
-                    <button type="button" class="btn btn-primary btn-update">Edit</button>
+                    <button type="button" class="btn btn-update">Edit</button>
                   </div>
             </div>
           </div>
+          <br>
+          <hr>
+<!-- CARD TEST -->
+<div class="test card" id="card">
+    <div class="form-check3">
+        <input class="task-input" type="checkbox">
+        <label class="label">
+          Task Item # 3
+        </label> 
+       
+        <span class="trash"><i class="bi bi-trash"></i>
+            <i class="bi bi-pencil-square"></i></span> 
+    </div>         
+        <!-- DROPDOWN TO UPDATE TASK -->
+        <div id="update" class="hidden" style="display: none;">    <!-- style="display: none;"-->
+            <div class="mb-31">
+            
+                <input type="text" class="form-control" id="FormControlInput1" placeholder="Task Item # 3">
+              </div>
+              <div class="mb-31">
+                <label for="textarea1" class="form-label">Notes:</label>
+                <textarea class="form-control control form-control-sm" id="FormControlTextarea1" rows="2"></textarea>
+                
+                <button type="button" class="btn-update">Edit</button>
+              </div>
+        </div>
+</div>
+  
+<div class="test card" id="card">
+    <div class="form-check3">
+        <input class="task-input" type="checkbox">
+        <label class="label">
+          Task Item # 4
+        </label> 
+       
+        <span class="trash"><i class="bi bi-trash"></i>
+            <i class="bi bi-pencil-square"></i></span> 
+    </div>         
+        <!-- DROPDOWN TO UPDATE TASK -->
+        <div id="update" class="hidden" style="display: none;">    <!-- style="display: none;"-->
+            <div class="mb-31">
+            
+                <input type="text" class="form-control" id="FormControlInput1" placeholder="Task Item # 4">
+              </div>
+              <div class="mb-31">
+                <label for="textarea1" class="form-label">Notes:</label>
+                <textarea class="form-control control form-control-sm" id="FormControlTextarea1" rows="2"></textarea>
+                
+                <button type="button" class="btn-update">Edit</button>
+              </div>
+        </div>
+</div>
+
+<!-- END OF TEST CARD -->
       </div>
       
      
       
-
+      <div class="input-group mb-3">
+        <input type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="button-addon2">
+        <button class="btn btn-outline-secondary" type="button" id="button-addon2">Button</button>
+      </div>
+</div>
 
 
 

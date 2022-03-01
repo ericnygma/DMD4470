@@ -5,8 +5,15 @@ const d = new Date();
     document.querySelector('.greeting').appendChild(h2);
 
 
-//    const pencil = document.querySelectorAll('.pencil');  
 
+    // DOM LINKS
+    const form = document.querySelector('.form-check');  
+    const pencil = document.querySelector('.bi-pencil-square');
+    const trash = document.getElementsByClassName('.bi-trash');
+    const hidden = document.querySelector('.hidden');
+    // const del = document.querySelector('.trash').innerHTML;
+
+   
 //    pencil.addEventListener('click',function(){
 //        console.log('do you want to edit');
 //        const hidden = document.querySelector('.hidden');
@@ -18,23 +25,20 @@ const d = new Date();
 //       }
 //  })
 
-//  let del = document.getElementsByClassName('delete'); 
-//  del.addEventListener('click', function(){
-//      console.log('you sure you want to delete');
-//  })
+// 
 
-//  const trash = document.getElementsByClassName('.bi-trash');
-//     trash.addEventListener('click', function(){
-//         console.log("trash");
-//     })
+//   pencil.addEventListener('click', function(){
+//        console.log("fire") });
 
-  const pencil = document.querySelector('.pencil');
-  pencil.forEach().addEventListener('click', function(){ console.log("fire") });
-//   addEventListener('click', function(){ console.log("fire")})
-
-//   document.getElementsByClassName('pencil').addEventListener('click', function(){ console.log("fire") });
   
-  document.querySelector('.form-check').addEventListener('click', function(){
-      const pencil = document.querySelector('.pencil');
-      pencil.style.display = "none";
-  })
+const card = document.querySelector('#card'); 
+card.addEventListener('click', function(){
+    if (hidden.style.display === "none") {
+                hidden.style.display = "block";
+              } else {
+                hidden.style.display = "none";
+           
+              }
+})
+  
+  
