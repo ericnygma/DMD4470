@@ -5,7 +5,7 @@ import { getFirestore,
         deleteDoc,
         addDoc,
         getDoc,
-        getDocs,
+        getDocs, updateDoc,
         setDoc, query,
         orderBy, onSnapshot, where, serverTimestamp
         } from "https://www.gstatic.com/firebasejs/9.4.1/firebase-firestore.js"
@@ -76,6 +76,8 @@ addBtn.addEventListener('click', function(){
   //  addToFirebase(title, note);
 })
 
+
+// CREATE CARD FOR TASK
 function createCard(){
   var card = document.createElement('div');
       card.classList.add('card');
@@ -116,9 +118,18 @@ const unsubscribe = onSnapshot(q, (querySnapshot) => {
   // outputList.innerHTML = " ";
   const doditing = [];
   querySnapshot.forEach((doc) => {
-    doditing.push(doc.data().title)
-    // listOfDoc.push(doc.id);
-    console.log("Here the 1st list ", doditing);
+    // doditing.push(doc.data());
+    var taskObj = doc.data(); 
+    var titletask = taskObj.title;
+    var notetask = taskObj.note;
+    var activetask = taskObj.active;
+    console.log("Title: " + titletask);
+    console.log("Note: " + notetask);
+    console.log("Completed: " + activetask);
+    
+
+    // console.log("Here the Array ", doditing);
+    
     // var listName = doc.id;
     // let newLi = document.createElement('li');
     // newLi.classList.add('item');
