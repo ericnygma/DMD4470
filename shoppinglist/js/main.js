@@ -1,6 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.4.1/firebase-app.js"
-import { getFirestore, 
-        collection, 
+import { getFirestore,
+        collection,
         doc,
         deleteDoc,
         addDoc,
@@ -17,18 +17,18 @@ const firebaseApp = initializeApp({
     projectId: "listapproot",
     storageBucket: "listapproot.appspot.com",
     messagingSenderId: "398474013698",
-    appId: "1:398474013698:web:a332fd275f59da2a2b8b1b"  
+    appId: "1:398474013698:web:a332fd275f59da2a2b8b1b"
 });
 
 const db = getFirestore();
-const listRef = collection(db, "todolist");
+const listRef = collection(db, "doditing");
 const q = query(listRef);
 
-// await setDoc(doc(citiesRef, "SF"), {
+// await setDoc(doc(citiesRef, "ATL"), {
 //     name: "San Francisco", state: "CA", country: "USA",
 //     capital: false, population: 860000,
 //     timestamp: serverTimestamp(),
-//     regions: ["west_coast", "norcal"] }); 
+//     regions: ["west_coast", "norcal"] });
 
 var newItem = document.querySelector('#newItem');
 const saveBtn = document.querySelector('#save-btn');
@@ -45,7 +45,7 @@ saveBtn.addEventListener("click", function(){
         timestamp: serverTimestamp(),
     });
     console.log("Button press saved: " + saveItem);
-    
+
 })
 
 
@@ -64,10 +64,10 @@ const unsubscribe = onSnapshot(q, (querySnapshot) => {
     // outputList.appendChild(newLi).innerHTML = doc.id;
     outputList.appendChild(newLi);
 
-    
+
   });
 
-  
+
 });
 
 
