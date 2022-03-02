@@ -5,14 +5,20 @@
 }
 .hidden {
   display: none;
+  max-width: 100%;
+  margin-left: 50px;
+  margin-right: 40px;
 }
-span{
+
+i {
     float: right;
     margin-left: 15px;
 }
-.btn-update {
+button {
+    max-width: 100%;
     float: right;
-    margin: 5px;
+    margin-top: 5px;
+    margin-bottom: .75rem;
     color: #0a58ca;
     background-color: #fff;
     border-color: #0a58ca;
@@ -22,7 +28,7 @@ span{
     padding: .375rem 1rem;
     transition: color .15s ease-in-out;
 }
-.btn-update:hover{
+button:hover{
     color: #fff;
     border-color: #0a58ca;
     background-color: #0a58ca;
@@ -41,50 +47,45 @@ span{
     margin-left: 2px;
     margin-right: 2px;
 }
-div#update {
-    margin-top: 1rem;
-}
+
 textarea {
-    height: 50px;
+  resize: none;
+  height: 30px;
+  display: block;
+  width: 100%;
+  padding: 0.375rem 0.75rem .375rem .75rem;
+  font-size: .75rem;
+  font-weight: 400;
+  line-height: 1;
+  color: #212529;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #ced4da;
+  appearance: none;
+  border-radius: .25rem;
+  transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+  transition-property: border-color, box-shadow;
+  transition-duration: 0.15s, .15s;
+  transition-timing-function: ease-in-out,ease-in-out;
+  transition-delay: 0s, 0s;
 }
 
 /* STYLE CARDS */
 .card {
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 12px 0 rgba(0, 0, 0, 0.2);
     max-width: 100%;
     margin: auto;
-    text-align: justify;
+    text-align: left;
     transition: 0.3s;
     margin-bottom: 5px;
+    border-radius: 1rem;
   }
   .card:hover {
-    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
-  }
-  .title {
-    color: grey;
-    font-size: 18px;
-  }
- 
-  button {
-    border: none;
-    outline: 0;
-    display: inline-block;
-    padding: 8px;
-    color: white;
-    background-color: #000;
-    text-align: center;
-    cursor: pointer;
-    width: 100%;
-    font-size: 18px;
+    box-shadow: 2px 8px 16px 2px rgba(0,0,0,0.2);
   }
 
-  .mb-31 {
-      max-width: 100%;
-      margin-left: 50px;
-      margin-right: 40px;
-  }
   .form-box {
-      margin: 10px 25px 10px;
+      margin: 10px 40px 10px 20px;
 
   }
   /* END OF CARD TEST */
@@ -97,21 +98,17 @@ textarea {
     margin: auto;
     text-align: justify;
     transition: 0.3s;
-    margin-bottom: 5px;
+    margin-top: 1px;
+    margin-bottom: 65px;
+    border-radius: .25rem;
   }
   .addTaskCard:hover {
     box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
   }
-  .title {
-    color: grey;
-    font-size: 18px;
-  }
-  .task-input {
+  
+  /* .task-input {
       max-width: 100%;
-      margin: 1px;
-      /* margin-left: 1px; */
-      /* margin-right: 1px; */
-  }
+  } */
 /* END OF ADD TASK CARD */
 /* START OF POSSIBLE MODAL FOR TASK INPUT */
 
@@ -121,12 +118,13 @@ textarea {
 
 /* ADJUSTMENTS TO INPUT AND TEXTAREA  */
 .control {
+  height: 30px;
   display: block;
   width: 100%;
   padding: 0.375rem 0.75rem .375rem .75rem;
-  font-size: 1rem;
+  font-size: .75rem;
   font-weight: 400;
-  line-height: 1.5;
+  line-height: 1;
   color: #212529;
   background-color: #fff;
   background-clip: padding-box;

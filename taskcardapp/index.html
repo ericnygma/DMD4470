@@ -10,54 +10,66 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
     <link rel="stylesheet" href="css/style.css">
 
-    <title>Document</title>
+    <title>Andy Task List</title>
 </head>
 <body>
     <div class="container">
-        <!-- Content here -->
+        <!-- CONTAINS ALL ELEMENT OF DOCUMENT -->
+        
         <h1 id="doit">DO DI TING</h1>
+
+<!-- HOLDS ELEMENT TO INPUT TASK ITEMS -->
+        <div class="addTaskCard">
+            <div class="addTask">    
+                <div class="task-input">
+                    <input type="text" class="control" id="addTitle" placeholder="Title">
+                    <textarea class="" id="addNote" placeholder="Notes:"></textarea>
+                    <button class="btn-update" id="addBtn">Add Task</button>
+                  </div>
+            </div>
+        </div>
+
+
+<!-- ELEMENT TO DISPLAY CURRENT DATE  -->
         <div id="date" class="greeting">
             <!-- <h1 id="date">Today Feb 22, 2022 </h1> -->
         </div> 
 
 
 
-<!-- CARD TASK -->
+<!-- AREA WILL HOLD ALL THE ALL CARD TASK -->
 <div id="taskarea">
-<div class="test card" id="card">
+<!-- <div class="card" id="">
     <div class="form-box">
-        <input class="task-input" type="checkbox">
+        <input class="checkbox" type="checkbox">
         <label class="label"  id="cardTop">
-          Task Item # 3
+          This is the title for your task
         </label>
-        
-        <i class="bi bi-trash"></i>
-        <i class="bi bi-pencil-square"></i>
-    </div>
-        <!-- DROPDOWN TO UPDATE TASK -->
-        <div id="update" class="hidden">    <!-- style="display: none;"-->
-            <div class="mb-31">
-
+       <i class="bi bi-trash"></i>
+       <i class="bi bi-pencil-square"></i>
+    </div> -->
+<!-- DROPDOWN TO UPDATE TASK -->
+            <!-- <div class="hidden">
                 <input type="text" class="control titleInput" id="">
-                <textarea class="control noteArea" id="" placeholder="Notes:"></textarea>
+                <textarea class="noteArea" id="" placeholder="Notes:"></textarea>
+                <button class="saveBtn" id="">Save</button>
+            </div>
+</div> -->
 
-                <button class="btn-update" id="saveBtn">Save</button>
-              </div>
-        </div>
-</div>
+
 
 </div>
 <!-- END OF TASK CARD -->
 
-<div class="addTaskCard">
-  <div id="update" class="addTask">    <!-- style="display: none;"-->
+<!-- <div class="addTaskCard">
+  <div id="update" class="addTask">    
       <div class="task-input">
           <input type="text" class="control" id="addTitle" placeholder="Title">
           <textarea class="control" id="addNote" placeholder="Notes:"></textarea>
           <button class="btn-update" id="addBtn">Add Task</button>
         </div>
   </div>
-      </div>
+      </div> -->
 
 </div>
 

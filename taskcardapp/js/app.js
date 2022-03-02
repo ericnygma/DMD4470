@@ -26,28 +26,29 @@ const q = query(docRef);
 
 //   GETS TODAYS DATE
 const d = new Date();
-    var h2 = document.createElement('h2');
-    h2.innerHTML = "Today " + d.toLocaleDateString();
-    document.querySelector('.greeting').appendChild(h2);
+    var h5 = document.createElement('h5');
+    h5.innerHTML = "Today " + d.toLocaleDateString();
+    document.querySelector('.greeting').appendChild(h5);
 
 
 
     // DOM LINKS
 
-    const hidden = document.querySelector('.hidden');
+    // const hidden = document.querySelector('.hidden');
     
 
 
-// SHOWS FULL CARD
-const card = document.querySelector('#cardTop');
-card.addEventListener('click', function(){
-    if (hidden.style.display === "none") {
-          hidden.style.display = "block";
-    } else {
-          hidden.style.display = "none";
-    }
-})
-const saveBtn = document.querySelector('#saveBtn');
+// CLICK EVENT LISTENER TO SHOWS FULL CARD
+// const labelCard = document.querySelector('label');
+// labelCard.addEventListener('click', function(){
+//     if (hidden.style.display === "none") {
+//           hidden.style.display = "block";
+//     } else {
+//           hidden.style.display = "none";
+//     }
+// })
+
+const saveBtn = document.querySelector('.saveBtn');
 const addBtn = document.querySelector('#addBtn');
 const addTitle = document.querySelector('#addTitle');
 const addNote = document.querySelector('#addNote');
@@ -57,14 +58,23 @@ const titleInput = document.querySelector('.titleInput');
 const noteArea = document.querySelector('.noteArea');
 
 //UPDATE THIS TASK AND SENDS TO FIREBASE
-saveBtn.addEventListener('click', function(){})
+// saveBtn.addEventListener('click', function(){
+//   var title = addTitle.value;
+//   var note = addNote.value;
+//   setDoc(doc(docRef, title), {
+//     title: title,
+//     note: note,
+//     active: true
+//   })
+//   console.log('sent to firebase ');
+// })
 
 
 // CREATE NEW TASK AND SEND TO FIREBASE
 addBtn.addEventListener('click', function(){
   var title = addTitle.value;
   var note = addNote.value;
-  setDoc(doc(docRef, title), {
+  setDoc(doc(docRef), {
     title: title,
     note: note,
     active: true
@@ -77,32 +87,6 @@ addBtn.addEventListener('click', function(){
 })
 
 
-// CREATE CARD FOR TASK
-function createCard(){
-  var card = document.createElement('div');
-      card.classList.add('card');
-  var form = docment.createElement('div');
-      form.classList.add('form-box');
-  var title = document.createElement('input'); 
-      title.classList.add('task-input'); 
-      title.setAttribute('type', 'checkbox');  
-  card.appendChild(form);    
-}
-
-
-// var card = document.createElement('div');
-//       card.classList.add('card');
-//   var form = docment.createElement('div');
-//       form.classList.add('form-box');
-//   var check = document.createElement('input'); 
-//       check.classList.add('task-input'); 
-//       check.setAttribute('type', 'checkbox'); 
-//   const taskarea = document.querySelector('#taskarea');
-//   taskarea.appendChild(card).appendChild(form).appendChild(check);
-//   card.appendChild(form);
-
-
-
 
 // CREATE TASK OBJECT
 class Task {
@@ -113,16 +97,17 @@ class Task {
   }
 }
 
-// LISTEN TO MUP
+// GETTING LIVE UPADTES FROM FIRESTORE
 const unsubscribe = onSnapshot(q, (querySnapshot) => {
-  // outputList.innerHTML = " ";
-  const doditing = [];
-  querySnapshot.forEach((doc) => {
+  const taskarea = document.querySelector('#taskarea');
+  // taskarea.innerHTML = " ";
+   querySnapshot.forEach((doc) => {
     // doditing.push(doc.data());
-    var taskObj = doc.data(); 
+    var taskObj = doc.id; 
     var titletask = taskObj.title;
     var notetask = taskObj.note;
     var activetask = taskObj.active;
+    console.log("Doc ID: " + taskObj);
     console.log("Title: " + titletask);
     console.log("Note: " + notetask);
     console.log("Completed: " + activetask);
@@ -142,3 +127,82 @@ const unsubscribe = onSnapshot(q, (querySnapshot) => {
 
 
 });
+
+/* <div id="taskarea">
+<div class="card" id="">
+    <div class="form-box">
+        <input class="task-input" type="checkbox">
+        <label class="label"  id="cardTop">
+          This is the title for your task
+        </label>
+       <i class="bi bi-trash"></i>
+       <i class="bi bi-pencil-square"></i>
+    </div>
+<!-- DROPDOWN TO UPDATE TASK -->
+            <div class="hidden">
+                <input type="text" class="control titleInput" id="">
+                <textarea class="noteArea" id="" placeholder="Notes:"></textarea>
+                <button class="saveBtn" id="">Save</button>
+            </div>
+</div> */
+
+const taskarea = document.querySelector('#taskarea');
+
+function createTaskCard(title, note, active){
+  var card = document.createElement('div');
+      card.classList.add("card");
+
+  var form = document.createElement('div');
+      form.classList.add("form-box");
+
+  var checkbox = document.createElement('input');
+      checkbox.classList.add("checkbox");
+      checkbox.setAttribute("type", "checkbox");
+
+  var label = document.createElement('label');
+      label.classList.add("topCard");
+      label.innerText = title;
+
+      // ADD CLICK EVENT LISTENER TO LABEL TO SHOW HIDDEN 
+      label.addEventListener('click', function(){
+        if (hidden.style.display === "none") {
+              hidden.style.display = "block";
+        } else {
+              hidden.style.display = "none";
+        }
+    });
+
+  var trash = document.createElement('i');
+      trash.classList.add("bi", "bi-trash");
+      
+  var pencil = document.createElement('i');
+      pencil.classList.add("bi", "bi-pencil-square");
+      
+  var hidden = document.createElement('div');
+      hidden.classList.add("hidden");
+
+  var changeTitle = document.createElement('input');
+      changeTitle.classList.add("control");
+      changeTitle.setAttribute("type", "text");
+      changeTitle.value = title;
+
+  var changeNote = document.createElement('textarea');
+      changeNote.classList.add(noteArea);    
+      changeNote.setAttribute("placeholder", "Notes: ");
+      changeNote.value = note;
+
+taskarea.appendChild('card');
+form.appendChild('checkbox');
+form.appendChild('label');
+form.appendChild('trash');
+form.appendChild('pencil');
+taskarea.appendChild('hidden');
+hidden.appendChild('changeTitle');
+hidden.appendChild('changeNote');
+      
+}
+
+createTaskCard("Love 4ever", "Die whenever", true);
+createTaskCard("Live 4love", "Die never", true);
+createTaskCard("Gangsta 4life", "Die 4thelife", true);
+createTaskCard("Never 4ever", "never whenever", true);
