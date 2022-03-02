@@ -21,6 +21,7 @@ import { getFirestore,
 
 const db = getFirestore();
 const docRef = collection(db, "doditing");
+// const q = query(docRef);
 const q = query(docRef);
 
 //   GETS TODAYS DATE
@@ -34,7 +35,7 @@ const d = new Date();
     // DOM LINKS
 
     const hidden = document.querySelector('.hidden');
-    // const del = document.querySelector('.trash').innerHTML;
+    
 
 
 // SHOWS FULL CARD
@@ -46,7 +47,7 @@ card.addEventListener('click', function(){
           hidden.style.display = "none";
     }
 })
-
+const saveBtn = document.querySelector('#saveBtn');
 const addBtn = document.querySelector('#addBtn');
 const addTitle = document.querySelector('#addTitle');
 const addNote = document.querySelector('#addNote');
@@ -55,22 +56,11 @@ const title = document.querySelector('label');
 const titleInput = document.querySelector('.titleInput');
 const noteArea = document.querySelector('.noteArea');
 
-// function addToFirebase(title,note){
-//   db.collection('todolist').add({
-//     title: title,
-//     note: note,
-//     active: true
-//   })
-//   .then((docRef)=>{
-//     console.log('docRef.id');
-//   })
-//   .catch((error)=>{
-//     console.log('try again', console.error);
-//   })
-// }
+//UPDATE THIS TASK AND SENDS TO FIREBASE
+saveBtn.addEventListener('click', function(){})
 
 
-// ADD TASK TO FIREBASE
+// CREATE NEW TASK AND SEND TO FIREBASE
 addBtn.addEventListener('click', function(){
   var title = addTitle.value;
   var note = addNote.value;
@@ -92,6 +82,52 @@ function createCard(){
   var form = docment.createElement('div');
       form.classList.add('form-box');
   var title = document.createElement('input'); 
-      title.classList.add('task-input');   
+      title.classList.add('task-input'); 
+      title.setAttribute('type', 'checkbox');  
   card.appendChild(form);    
 }
+
+
+// var card = document.createElement('div');
+//       card.classList.add('card');
+//   var form = docment.createElement('div');
+//       form.classList.add('form-box');
+//   var check = document.createElement('input'); 
+//       check.classList.add('task-input'); 
+//       check.setAttribute('type', 'checkbox'); 
+//   const taskarea = document.querySelector('#taskarea');
+//   taskarea.appendChild(card).appendChild(form).appendChild(check);
+//   card.appendChild(form);
+
+
+
+
+// CREATE TASK OBJECT
+class Task {
+  constructor(title, note, active){
+    this.title = title;
+    this.note = note;
+    this.active = true
+  }
+}
+
+// LISTEN TO MUP
+const unsubscribe = onSnapshot(q, (querySnapshot) => {
+  // outputList.innerHTML = " ";
+  const doditing = [];
+  querySnapshot.forEach((doc) => {
+    doditing.push(doc.data().title)
+    // listOfDoc.push(doc.id);
+    console.log("Here the 1st list ", doditing);
+    // var listName = doc.id;
+    // let newLi = document.createElement('li');
+    // newLi.classList.add('item');
+    // newLi.innerHTML = listName;
+    // outputList.appendChild(newLi).innerHTML = doc.id;
+    // outputList.appendChild(newLi);
+
+
+  });
+
+
+});
