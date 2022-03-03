@@ -139,3 +139,6 @@ textarea {
 }
 
 /* END CONTROLS INPUT AND TEXTAREA  */
+.checkbox {
+  margin-right: 2px;
+}

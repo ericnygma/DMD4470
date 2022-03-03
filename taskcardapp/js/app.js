@@ -101,27 +101,25 @@ class Task {
 const unsubscribe = onSnapshot(q, (querySnapshot) => {
   const taskarea = document.querySelector('#taskarea');
   // taskarea.innerHTML = " ";
-   querySnapshot.forEach((doc) => {
-    // doditing.push(doc.data());
+  const doditing =[];
+  querySnapshot.forEach((doc) => {
+    doditing.push(doc.data().obj);
+    var title = (doc.data().note);
     var taskObj = doc.id; 
-    var titletask = taskObj.title;
-    var notetask = taskObj.note;
-    var activetask = taskObj.active;
-    console.log("Doc ID: " + taskObj);
-    console.log("Title: " + titletask);
-    console.log("Note: " + notetask);
-    console.log("Completed: " + activetask);
     
-
+    var title = taskObj.title;
+    var note = taskObj.note;
+    var activetask = taskObj.active;
+    // console.log("Doc ID: " + taskObj);
+    console.log("Array: " + doditing);
+    // console.log("Title: " + title);
+    // console.log("Note: " + note);
+    // console.log("Completed: " + activetask);
+    
+    // createTaskCard(titletask, notetask, activetask);
     // console.log("Here the Array ", doditing);
     
-    // var listName = doc.id;
-    // let newLi = document.createElement('li');
-    // newLi.classList.add('item');
-    // newLi.innerHTML = listName;
-    // outputList.appendChild(newLi).innerHTML = doc.id;
-    // outputList.appendChild(newLi);
-
+    
 
   });
 
@@ -187,22 +185,31 @@ function createTaskCard(title, note, active){
       changeTitle.value = title;
 
   var changeNote = document.createElement('textarea');
-      changeNote.classList.add(noteArea);    
+      changeNote.classList.add("noteArea");    
       changeNote.setAttribute("placeholder", "Notes: ");
       changeNote.value = note;
 
-taskarea.appendChild('card');
-form.appendChild('checkbox');
-form.appendChild('label');
-form.appendChild('trash');
-form.appendChild('pencil');
-taskarea.appendChild('hidden');
-hidden.appendChild('changeTitle');
-hidden.appendChild('changeNote');
-      
-}
+  var saveBtn = document.createElement('button');
+      saveBtn.classList.add("saveBtn");    
+      saveBtn.innerText = "Save";    
 
-createTaskCard("Love 4ever", "Die whenever", true);
-createTaskCard("Live 4love", "Die never", true);
-createTaskCard("Gangsta 4life", "Die 4thelife", true);
-createTaskCard("Never 4ever", "never whenever", true);
+taskarea.appendChild(card);
+card.appendChild(form); 
+card.appendChild(hidden);
+     
+form.appendChild(checkbox);
+form.appendChild(label);
+form.appendChild(trash);
+form.appendChild(pencil);
+
+hidden.appendChild(changeTitle);
+hidden.appendChild(changeNote);
+hidden.appendChild(saveBtn); 
+
+
+};
+
+// createTaskCard("Love 4ever", "Die whenever", true);
+// createTaskCard("Live 4love", "Die never", true);
+// createTaskCard("Gangsta 4life", "Die 4thelife", true);
+// createTaskCard("Never 4ever","" , true);
