@@ -21,8 +21,15 @@ import { getFirestore,
 
 const db = getFirestore();
 const docRef = collection(db, "doditing");
-// const q = query(docRef);
 const q = query(docRef);
+
+// const saveBtn = document.querySelector('.saveBtn');
+const addBtn = document.querySelector('#addBtn');
+const addTitle = document.querySelector('#addTitle');
+const addNote = document.querySelector('#addNote');
+const taskarea = document.querySelector('#taskarea');
+
+
 
 //   GETS TODAYS DATE
 const d = new Date();
@@ -30,32 +37,6 @@ const d = new Date();
     h5.innerHTML = "Today " + d.toLocaleDateString();
     document.querySelector('.greeting').appendChild(h5);
 
-
-
-    // DOM LINKS
-
-    // const hidden = document.querySelector('.hidden');
-    
-
-
-// CLICK EVENT LISTENER TO SHOWS FULL CARD
-// const labelCard = document.querySelector('label');
-// labelCard.addEventListener('click', function(){
-//     if (hidden.style.display === "none") {
-//           hidden.style.display = "block";
-//     } else {
-//           hidden.style.display = "none";
-//     }
-// })
-
-const saveBtn = document.querySelector('.saveBtn');
-const addBtn = document.querySelector('#addBtn');
-const addTitle = document.querySelector('#addTitle');
-const addNote = document.querySelector('#addNote');
-const title = document.querySelector('label');
-
-const titleInput = document.querySelector('.titleInput');
-const noteArea = document.querySelector('.noteArea');
 
 //UPDATE THIS TASK AND SENDS TO FIREBASE
 // saveBtn.addEventListener('click', function(){
@@ -88,6 +69,7 @@ addBtn.addEventListener('click', function(){
 
 
 
+
 // CREATE TASK OBJECT
 class Task {
   constructor(title, note, active){
@@ -99,19 +81,19 @@ class Task {
 
 // GETTING LIVE UPADTES FROM FIRESTORE
 const unsubscribe = onSnapshot(q, (querySnapshot) => {
-  const taskarea = document.querySelector('#taskarea');
+  // const taskarea = document.querySelector('#taskarea');
   // taskarea.innerHTML = " ";
-  const doditing =[];
+  const doditing = [];
   querySnapshot.forEach((doc) => {
-    doditing.push(doc.data().obj);
+    doditing.push(doc.data());
     var title = (doc.data().note);
     var taskObj = doc.id; 
-    
-    var title = taskObj.title;
-    var note = taskObj.note;
-    var activetask = taskObj.active;
-    // console.log("Doc ID: " + taskObj);
     console.log("Array: " + doditing);
+    // var title = taskObj.title;
+    // var note = taskObj.note;
+    // var activetask = taskObj.active;
+    // console.log("Doc ID: " + taskObj);
+    
     // console.log("Title: " + title);
     // console.log("Note: " + note);
     // console.log("Completed: " + activetask);
@@ -119,32 +101,10 @@ const unsubscribe = onSnapshot(q, (querySnapshot) => {
     // createTaskCard(titletask, notetask, activetask);
     // console.log("Here the Array ", doditing);
     
-    
-
   });
-
-
 });
 
-/* <div id="taskarea">
-<div class="card" id="">
-    <div class="form-box">
-        <input class="task-input" type="checkbox">
-        <label class="label"  id="cardTop">
-          This is the title for your task
-        </label>
-       <i class="bi bi-trash"></i>
-       <i class="bi bi-pencil-square"></i>
-    </div>
-<!-- DROPDOWN TO UPDATE TASK -->
-            <div class="hidden">
-                <input type="text" class="control titleInput" id="">
-                <textarea class="noteArea" id="" placeholder="Notes:"></textarea>
-                <button class="saveBtn" id="">Save</button>
-            </div>
-</div> */
 
-const taskarea = document.querySelector('#taskarea');
 
 function createTaskCard(title, note, active){
   var card = document.createElement('div');
@@ -157,11 +117,13 @@ function createTaskCard(title, note, active){
       checkbox.classList.add("checkbox");
       checkbox.setAttribute("type", "checkbox");
 
+        //* ADD CLICK EVENT LISTENER TO CHECKBOX TO CHANGE ACTIVE STATUS TRUE OR FALSE *//
+
   var label = document.createElement('label');
       label.classList.add("topCard");
       label.innerText = title;
 
-      // ADD CLICK EVENT LISTENER TO LABEL TO SHOW HIDDEN 
+      //* ADD CLICK EVENT LISTENER TO LABEL TO SHOW HIDDEN *//
       label.addEventListener('click', function(){
         if (hidden.style.display === "none") {
               hidden.style.display = "block";
@@ -172,6 +134,8 @@ function createTaskCard(title, note, active){
 
   var trash = document.createElement('i');
       trash.classList.add("bi", "bi-trash");
+
+      //* CREATE CLICK EVENT LISTENER ON TRASH TO DELETE TASK *// 
       
   var pencil = document.createElement('i');
       pencil.classList.add("bi", "bi-pencil-square");
@@ -213,3 +177,5 @@ hidden.appendChild(saveBtn);
 // createTaskCard("Live 4love", "Die never", true);
 // createTaskCard("Gangsta 4life", "Die 4thelife", true);
 // createTaskCard("Never 4ever","" , true);
+
+
