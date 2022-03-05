@@ -38,6 +38,27 @@ const d = new Date();
     document.querySelector('.greeting').appendChild(h5);
 
 
+    // * GET ALL DOC IN COLLECTION *//
+const querySnapshot = await getDocs(docRef)
+querySnapshot.forEach((doc) => {
+  console.log(doc.id, "=> ", doc.data());
+})
+
+// GET LIVE UPDATES FROM FIREBASE
+const listening = onSnapshot(q, (querySnapshot) => {
+  taskarea.innerHTML = " ";
+  querySnapshot.forEach((doc) => {
+    var listen = doc.data();
+    var title = doc.data().title;
+    var note = doc.data().note;
+    var active = doc.data().active;
+    console.log(title);
+    createTaskCard(title, note, active);
+  })
+  
+  
+})
+
 //UPDATE THIS TASK AND SENDS TO FIREBASE
 // saveBtn.addEventListener('click', function(){
 //   var title = addTitle.value;
@@ -60,49 +81,21 @@ addBtn.addEventListener('click', function(){
     note: note,
     active: true
   })
-  console.log('sent to firebase ');
-  // title.innerText = addTitle.value;
-  // titleInput.value = addTitle.value;
-  // noteArea.innerText = addNote.value;
-  //  addToFirebase(title, note);
 })
 
 
 
 
 // CREATE TASK OBJECT
-class Task {
-  constructor(title, note, active){
-    this.title = title;
-    this.note = note;
-    this.active = true
-  }
-}
+// class Task {
+//   constructor(title, note, active){
+//     this.title = title;
+//     this.note = note;
+//     this.active = true
+//   }
+// }
 
-// GETTING LIVE UPADTES FROM FIRESTORE
-const unsubscribe = onSnapshot(q, (querySnapshot) => {
-  // const taskarea = document.querySelector('#taskarea');
-  // taskarea.innerHTML = " ";
-  const doditing = [];
-  querySnapshot.forEach((doc) => {
-    doditing.push(doc.data());
-    var title = (doc.data().note);
-    var taskObj = doc.id; 
-    console.log("Array: " + doditing);
-    // var title = taskObj.title;
-    // var note = taskObj.note;
-    // var activetask = taskObj.active;
-    // console.log("Doc ID: " + taskObj);
-    
-    // console.log("Title: " + title);
-    // console.log("Note: " + note);
-    // console.log("Completed: " + activetask);
-    
-    // createTaskCard(titletask, notetask, activetask);
-    // console.log("Here the Array ", doditing);
-    
-  });
-});
+
 
 
 
@@ -136,6 +129,11 @@ function createTaskCard(title, note, active){
       trash.classList.add("bi", "bi-trash");
 
       //* CREATE CLICK EVENT LISTENER ON TRASH TO DELETE TASK *// 
+
+      trash.addEventListener('click', function(){
+        deleteDoc(doc(docRef));
+        console.log(doc.id);
+      })
       
   var pencil = document.createElement('i');
       pencil.classList.add("bi", "bi-pencil-square");
@@ -172,10 +170,5 @@ hidden.appendChild(saveBtn);
 
 
 };
-
-// createTaskCard("Love 4ever", "Die whenever", true);
-// createTaskCard("Live 4love", "Die never", true);
-// createTaskCard("Gangsta 4life", "Die 4thelife", true);
-// createTaskCard("Never 4ever","" , true);
 
 
