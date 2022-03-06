@@ -1,19 +1,28 @@
 #doit {
     text-align: center;
     margin-top: 2rem;
-    margin-bottom: 2rem;
+    margin-bottom: 2rem;  
 }
 .hidden {
   display: none;
   max-width: 100%;
-  margin-left: 50px;
+  margin-left: 30px;
   margin-right: 40px;
 }
 
 i {
     float: right;
     margin-left: 15px;
+    font-size: 14px;
 }
+i:hover {
+  font-style: 16px;
+  text-shadow: #212529;
+}
+h5 {
+  margin-bottom: 1rem;
+}
+
 button {
     max-width: 100%;
     float: right;
@@ -140,5 +149,26 @@ textarea {
 
 /* END CONTROLS INPUT AND TEXTAREA  */
 .checkbox {
-  margin-right: 2px;
+  margin-right: 5px;
+  
+}
+
+.trbt {
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+.trbt:hover {
+  font-size: 20px;
+  background-color: rgba(255, 255, 255, 0.01);
+}
+div.completed {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+textarea.noteArea {
+  border: none;
+}
+input.titleArea {
+  border: none;
 }

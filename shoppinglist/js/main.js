@@ -78,7 +78,7 @@ const unsubscribe = onSnapshot(q, (querySnapshot) => {
 
 // delete a document in collection
 // TODO: FUNCTION TO DELETE DOCUMENT WHEN ITEM IS CLICKED
-await deleteDoc(doc(listRef, "bbq"));
+await deleteDoc(doc(listRef, "fourth item"));
 
 
  const item = document.querySelector(".item");

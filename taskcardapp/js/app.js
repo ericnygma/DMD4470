@@ -28,10 +28,11 @@ const addBtn = document.querySelector('#addBtn');
 const addTitle = document.querySelector('#addTitle');
 const addNote = document.querySelector('#addNote');
 const taskarea = document.querySelector('#taskarea');
+const completedarea = document.querySelector('#completedArea')
+const active = document.querySelector('.checkbox')
+// const deleteBtn = document.querySelector('.bi-trash');
 
-
-
-//   GETS TODAYS DATE
+// *  GETS TODAYS DATE * //
 const d = new Date();
     var h5 = document.createElement('h5');
     h5.innerHTML = "Today " + d.toLocaleDateString();
@@ -44,64 +45,47 @@ querySnapshot.forEach((doc) => {
   console.log(doc.id, "=> ", doc.data());
 })
 
-// GET LIVE UPDATES FROM FIREBASE
+
+
+
+// * GET LIVE UPDATES FROM FIREBASE * //
 const listening = onSnapshot(q, (querySnapshot) => {
   taskarea.innerHTML = " ";
+  completedarea.innerHTML =" ";
   querySnapshot.forEach((doc) => {
     var listen = doc.data();
+    var id = doc.id;
     var title = doc.data().title;
     var note = doc.data().note;
     var active = doc.data().active;
-    console.log(title);
-    createTaskCard(title, note, active);
+    createTaskCard(title, note, active, id);
+    console.log('this is? ' + doc.id);
   })
-  
-  
 })
 
-//UPDATE THIS TASK AND SENDS TO FIREBASE
-// saveBtn.addEventListener('click', function(){
-//   var title = addTitle.value;
-//   var note = addNote.value;
-//   setDoc(doc(docRef, title), {
-//     title: title,
-//     note: note,
-//     active: true
-//   })
-//   console.log('sent to firebase ');
-// })
 
-
-// CREATE NEW TASK AND SEND TO FIREBASE
+// * CREATE NEW TASK AND SEND TO FIREBASE * //
 addBtn.addEventListener('click', function(){
   var title = addTitle.value;
   var note = addNote.value;
   setDoc(doc(docRef), {
     title: title,
     note: note,
-    active: true
+    active: false
   })
+  addTitle.value = "";
+  addNote.value = "";
 })
 
 
 
 
-// CREATE TASK OBJECT
-// class Task {
-//   constructor(title, note, active){
-//     this.title = title;
-//     this.note = note;
-//     this.active = true
-//   }
-// }
-
-
-
-
-
-function createTaskCard(title, note, active){
+// * THIS FUNCTION CREATE A CARD TO HOLD THE TASK * //
+function createTaskCard(title, note, active, id){
   var card = document.createElement('div');
+      card.setAttribute("draggable", "true");
       card.classList.add("card");
+      card.setAttribute('id', id);
 
   var form = document.createElement('div');
       form.classList.add("form-box");
@@ -109,32 +93,26 @@ function createTaskCard(title, note, active){
   var checkbox = document.createElement('input');
       checkbox.classList.add("checkbox");
       checkbox.setAttribute("type", "checkbox");
+      checkbox.checked = active;
+        
 
-        //* ADD CLICK EVENT LISTENER TO CHECKBOX TO CHANGE ACTIVE STATUS TRUE OR FALSE *//
 
   var label = document.createElement('label');
       label.classList.add("topCard");
       label.innerText = title;
 
-      //* ADD CLICK EVENT LISTENER TO LABEL TO SHOW HIDDEN *//
-      label.addEventListener('click', function(){
-        if (hidden.style.display === "none") {
-              hidden.style.display = "block";
-        } else {
-              hidden.style.display = "none";
-        }
-    });
+   
 
   var trash = document.createElement('i');
       trash.classList.add("bi", "bi-trash");
+      trash.setAttribute('id', id);
 
-      //* CREATE CLICK EVENT LISTENER ON TRASH TO DELETE TASK *// 
+var trbt = document.createElement('button');
+      trbt.classList.add("trbt");   
+      trbt.appendChild(trash);
 
-      trash.addEventListener('click', function(){
-        deleteDoc(doc(docRef));
-        console.log(doc.id);
-      })
-      
+
+
   var pencil = document.createElement('i');
       pencil.classList.add("bi", "bi-pencil-square");
       
@@ -142,7 +120,7 @@ function createTaskCard(title, note, active){
       hidden.classList.add("hidden");
 
   var changeTitle = document.createElement('input');
-      changeTitle.classList.add("control");
+      changeTitle.classList.add("control", "titleArea");
       changeTitle.setAttribute("type", "text");
       changeTitle.value = title;
 
@@ -152,21 +130,59 @@ function createTaskCard(title, note, active){
       changeNote.value = note;
 
   var saveBtn = document.createElement('button');
-      saveBtn.classList.add("saveBtn");    
+      saveBtn.classList.add("saveBtn"); 
+      saveBtn.setAttribute('id', id);   
       saveBtn.innerText = "Save";    
 
-taskarea.appendChild(card);
+      
+
+
+if(active == false){
+  taskarea.appendChild(card);
+}else {
+  completedarea.appendChild(card);
+}
+
 card.appendChild(form); 
 card.appendChild(hidden);
      
 form.appendChild(checkbox);
 form.appendChild(label);
-form.appendChild(trash);
+form.appendChild(trbt);
 form.appendChild(pencil);
 
 hidden.appendChild(changeTitle);
 hidden.appendChild(changeNote);
 hidden.appendChild(saveBtn); 
+
+ //* ADD CLICK EVENT LISTENER TO LABEL TO SHOW HIDDEN *//
+label.addEventListener('click', (e) => {
+  e.stopPropagation();
+  if (hidden.style.display === "none") {
+        hidden.style.display = "block";
+  } else {
+        hidden.style.display = "none";
+  }
+});
+
+//* DELETES TAS FROM FIRESBASE *//
+trash.addEventListener('click', (e) => {
+  e.stopPropagation();
+  deleteDoc(doc(docRef, id));    
+});
+
+
+saveBtn.addEventListener('click', function(e){
+  e.stopPropagation();
+  // var newtitle = changeTitle.value;
+  // var newnote = changeNote.value;
+  updateDoc(doc(docRef), {
+    title: changeTitle.value,
+    note: changeNote.value,
+    
+ })
+  
+})
 
 
 };
