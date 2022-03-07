@@ -30,7 +30,7 @@ const addNote = document.querySelector('#addNote');
 const taskarea = document.querySelector('#taskarea');
 const completedarea = document.querySelector('#completedArea')
 const active = document.querySelector('.checkbox')
-// const deleteBtn = document.querySelector('.bi-trash');
+
 
 // *  GETS TODAYS DATE * //
 const d = new Date();
@@ -136,7 +136,7 @@ var trbt = document.createElement('button');
 
       
 
-
+// * MOVES TASKS TO ACTIVE OR COMPLETED AREA * //
 if(active == false){
   taskarea.appendChild(card);
 }else {
@@ -172,7 +172,7 @@ trash.addEventListener('click', (e) => {
 });
 
 
-saveBtn.addEventListener('click', function(e){
+saveBtn.addEventListener('click', (e) => {
   e.stopPropagation();
   // var newtitle = changeTitle.value;
   // var newnote = changeNote.value;
@@ -187,4 +187,34 @@ saveBtn.addEventListener('click', function(e){
 
 };
 
+// PWA PURPOSE //
 
+// PWA INSTALLATION
+let deferredPrompt;
+const pwaBtn = document.querySelector('.add-button');
+pwaBtn.style.display = 'none';
+
+window.addEventListener('beforeinstallprompt', (e) => {
+  // Prevent Chrome 67 and earlier from automatically showing the prompt
+  e.preventDefault();
+  // Stash the event so it can be triggered later.
+  deferredPrompt = e;
+  // Update UI to notify the user they can add to home screen
+  pwaBtn.style.display = 'block';
+
+  pwaBtn.addEventListener('click', (e) => {
+    // hide our user interface that shows our A2HS button
+    pwaBtn.style.display = 'none';
+    // Show the prompt
+    deferredPrompt.prompt();
+    // Wait for the user to respond to the prompt
+    deferredPrompt.userChoice.then((choiceResult) => {
+        if (choiceResult.outcome === 'accepted') {
+          console.log('User accepted the A2HS prompt');
+        } else {
+          console.log('User dismissed the A2HS prompt');
+        }
+        deferredPrompt = null;
+      });
+  });
+});
