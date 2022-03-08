@@ -23,13 +23,12 @@ const db = getFirestore();
 const docRef = collection(db, "doditing");
 const q = query(docRef);
 
-// const saveBtn = document.querySelector('.saveBtn');
+
 const addBtn = document.querySelector('#addBtn');
 const addTitle = document.querySelector('#addTitle');
 const addNote = document.querySelector('#addNote');
 const taskarea = document.querySelector('#taskarea');
 const completedarea = document.querySelector('#completedArea')
-const active = document.querySelector('.checkbox')
 
 
 // *  GETS TODAYS DATE * //
@@ -57,8 +56,8 @@ const listening = onSnapshot(q, (querySnapshot) => {
     var id = doc.id;
     var title = doc.data().title;
     var note = doc.data().note;
-    var active = doc.data().active;
-    createTaskCard(title, note, active, id);
+    var completed = doc.data().completed;
+    createTaskCard(title, note, completed, id);
     console.log('this is? ' + doc.id);
   })
 })
@@ -71,17 +70,14 @@ addBtn.addEventListener('click', function(){
   setDoc(doc(docRef), {
     title: title,
     note: note,
-    active: false
+    completed: false
   })
   addTitle.value = "";
   addNote.value = "";
 })
 
-
-
-
 // * THIS FUNCTION CREATE A CARD TO HOLD THE TASK * //
-function createTaskCard(title, note, active, id){
+function createTaskCard(title, note, completed, id){
   var card = document.createElement('div');
       card.setAttribute("draggable", "true");
       card.classList.add("card");
@@ -93,25 +89,19 @@ function createTaskCard(title, note, active, id){
   var checkbox = document.createElement('input');
       checkbox.classList.add("checkbox");
       checkbox.setAttribute("type", "checkbox");
-      checkbox.checked = active;
+      checkbox.checked = completed;
         
-
-
   var label = document.createElement('label');
       label.classList.add("topCard");
       label.innerText = title;
-
-   
 
   var trash = document.createElement('i');
       trash.classList.add("bi", "bi-trash");
       trash.setAttribute('id', id);
 
-var trbt = document.createElement('button');
-      trbt.classList.add("trbt");   
-      trbt.appendChild(trash);
-
-
+  var trashBtn = document.createElement('button');
+      trashBtn.classList.add("trashBtn");   
+      trashBtn.appendChild(trash);
 
   var pencil = document.createElement('i');
       pencil.classList.add("bi", "bi-pencil-square");
@@ -137,7 +127,7 @@ var trbt = document.createElement('button');
       
 
 // * MOVES TASKS TO ACTIVE OR COMPLETED AREA * //
-if(active == false){
+if(completed === false && checkbox.checked === false){
   taskarea.appendChild(card);
 }else {
   completedarea.appendChild(card);
@@ -148,7 +138,7 @@ card.appendChild(hidden);
      
 form.appendChild(checkbox);
 form.appendChild(label);
-form.appendChild(trbt);
+form.appendChild(trashBtn);
 form.appendChild(pencil);
 
 hidden.appendChild(changeTitle);
@@ -165,26 +155,36 @@ label.addEventListener('click', (e) => {
   }
 });
 
+// * CHECKBOX UPDATES COMPLETED IN FIREBASE * //
+checkbox.addEventListener('click', () => {
+  const idObj = doc(docRef, id); // IMPORTANT HAS TO BE AN OBJECT
+  if (checkbox.checked === false){
+    updateDoc(idObj, {
+      completed: false
+    });
+  } else {
+    updateDoc(idObj, {
+      completed: true
+    });
+  }
+})
+
+
 //* DELETES TAS FROM FIRESBASE *//
 trash.addEventListener('click', (e) => {
   e.stopPropagation();
   deleteDoc(doc(docRef, id));    
 });
 
-
+//* CLICK UPDATE TITLE AND NOTES *//
 saveBtn.addEventListener('click', (e) => {
   e.stopPropagation();
-  // var newtitle = changeTitle.value;
-  // var newnote = changeNote.value;
-  updateDoc(doc(docRef), {
+  const idObj = doc(docRef, id); // IMPORTANT HAS TO BE AN OBJECT
+  updateDoc(idObj, {
     title: changeTitle.value,
     note: changeNote.value,
-    
  })
-  
 })
-
-
 };
 
 // PWA PURPOSE //
