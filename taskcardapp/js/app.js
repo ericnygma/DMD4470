@@ -41,7 +41,7 @@ const d = new Date();
     // * GET ALL DOC IN COLLECTION *//
 const querySnapshot = await getDocs(docRef)
 querySnapshot.forEach((doc) => {
-  console.log(doc.id, "=> ", doc.data());
+  // console.log(doc.id, "=> ", doc.data()); confirm information in doc
 })
 
 
@@ -58,7 +58,7 @@ const listening = onSnapshot(q, (querySnapshot) => {
     var note = doc.data().note;
     var completed = doc.data().completed;
     createTaskCard(title, note, completed, id);
-    console.log('this is? ' + doc.id);
+    // console.log('this is? ' + doc.id); confirm doc id
   })
 })
 
@@ -68,7 +68,7 @@ addBtn.addEventListener('click', function(){
   var title = addTitle.value;
   var note = addNote.value;
   setDoc(doc(docRef), {
-    title: title,
+    title: title, 
     note: note,
     completed: false
   })
@@ -105,6 +105,10 @@ function createTaskCard(title, note, completed, id){
 
   var pencil = document.createElement('i');
       pencil.classList.add("bi", "bi-pencil-square");
+  
+  var pencilBtn = document.createElement('button');
+      pencilBtn.classList.add("pencilBtn");   
+      pencilBtn.appendChild(pencil);
       
   var hidden = document.createElement('div');
       hidden.classList.add("hidden");
@@ -146,7 +150,7 @@ hidden.appendChild(changeNote);
 hidden.appendChild(saveBtn); 
 
  //* ADD CLICK EVENT LISTENER TO LABEL TO SHOW HIDDEN *//
-label.addEventListener('click', (e) => {
+ pencil.addEventListener('click', (e) => {
   e.stopPropagation();
   if (hidden.style.display === "none") {
         hidden.style.display = "block";
@@ -192,7 +196,7 @@ saveBtn.addEventListener('click', (e) => {
 // PWA INSTALLATION
 let deferredPrompt;
 const pwaBtn = document.querySelector('.add-button');
-pwaBtn.style.display = 'none';
+// pwaBtn.style.display = 'none';
 
 window.addEventListener('beforeinstallprompt', (e) => {
   // Prevent Chrome 67 and earlier from automatically showing the prompt
