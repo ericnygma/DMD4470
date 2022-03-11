@@ -6,7 +6,6 @@
 ## Assignments
 - [ColorPicker](https://ericnygma.github.io/DMD4470/color-picker/)
 - [Phonebook](https://ericnygma.github.io/DMD4470/phonebook-v3/)
-- [Task List](https://ericnygma.github.io/DMD4470/shoppinglist/)
 - [Midterm - TaskApp](https://ericnygma.github.io/DMD4470/taskcardapp/)
 
 
