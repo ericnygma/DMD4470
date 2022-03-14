@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="manifest" href="doditing.webmanifest">
+
+    <title>Andy Task List</title>
+</head>
+<body>
+    <div class="container">
+        <!-- CONTAINS ALL ELEMENT OF DOCUMENT -->
+        <!-- PWA BUTTON -->
+        <button class="add-button">Add to home screen</button>
+
+     <div class="hero">   
+        <h1 id="doit">DO DI TING</h1>
+
+<!-- HOLDS ELEMENT TO INPUT TASK ITEMS -->
+        <div class="addTaskCard">
+            <div class="addTask">    
+                <div class="task-input">
+                    <input type="text" class="control" id="addTitle" placeholder="Title">
+                    <textarea class="" id="addNote" placeholder="Notes:"></textarea>
+                    <button class="btn-update" id="addBtn">Add Task</button>
+                  </div>
+            </div>
+        </div>
+    </div>
+
+<!-- ELEMENT TO DISPLAY CURRENT DATE  -->
+        <div id="date" class="greeting">
+            <!-- <h1 id="date">Today Feb 22, 2022 </h1> -->
+        </div> 
+
+        
+
+
+<div id="taskarea">
+<!-- AREA WILL HOLD ALL THE ALL ACTIVE CARD TASK -->
+
+</div>
+<!-- END OF NOT COMPLETED TASK CARD -->
+
+<!-- AREA WILL HOLD COMPLETED CARD TASK -->
+<div class="completed">
+    <div>
+        <h5>Completed</h5>
+    </div>
+    <div id="completedArea">
+        <!-- HOLDS THE COMPLETED TASK -->
+    </div>
+    
+</div>
+
+</div>
+
+
+
+</div>
+
+
+
+
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+      <script src="js/sw.js"></script>
+      <script src="js/app.js" type="module"></script>
+      <!-- SERVICE WORKER -->
+      <script>
+        if ('serviceWorker' in navigator) {
+          navigator.serviceWorker.register('js/sw.js');
+        }
+        </script>
+</body>
+</html>

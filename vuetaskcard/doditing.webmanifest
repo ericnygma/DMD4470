@@ -1,0 +1,16 @@
+{
+    "background_color": "Green",
+    "description": "img of a checkmark in a circle.",
+    "display": "fullscreen",
+    "icons": [
+      {
+        "src": "icon/doditing.png",
+        "sizes": "192x192",
+        "type": "image/png"
+      }
+    ],
+    "name": "Do Di Ting",
+    "short_name": "Do It",
+    "start_url": "../index.html"
+  }
+  
