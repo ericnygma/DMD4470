@@ -37,28 +37,6 @@ h5 {
   margin-bottom: 1rem;
 }
 
-button {
-    max-width: 100%;
-    float: right;
-    margin-top: 5px;
-    margin-bottom: .75rem;
-    color: #0a58ca;
-    background-color: #fff;
-    border-color: #0a58ca;
-    border: 1px solid;
-    border-radius: .25rem;
-    font-size: 12px;
-    padding: .375rem 1rem;
-    transition: color .15s ease-in-out;
-}
-button:hover{
-    color: #fff;
-    border-color: #0a58ca;
-    background-color: #0a58ca;
-}
-
-
-
 #task-area {
     margin-left: 2%;
 }
@@ -98,6 +76,7 @@ textarea {
 
 /* STYLE CARDS */
 .card {
+  padding: 20px;
     box-shadow: 0 4px 12px 0 rgba(0, 0, 0, 0.2);
     max-width: 100%;
     margin: auto;
@@ -105,6 +84,7 @@ textarea {
     transition: 0.3s;
     margin-bottom: 5px;
     border-radius: 1rem;
+    
   }
   .card:hover {
     box-shadow: 2px 8px 16px 2px rgba(0,0,0,0.2);
@@ -114,13 +94,26 @@ textarea {
       margin: 10px 40px 10px 20px;
 
   }
- 
+  .taskTitle {
+    display: block;
+    
+  }
+ input.readonly {
+   max-width: 90%;
+   min-width: 85%;
+   margin-bottom: .50rem;
+ }
+ input.readonly:read-write {
+
+ }
+
+
 
 /* ADD TASK CARD */
 
 .addTaskCard {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-    max-width: 50%;
+    max-width: 70%;
     margin: auto;
     text-align: justify;
     transition: 0.3s;
@@ -153,6 +146,20 @@ textarea {
   transition-duration: 0.15s, .15s;
   transition-timing-function: ease-in-out,ease-in-out;
   transition-delay: 0s, 0s;
+}
+.due {
+  background-color: #fff;
+  line-height: 1;
+  padding: 0.375rem 0.75rem .375rem .75rem;
+  border-radius: .25rem;
+  font-size: .75rem;
+  
+}
+#dueDate {
+  border-radius: .50rem;
+  font-size: .75rem;
+  line-height: 1;
+  padding: 0.375rem 0.75rem .375rem .75rem;
 }
 
 /* END CONTROLS INPUT AND TEXTAREA  */
@@ -188,6 +195,7 @@ div.completed {
 }
 textarea.noteArea {
   border: none;
+  
 }
 input.titleArea {
   border: none;
@@ -199,4 +207,50 @@ input.titleArea {
   position: absolute;
   top: 1px;
   left: 1px;
+}
+
+/* ALL NEW CSS-REDOS */
+
+/* BUTTONS */
+button {
+  max-width: 100%;
+  float: right;
+  margin: .25rem;
+  padding: .375rem 1rem;
+  font-size: 12px;
+  border-radius: .30rem;
+  border: 1px solid #0a58ca;
+  transition: color .15s ease-in-out;
+}
+.addBtn {
+  background-color: #fff;
+  color: #0a58ca;
+}
+.addBtn:hover {
+  background-color: #0a58ca;
+  color:#fff;
+}
+
+.taskBtns {
+  margin: .30rem;
+
+}
+.cancelBtn {
+  background-color: #0a58ca;
+  color: #fff;
+  border-color:#0a58ca;
+  border-radius: .25rem;
+}
+.cancelBtn:hover {
+  background-color: #fff;
+  color: #0a58ca;
+}
+
+.pencilBtn {
+  margin-right: 1px;
+  margin-left: 2px;
+}
+.trashBtn {
+  margin-right: 2px;
+  margin-left: 1px;
 }

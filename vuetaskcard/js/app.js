@@ -64,17 +64,17 @@ const listening = onSnapshot(q, (querySnapshot) => {
 
 
 // * CREATE NEW TASK AND SEND TO FIREBASE * //
-addBtn.addEventListener('click', function(){
-  var title = addTitle.value;
-  var note = addNote.value;
-  setDoc(doc(docRef), {
-    title: title, 
-    note: note,
-    completed: false
-  })
-  addTitle.value = "";
-  addNote.value = "";
-})
+// addBtn.addEventListener('click', function(){
+//   var title = addTitle.value;
+//   var note = addNote.value;
+//   setDoc(doc(docRef), {
+//     title: title, 
+//     note: note,
+//     completed: false
+//   })
+//   addTitle.value = "";
+//   addNote.value = "";
+// })
 
 // * THIS FUNCTION CREATE A CARD TO HOLD THE TASK * //
 function createTaskCard(title, note, completed, id){
@@ -222,3 +222,82 @@ window.addEventListener('beforeinstallprompt', (e) => {
       });
   });
 });
+
+
+
+var app = new Vue({
+  el: '#app',
+  data: function(){
+    return {
+      app_title: 'DO DI TING',
+      new_task: {
+        title: '',
+        note: '',
+        completed: false,
+        due_date: '2022-03-15'
+      },
+      tasks: [
+        {
+          title: "Task No 1",
+          note: "Some note for task no 1",
+          complete: false,
+          due_date: "2022-03-21"
+        },
+        {
+          title: "Task No 2",
+          note: "Some note for task no 2",
+          complete: false,
+          due_date: "2022-03-24"
+        },
+        {
+          title: "Task No 3",
+          note: "Some note for task no 3",
+          complete: true,
+          due_date: "2022-03-30"
+        },
+        {
+          title: "Task No 420",
+          note: "Some note for about 420",
+          complete: false,
+          due_date: "2022-04-20"
+        },
+      ]
+    }
+  },
+  methods: {
+    newTask: function(){
+      var addTitle = document.querySelector('#addTitle');
+      var addNote = document.querySelector('#addNote');
+      this.tasks.push(
+        JSON.parse(JSON.stringify(this.new_task))
+      );
+      addTitle.value = " ";
+      addNote.value = " ";
+    
+    }
+     
+  },
+})
+
+// var title = addTitle.value;
+//   var note = addNote.value;
+//   setDoc(doc(docRef), {
+//     title: title, 
+//     note: note,
+//     completed: false
+//   })
+//   addTitle.value = "";
+//   addNote.value = "";
+
+
+// var title = this.new_task.title;
+// var note = this.new_task.note;
+// var completed = this.new_task.complete;
+// var dueDate = this.new_task.due_date;
+// setDoc(doc(docRef), {
+//   title: title, 
+//   note: note,
+//   completed: completed,
+//   dueDate: dueDate
+// })
+// 
