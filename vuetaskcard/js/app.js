@@ -57,7 +57,7 @@ const listening = onSnapshot(q, (querySnapshot) => {
     var title = doc.data().title;
     var note = doc.data().note;
     var completed = doc.data().completed;
-    createTaskCard(title, note, completed, id);
+    // createTaskCard(title, note, completed, id);
     // console.log('this is? ' + doc.id); confirm doc id
   })
 })
@@ -77,119 +77,119 @@ const listening = onSnapshot(q, (querySnapshot) => {
 // })
 
 // * THIS FUNCTION CREATE A CARD TO HOLD THE TASK * //
-function createTaskCard(title, note, completed, id){
-  var card = document.createElement('div');
-      card.setAttribute("draggable", "true");
-      card.classList.add("card");
-      card.setAttribute('id', id);
+// function createTaskCard(title, note, completed, id){
+//   var card = document.createElement('div');
+//       card.setAttribute("draggable", "true");
+//       card.classList.add("card");
+//       card.setAttribute('id', id);
 
-  var form = document.createElement('div');
-      form.classList.add("form-box");
+//   var form = document.createElement('div');
+//       form.classList.add("form-box");
 
-  var checkbox = document.createElement('input');
-      checkbox.classList.add("checkbox");
-      checkbox.setAttribute("type", "checkbox");
-      checkbox.checked = completed;
+//   var checkbox = document.createElement('input');
+//       checkbox.classList.add("checkbox");
+//       checkbox.setAttribute("type", "checkbox");
+//       checkbox.checked = completed;
         
-  var label = document.createElement('label');
-      label.classList.add("topCard");
-      label.innerText = title;
+//   var label = document.createElement('label');
+//       label.classList.add("topCard");
+//       label.innerText = title;
 
-  var trash = document.createElement('i');
-      trash.classList.add("bi", "bi-trash");
-      trash.setAttribute('id', id);
+//   var trash = document.createElement('i');
+//       trash.classList.add("bi", "bi-trash");
+//       trash.setAttribute('id', id);
 
-  var trashBtn = document.createElement('button');
-      trashBtn.classList.add("trashBtn");   
-      trashBtn.appendChild(trash);
+//   var trashBtn = document.createElement('button');
+//       trashBtn.classList.add("trashBtn");   
+//       trashBtn.appendChild(trash);
 
-  var pencil = document.createElement('i');
-      pencil.classList.add("bi", "bi-pencil-square");
+//   var pencil = document.createElement('i');
+//       pencil.classList.add("bi", "bi-pencil-square");
   
-  var pencilBtn = document.createElement('button');
-      pencilBtn.classList.add("pencilBtn");   
-      pencilBtn.appendChild(pencil);
+//   var pencilBtn = document.createElement('button');
+//       pencilBtn.classList.add("pencilBtn");   
+//       pencilBtn.appendChild(pencil);
       
-  var hidden = document.createElement('div');
-      hidden.classList.add("hidden");
+//   var hidden = document.createElement('div');
+//       hidden.classList.add("hidden");
 
-  var changeTitle = document.createElement('input');
-      changeTitle.classList.add("control", "titleArea");
-      changeTitle.setAttribute("type", "text");
-      changeTitle.value = title;
+//   var changeTitle = document.createElement('input');
+//       changeTitle.classList.add("control", "titleArea");
+//       changeTitle.setAttribute("type", "text");
+//       changeTitle.value = title;
 
-  var changeNote = document.createElement('textarea');
-      changeNote.classList.add("noteArea");    
-      changeNote.setAttribute("placeholder", "Notes: ");
-      changeNote.value = note;
+//   var changeNote = document.createElement('textarea');
+//       changeNote.classList.add("noteArea");    
+//       changeNote.setAttribute("placeholder", "Notes: ");
+//       changeNote.value = note;
 
-  var saveBtn = document.createElement('button');
-      saveBtn.classList.add("saveBtn"); 
-      saveBtn.setAttribute('id', id);   
-      saveBtn.innerText = "Save";    
+//   var saveBtn = document.createElement('button');
+//       saveBtn.classList.add("saveBtn"); 
+//       saveBtn.setAttribute('id', id);   
+//       saveBtn.innerText = "Save";    
 
       
 
 // * MOVES TASKS TO ACTIVE OR COMPLETED AREA * //
-if(completed === false && checkbox.checked === false){
-  taskarea.appendChild(card);
-}else {
-  completedarea.appendChild(card);
-}
+// if(completed === false && checkbox.checked === false){
+//   taskarea.appendChild(card);
+// }else {
+//   completedarea.appendChild(card);
+// }
 
-card.appendChild(form); 
-card.appendChild(hidden);
+// card.appendChild(form); 
+// card.appendChild(hidden);
      
-form.appendChild(checkbox);
-form.appendChild(label);
-form.appendChild(trashBtn);
-form.appendChild(pencil);
+// form.appendChild(checkbox);
+// form.appendChild(label);
+// form.appendChild(trashBtn);
+// form.appendChild(pencil);
 
-hidden.appendChild(changeTitle);
-hidden.appendChild(changeNote);
-hidden.appendChild(saveBtn); 
+// hidden.appendChild(changeTitle);
+// hidden.appendChild(changeNote);
+// hidden.appendChild(saveBtn); 
 
  //* ADD CLICK EVENT LISTENER TO LABEL TO SHOW HIDDEN *//
- pencil.addEventListener('click', (e) => {
-  e.stopPropagation();
-  if (hidden.style.display === "none") {
-        hidden.style.display = "block";
-  } else {
-        hidden.style.display = "none";
-  }
-});
+//  pencil.addEventListener('click', (e) => {
+//   e.stopPropagation();
+//   if (hidden.style.display === "none") {
+//         hidden.style.display = "block";
+//   } else {
+//         hidden.style.display = "none";
+//   }
+// });
 
 // * CHECKBOX UPDATES COMPLETED IN FIREBASE * //
-checkbox.addEventListener('click', () => {
-  const idObj = doc(docRef, id); // IMPORTANT HAS TO BE AN OBJECT
-  if (checkbox.checked === false){
-    updateDoc(idObj, {
-      completed: false
-    });
-  } else {
-    updateDoc(idObj, {
-      completed: true
-    });
-  }
-})
+// checkbox.addEventListener('click', () => {
+//   const idObj = doc(docRef, id); // IMPORTANT HAS TO BE AN OBJECT
+//   if (checkbox.checked === false){
+//     updateDoc(idObj, {
+//       completed: false
+//     });
+//   } else {
+//     updateDoc(idObj, {
+//       completed: true
+//     });
+//   }
+// })
 
 
 //* DELETES TAS FROM FIRESBASE *//
-trash.addEventListener('click', (e) => {
-  e.stopPropagation();
-  deleteDoc(doc(docRef, id));    
-});
+// trash.addEventListener('click', (e) => {
+//   e.stopPropagation();
+//   deleteDoc(doc(docRef, id));    
+// });
 
 //* CLICK UPDATE TITLE AND NOTES *//
-saveBtn.addEventListener('click', (e) => {
-  e.stopPropagation();
-  const idObj = doc(docRef, id); // IMPORTANT HAS TO BE AN OBJECT
-  updateDoc(idObj, {
-    title: changeTitle.value,
-    note: changeNote.value,
- })
-})
-};
+// saveBtn.addEventListener('click', (e) => {
+//   e.stopPropagation();
+//   const idObj = doc(docRef, id); // IMPORTANT HAS TO BE AN OBJECT
+//   updateDoc(idObj, {
+//     title: changeTitle.value,
+//     note: changeNote.value,
+//  })
+// })
+// };
 
 // PWA PURPOSE //
 
@@ -266,18 +266,35 @@ var app = new Vue({
   },
   methods: {
     newTask: function(){
-      var addTitle = document.querySelector('#addTitle');
-      var addNote = document.querySelector('#addNote');
-      this.tasks.push(
+     this.tasks.push(
         JSON.parse(JSON.stringify(this.new_task))
       );
-      addTitle.value = " ";
-      addNote.value = " ";
-    
+      this.new_task.title = "";
+      this.new_task.note = "";
+    },
+    deleteTask: function(){
+        console.log('deleted')
+      },
+    updateTask: function(){
+        console.log('updated')
+      },
+    cancelBtn: function(){
+        console.log('cancel')
+      },
+  
     }
-     
-  },
 })
+
+
+// if (checkbox.checked === false){
+  //     updateDoc(idObj, {
+  //       completed: false
+  //     });
+  //   } else {
+  //     updateDoc(idObj, {
+  //       completed: true
+
+
 
 // var title = addTitle.value;
 //   var note = addNote.value;

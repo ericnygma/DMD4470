@@ -47,7 +47,7 @@
                     <button class="pencilBtn">
                         <i class="bi bi-pencil-square"></i>
                     </button>
-                    <button class="trashBtn">
+                    <button @click="deleteTask()" class="trashBtn">
                         <i class="bi bi-trash"></i>
                     </button>
                     <ul class="shown">
@@ -62,7 +62,7 @@
                         </li>
                     </ul>
                     
-                    {{item.complete}}
+                  
                 </li>
             </ul>
             
