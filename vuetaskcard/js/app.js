@@ -76,57 +76,7 @@ const listening = onSnapshot(q, (querySnapshot) => {
 //   addNote.value = "";
 // })
 
-// * THIS FUNCTION CREATE A CARD TO HOLD THE TASK * //
-// function createTaskCard(title, note, completed, id){
-//   var card = document.createElement('div');
-//       card.setAttribute("draggable", "true");
-//       card.classList.add("card");
-//       card.setAttribute('id', id);
-
-//   var form = document.createElement('div');
-//       form.classList.add("form-box");
-
-//   var checkbox = document.createElement('input');
-//       checkbox.classList.add("checkbox");
-//       checkbox.setAttribute("type", "checkbox");
-//       checkbox.checked = completed;
-        
-//   var label = document.createElement('label');
-//       label.classList.add("topCard");
-//       label.innerText = title;
-
-//   var trash = document.createElement('i');
-//       trash.classList.add("bi", "bi-trash");
-//       trash.setAttribute('id', id);
-
-//   var trashBtn = document.createElement('button');
-//       trashBtn.classList.add("trashBtn");   
-//       trashBtn.appendChild(trash);
-
-//   var pencil = document.createElement('i');
-//       pencil.classList.add("bi", "bi-pencil-square");
-  
-//   var pencilBtn = document.createElement('button');
-//       pencilBtn.classList.add("pencilBtn");   
-//       pencilBtn.appendChild(pencil);
-      
-//   var hidden = document.createElement('div');
-//       hidden.classList.add("hidden");
-
-//   var changeTitle = document.createElement('input');
-//       changeTitle.classList.add("control", "titleArea");
-//       changeTitle.setAttribute("type", "text");
-//       changeTitle.value = title;
-
-//   var changeNote = document.createElement('textarea');
-//       changeNote.classList.add("noteArea");    
-//       changeNote.setAttribute("placeholder", "Notes: ");
-//       changeNote.value = note;
-
-//   var saveBtn = document.createElement('button');
-//       saveBtn.classList.add("saveBtn"); 
-//       saveBtn.setAttribute('id', id);   
-//       saveBtn.innerText = "Save";    
+   
 
       
 
@@ -137,17 +87,7 @@ const listening = onSnapshot(q, (querySnapshot) => {
 //   completedarea.appendChild(card);
 // }
 
-// card.appendChild(form); 
-// card.appendChild(hidden);
-     
-// form.appendChild(checkbox);
-// form.appendChild(label);
-// form.appendChild(trashBtn);
-// form.appendChild(pencil);
 
-// hidden.appendChild(changeTitle);
-// hidden.appendChild(changeNote);
-// hidden.appendChild(saveBtn); 
 
  //* ADD CLICK EVENT LISTENER TO LABEL TO SHOW HIDDEN *//
 //  pencil.addEventListener('click', (e) => {
@@ -268,7 +208,7 @@ var app = new Vue({
     newTask: function(){
      this.tasks.push(
         JSON.parse(JSON.stringify(this.new_task))
-      );
+      );console.log(this.tasks)
       this.new_task.title = "";
       this.new_task.note = "";
     },
