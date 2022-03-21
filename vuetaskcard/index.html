@@ -22,7 +22,7 @@
         </div>
         
         
-        <div class="hero">
+        <div class="hero container">
             <h1 id="doit">{{app_title}}</h1>
             <div class="addTaskCard">
                 <div class="task-input">
@@ -38,16 +38,17 @@
         <div class="greeting" id="date">
 <!-- <h1 id="date">Today Feb 22, 2022 </h1> -->
         </div>
-        <div id="taskarea">
+        <div id="taskarea" class="container">
             <!-- AREA WILL HOLD ALL THE ALL ACTIVE CARD TASK -->
             <ul>
-                <li v-for="item in tasks" :key="item.title" class="taskTitle card">
-                    <input @click="taskComplete()" type="checkbox" class="checkbox"> 
-                    <input type="text" class="readonly titleA" :value="`${item.title}`">
+                <li v-for="item in tasks" :key="item.id" class="taskTitle card">
+                    <input @click="taskComplete()" v-model="item.completed" type="checkbox" class="checkbox"> 
+                    <label for="checkbox">{{item.title}}</label>
+                    <!-- <input type="text" class="readonly titleA" :value="`${item.title}`"> -->
                     <button class="pencilBtn">
                         <i class="bi bi-pencil-square"></i>
                     </button>
-                    <button @click="deleteTask()" class="trashBtn">
+                    <button @click="deleteTask()" class="trashBtn" id="`${item.id}`">
                         <i class="bi bi-trash"></i>
                     </button>
                     <ul class="shown">
@@ -75,9 +76,7 @@
             </div>
     
         </div>
-
-    </div>
-
+       
 
     <div class="container">
         <!-- CONTAINS ALL ELEMENT OF DOCUMENT -->
@@ -160,7 +159,8 @@
 </div>
 
 
-
+      <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+      <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
       <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
       <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
       <script src="js/sw.js"></script>

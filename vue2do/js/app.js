@@ -10,7 +10,7 @@ firebase.initializeApp ({
 var db = firebase.firestore();
 
 db.collection("doditing").add({
-    task:"LONG KISS GOODNIGHT",
+    task:"GOODNIGHT",
     note: "WHAT'S BEEF",
     completed: false,
     due_date:" 2022-04-01"
@@ -66,6 +66,18 @@ Vue.component('addtask', {
                 JSON.parse(JSON.stringify(this.task))
                 
             );console.log(this.tasks)
+            db.collection("doditing").add({
+                title: tasks.title,
+                note: tasks.note,
+                due_date: tasks.due_date,
+                completed: tasks.completed
+            })
+            .then((docRef) =>{
+                console.log("doc id: ", docRef.id);
+            })
+            .catch((error)=>{
+                console.log("error adding document", error);
+            });
         },
     } 
 })
@@ -75,14 +87,14 @@ var app = new Vue({
     el: '#app',
         data(){
             return{
-                tasks: [
-                    {
-                        title: '',
-                        notes: '',
-                        completed: false,
-                        due_date: ' '
-                },
-                ]              
+                // tasks: [
+                //     {
+                //         title: '',
+                //         notes: '',
+                //         completed: false,
+                //         due_date: ' '
+                // },
+                // ]              
             }
 
            

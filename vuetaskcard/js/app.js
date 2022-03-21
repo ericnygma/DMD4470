@@ -1,17 +1,7 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.4.1/firebase-app.js"
-import { getFirestore,
-        collection,
-        doc,
-        deleteDoc,
-        addDoc,
-        getDoc,
-        getDocs, updateDoc,
-        setDoc, query,
-        orderBy, onSnapshot, where, serverTimestamp
-        } from "https://www.gstatic.com/firebasejs/9.4.1/firebase-firestore.js"
 
- const firebaseApp = initializeApp({
-    apiKey: "AIzaSyC3Ij4reGVts5e2D6HAYOhpCJgdd76teHM",
+
+  firebase.initializeApp({
+    apiKey: "AIzaSyC3Ij4reGVts5e2D6HAYOhpCJgdd76teHM", 
     authDomain: "listapproot.firebaseapp.com",
     projectId: "listapproot",
     storageBucket: "listapproot.appspot.com",
@@ -19,17 +9,9 @@ import { getFirestore,
     appId: "1:398474013698:web:a332fd275f59da2a2b8b1b"
   });
 
-const db = getFirestore();
-const docRef = collection(db, "doditing");
-const q = query(docRef);
 
-
-const addBtn = document.querySelector('#addBtn');
-const addTitle = document.querySelector('#addTitle');
-const addNote = document.querySelector('#addNote');
-const taskarea = document.querySelector('#taskarea');
-const completedarea = document.querySelector('#completedArea')
-
+const db = firebase.firestore();
+const dodi = db.collection('doditing');
 
 // *  GETS TODAYS DATE * //
 const d = new Date();
@@ -37,99 +19,109 @@ const d = new Date();
     h5.innerHTML = "Today " + d.toLocaleDateString();
     document.querySelector('.greeting').appendChild(h5);
 
-
-    // * GET ALL DOC IN COLLECTION *//
-const querySnapshot = await getDocs(docRef)
-querySnapshot.forEach((doc) => {
-  // console.log(doc.id, "=> ", doc.data()); confirm information in doc
+var app = new Vue({
+  el: '#app',
+  data: function(){
+    return {
+      app_title: 'DO DI TING',
+      new_task: 
+      {
+        title: '',
+        note: '',
+        completed: false,
+        due_date: '2022-03-15',
+        doc: ''
+      }
+      ,
+      
+      tasks: [],
+      
+    }
+  },
+  
+  methods: {
+    newTask: function(){
+   // ADD TASK TO FIREBASE
+      dodi.add({
+        title: this.new_task.title,
+        note: this.new_task.note,
+        due_date: this.new_task.due_date,
+        completed: this.new_task.completed
 })
+.then((docRef) => {
+  console.log("Document written with ID: ", docRef.id);
+})
+.catch((error) => {
+  console.error("Error adding document: ", error);
+});
+      
+      this.new_task.title = "";
+      this.new_task.note = "";
+      this.new_task.due_date = "";
 
+      // UPDATE FROM FIREBASE
+  //     dodi.onSnapshot((querySnapshot) => {
+  //       querySnapshot.forEach((doc) => {
+  //           // this.tasks.push(doc.id, doc.data());
+  //       });
+  //       console.log();
+  //   });
+  //     // ** GET MULTIPLE DOCUMENTS **
+  //   dodi.get()
+  //   .then((querySnapshot) => {
+  //     querySnapshot.forEach((doc) => {
+  //       this.tasks.push(doc.id, doc.data())
+  //       console.log("ID: " + doc.id, " Data: ", doc.data());
+  //     });
 
-
-
-// * GET LIVE UPDATES FROM FIREBASE * //
-const listening = onSnapshot(q, (querySnapshot) => {
-  taskarea.innerHTML = " ";
-  completedarea.innerHTML =" ";
-  querySnapshot.forEach((doc) => {
-    var listen = doc.data();
+  //   })
+  //   .catch((error) => {
+  //     console.log("Error getting docs: ", error );
+  //   })
+  //     //GET ALL DOCUMENTS IN COLLECTION 
+  //   dodi.get().then((querySnapshot) => {
+  //     querySnapshot.forEach((doc) => {
+  //         // doc.data() is never undefined for query doc snapshots
+  //         console.log("ID: ", doc.id, " => ", doc.data());
+  //     });
+  // });
+dodi.onSnapshot((querySnapshot)=>{
+  // var doditing = [];
+  querySnapshot.forEach((doc)=>{
+    this.tasks.push(doc.id,doc.data());
+    console.log(doc.id, "=> ", doc.data())
+    
+    var ftask = doc.data();
     var id = doc.id;
     var title = doc.data().title;
     var note = doc.data().note;
     var completed = doc.data().completed;
-    // createTaskCard(title, note, completed, id);
-    // console.log('this is? ' + doc.id); confirm doc id
+    var due_date = doc.data().due_date;
+    
+    console.log("this is from firestore " + id)
   })
-})
-
-
-// * CREATE NEW TASK AND SEND TO FIREBASE * //
-// addBtn.addEventListener('click', function(){
-//   var title = addTitle.value;
-//   var note = addNote.value;
-//   setDoc(doc(docRef), {
-//     title: title, 
-//     note: note,
-//     completed: false
-//   })
-//   addTitle.value = "";
-//   addNote.value = "";
-// })
-
-   
-
+  
+  
+})      
+    },
+    deleteTask: function(){
       
+      console.log('deleted')
+      },
+    updateTask: function(){
+      console.log('updated')
+          
+    
+      
+      },
+    cancelBtn: function(){
+        console.log('cancel')
+      },
+    
+      
+    },
+});
 
-// * MOVES TASKS TO ACTIVE OR COMPLETED AREA * //
-// if(completed === false && checkbox.checked === false){
-//   taskarea.appendChild(card);
-// }else {
-//   completedarea.appendChild(card);
-// }
-
-
-
- //* ADD CLICK EVENT LISTENER TO LABEL TO SHOW HIDDEN *//
-//  pencil.addEventListener('click', (e) => {
-//   e.stopPropagation();
-//   if (hidden.style.display === "none") {
-//         hidden.style.display = "block";
-//   } else {
-//         hidden.style.display = "none";
-//   }
-// });
-
-// * CHECKBOX UPDATES COMPLETED IN FIREBASE * //
-// checkbox.addEventListener('click', () => {
-//   const idObj = doc(docRef, id); // IMPORTANT HAS TO BE AN OBJECT
-//   if (checkbox.checked === false){
-//     updateDoc(idObj, {
-//       completed: false
-//     });
-//   } else {
-//     updateDoc(idObj, {
-//       completed: true
-//     });
-//   }
-// })
-
-
-//* DELETES TAS FROM FIRESBASE *//
-// trash.addEventListener('click', (e) => {
-//   e.stopPropagation();
-//   deleteDoc(doc(docRef, id));    
-// });
-
-//* CLICK UPDATE TITLE AND NOTES *//
-// saveBtn.addEventListener('click', (e) => {
-//   e.stopPropagation();
-//   const idObj = doc(docRef, id); // IMPORTANT HAS TO BE AN OBJECT
-//   updateDoc(idObj, {
-//     title: changeTitle.value,
-//     note: changeNote.value,
-//  })
-// })
-// };
 
 // PWA PURPOSE //
 
@@ -162,99 +154,3 @@ window.addEventListener('beforeinstallprompt', (e) => {
       });
   });
 });
-
-
-
-var app = new Vue({
-  el: '#app',
-  data: function(){
-    return {
-      app_title: 'DO DI TING',
-      new_task: {
-        title: '',
-        note: '',
-        completed: false,
-        due_date: '2022-03-15'
-      },
-      tasks: [
-        {
-          title: "Task No 1",
-          note: "Some note for task no 1",
-          complete: false,
-          due_date: "2022-03-21"
-        },
-        {
-          title: "Task No 2",
-          note: "Some note for task no 2",
-          complete: false,
-          due_date: "2022-03-24"
-        },
-        {
-          title: "Task No 3",
-          note: "Some note for task no 3",
-          complete: true,
-          due_date: "2022-03-30"
-        },
-        {
-          title: "Task No 420",
-          note: "Some note for about 420",
-          complete: false,
-          due_date: "2022-04-20"
-        },
-      ]
-    }
-  },
-  methods: {
-    newTask: function(){
-     this.tasks.push(
-        JSON.parse(JSON.stringify(this.new_task))
-      );console.log(this.tasks)
-      this.new_task.title = "";
-      this.new_task.note = "";
-    },
-    deleteTask: function(){
-        console.log('deleted')
-      },
-    updateTask: function(){
-        console.log('updated')
-      },
-    cancelBtn: function(){
-        console.log('cancel')
-      },
-  
-    }
-})
-
-
-// if (checkbox.checked === false){
-  //     updateDoc(idObj, {
-  //       completed: false
-  //     });
-  //   } else {
-  //     updateDoc(idObj, {
-  //       completed: true
-
-
-
-// var title = addTitle.value;
-//   var note = addNote.value;
-//   setDoc(doc(docRef), {
-//     title: title, 
-//     note: note,
-//     completed: false
-//   })
-//   addTitle.value = "";
-//   addNote.value = "";
-
-
-// var title = this.new_task.title;
-// var note = this.new_task.note;
-// var completed = this.new_task.complete;
-// var dueDate = this.new_task.due_date;
-// setDoc(doc(docRef), {
-//   title: title, 
-//   note: note,
-//   completed: completed,
-//   dueDate: dueDate
-// })
-// 
