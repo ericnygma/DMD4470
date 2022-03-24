@@ -14,7 +14,7 @@
     <title>Andy Task List</title>
 </head>
 <body>
-    <div id="app">
+    <div id="app" v-cloak>
         <div class="nav">
             <div class="nav-bar">
                 <!-- {{Add2HS button}} -->
@@ -24,6 +24,7 @@
         
         <div class="hero container">
             <h1 id="doit">{{app_title}}</h1>
+            <!-- *** ADD NEW TASK HERE ***-->
             <div class="addTaskCard">
                 <div class="task-input">
                     <input v-model="new_task.title" type="text" id="addTitle" class="control" placeholder="Title">
@@ -35,7 +36,8 @@
             </div>
             
         </div>
-        <div class="greeting" id="date">
+        <div class="greeting container" id="date">
+            <h5>{{today}}</h5>
 <!-- <h1 id="date">Today Feb 22, 2022 </h1> -->
         </div>
         <div id="taskarea" class="container">
@@ -70,13 +72,17 @@
         <div class="completed">
             <div>
                 <h5>Completed</h5>
+               
+                
             </div>
             <div id="completedArea">
         <!-- HOLDS THE COMPLETED TASK -->
             </div>
     
         </div>
-       
+        <div v-for="item in dodos" :key="item.id">
+            {{ item }}
+        </div> 
 
     <div class="container">
         <!-- CONTAINS ALL ELEMENT OF DOCUMENT -->

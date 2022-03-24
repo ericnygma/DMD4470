@@ -15,32 +15,31 @@ const dodi = db.collection('doditing');
 
 // *  GETS TODAYS DATE * //
 const d = new Date();
-    var h5 = document.createElement('h5');
-    h5.innerHTML = "Today " + d.toLocaleDateString();
-    document.querySelector('.greeting').appendChild(h5);
+    // var h5 = document.createElement('h5');
+    // h5.innerHTML = "Today " + d.toLocaleDateString();
+    // document.querySelector('.greeting').appendChild(h5);
 
 var app = new Vue({
   el: '#app',
   data: function(){
     return {
+      dodos: [],
       app_title: 'DO DI TING',
+      today: d.toLocaleDateString(),
       new_task: 
       {
         title: '',
         note: '',
         completed: false,
-        due_date: '2022-03-15',
-        doc: ''
-      }
-      ,
-      
-      tasks: [],
-      
+        due_date: ''
+      },
+     tasks: [],
+     
     }
   },
   
   methods: {
-    newTask: function(){
+   newTask(){
    // ADD TASK TO FIREBASE
       dodi.add({
         title: this.new_task.title,
@@ -58,69 +57,45 @@ var app = new Vue({
       this.new_task.title = "";
       this.new_task.note = "";
       this.new_task.due_date = "";
+},
 
-      // UPDATE FROM FIREBASE
-  //     dodi.onSnapshot((querySnapshot) => {
-  //       querySnapshot.forEach((doc) => {
-  //           // this.tasks.push(doc.id, doc.data());
-  //       });
-  //       console.log();
-  //   });
-  //     // ** GET MULTIPLE DOCUMENTS **
-  //   dodi.get()
-  //   .then((querySnapshot) => {
-  //     querySnapshot.forEach((doc) => {
-  //       this.tasks.push(doc.id, doc.data())
-  //       console.log("ID: " + doc.id, " Data: ", doc.data());
-  //     });
 
-  //   })
-  //   .catch((error) => {
-  //     console.log("Error getting docs: ", error );
-  //   })
-  //     //GET ALL DOCUMENTS IN COLLECTION 
-  //   dodi.get().then((querySnapshot) => {
-  //     querySnapshot.forEach((doc) => {
-  //         // doc.data() is never undefined for query doc snapshots
-  //         console.log("ID: ", doc.id, " => ", doc.data());
-  //     });
-  // });
-dodi.onSnapshot((querySnapshot)=>{
-  // var doditing = [];
-  querySnapshot.forEach((doc)=>{
-    this.tasks.push(doc.id,doc.data());
-    console.log(doc.id, "=> ", doc.data())
-    
-    var ftask = doc.data();
-    var id = doc.id;
-    var title = doc.data().title;
-    var note = doc.data().note;
-    var completed = doc.data().completed;
-    var due_date = doc.data().due_date;
-    
-    console.log("this is from firestore " + id)
+getTaskFromFirestore(orderBy){
+  db.collection("doditing")
+  .onSnapshot((querySnapshot)=>{
+    querySnapshot.forEach((doc)=>{
+      this.tasks.push({
+        title:doc.data().title,
+        note:doc.data().note,
+        due_date:doc.data().due_date,
+        completed:doc.data().completed,
+        id:doc.id
+        })
+    })
   })
+},
   
   
-})      
-    },
     deleteTask: function(){
-      
       console.log('deleted')
       },
     updateTask: function(){
       console.log('updated')
-          
-    
-      
-      },
+   },
     cancelBtn: function(){
         console.log('cancel')
       },
-    
-      
+    taskComplete(){
+      console.log('cancel')
     },
+    
+    
+},
+mounted() {
+  this.getTaskFromFirebase();
+}, 
 });
+
 
 
 // PWA PURPOSE //

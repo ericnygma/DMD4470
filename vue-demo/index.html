@@ -5,8 +5,28 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
-    <title>Andy Vue Demo</title>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    <script>
+
+const firebaseConfig = {
+    apiKey: "AIzaSyC3Ij4reGVts5e2D6HAYOhpCJgdd76teHM", 
+    authDomain: "listapproot.firebaseapp.com",
+    projectId: "listapproot",
+    storageBucket: "listapproot.appspot.com",
+    messagingSenderId: "398474013698",
+    appId: "1:398474013698:web:a332fd275f59da2a2b8b1b"
+};   
+ // Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+var db = firebase.firestore();
+// var contactRef = db.collection("contacts");
+
+</script>
+
+    <title>Andy Vue Contact Demo</title>
 </head>
+
 <body>
     <div id="app">
         <h1>{{app_title}}</h1>
@@ -14,9 +34,15 @@
         
        
 
-        <ul>
-            <li v-for="item in contacts" :key="item.email">
-                <a :href="'mailto:' + item.email"> {{item.first}} {{item.last}}</a>: {{item.phone}} {{item.notes}}
+        <ul style="display: block;">
+            <li v-for="item in contacts" :key="item.id">
+                <a :href="'mailto:' + item.email"> {{item.id}} {{item.first}} {{item.last}}</a>: 
+                <input type="text" @input="updateContact(item)" v-model="item.phone">
+                <!-- {{item.phone}} -->
+            </input>
+                <input type="text" @input="updateContact(item)" v-model="item.notes">
+                <!-- {{item.notes}} -->
+            </input> 
             </li>
         </ul>
 
@@ -38,41 +64,68 @@
     app_title: 'Hello Vue!',
     app_subhead: 'Contact List',
     new_contact: {
-        first: "First",
-        last: "Last",
-        phone: "333-333-3333",
-        email: "Email@email.edu",
+        first: "",
+        last: "",
+        phone: "",
+        email: "",
         notes: "",
     },
-    contacts: [
-       { 
-        first: "Andy",
-        last: "Gardner",
-        phone: "555-555-5555",
-        email: "andy.gardner@uconn.edu",
-        notes: "These are some notes."
-    },
-    {
-        first: "Andy",
-        last: "Gardner",
-        phone: "555-555-5555",
-        email: "andy.gardner@uconn.edu",
-        notes: "These are some notes."
-
-    }
-    ]
+    contacts: [],
   }
   },
   methods: {
       newContact: function(){
-          this.contacts.push(
-              
-                JSON.parse(JSON.stringify(this.new_contact))  
-          
-          );
-      
-      }   
-    }
+          db.collection("contacts").add({
+        firstname: this.new_contact.first,
+        lastname: this.new_contact.last,
+        phone: this.new_contact.phone,
+        email: this.new_contact.email,
+        notes: this.new_contact.notes
+})
+.then((docRef) => {
+    console.log("Document written with ID: ", docRef.id);
+})
+.catch((error) => {
+    console.error("Error adding document: ", error);
+});
+},
+updateContact(item){
+    var contactRef = db.collection("contacts").doc(item);
+    return contactRef.update({
+        phone: doc.data(item).phone,
+        notes: doc.data(item).notes
+})
+.then(() => {
+    console.log("Document successfully updated!");
+})
+.catch((error) => {
+    // The document probably doesn't exist.
+    console.error("Error updating document: ", error);
+});
+},
+    getContactsFromFirestore(orderBy){
+        db.collection("contacts")
+        .onSnapshot((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+            this.contacts.push({
+            first:doc.data().firstname,
+            last:doc.data().lastname,
+            phone:doc.data().phone,
+            email:doc.data().email,
+            notes:doc.data().notes,
+            id:doc.id
+        });
+console.log(doc.data().lastname),
+console.log(this.contacts[0])
+        });
+        
+    });
+      }
+         
+    },
+    mounted() {
+      this.getContactsFromFirestore();
+  },
 })
   
     </script>

@@ -1,6 +1,9 @@
 body {
   background-color: #9ece25d9;
 }
+[v-cloak] {
+  display: none;
+}
 .hero {
   background-color: #35b753eb;
   width: 100%;
