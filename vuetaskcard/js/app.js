@@ -23,7 +23,6 @@ var app = new Vue({
   el: '#app',
   data: function(){
     return {
-      dodos: [],
       app_title: 'DO DI TING',
       today: d.toLocaleDateString(),
       new_task: 
@@ -53,36 +52,54 @@ var app = new Vue({
 .catch((error) => {
   console.error("Error adding document: ", error);
 });
-      
       this.new_task.title = "";
       this.new_task.note = "";
       this.new_task.due_date = "";
 },
 
-
 getTaskFromFirestore(orderBy){
-  db.collection("doditing")
-  .onSnapshot((querySnapshot)=>{
+  // db.collection("doditing")
+  dodi.onSnapshot((querySnapshot)=>{
     querySnapshot.forEach((doc)=>{
       this.tasks.push({
-        title:doc.data().title,
-        note:doc.data().note,
-        due_date:doc.data().due_date,
-        completed:doc.data().completed,
-        id:doc.id
+        title: doc.data().title,
+        note: doc.data().note,
+        due_date: doc.data().due_date,
+        completed: doc.data().completed,
+        id: doc.id
         })
     })
   })
 },
   
   
-    deleteTask: function(){
-      console.log('deleted')
+    deleteTask(){
+      db.collection("doditing").doc().delete()
+      .then(() => {
+        console.log("Document successfully deleted!");
+    }).catch((error) => {
+        console.error("Error removing document: ", error);
+    });
+      
       },
-    updateTask: function(){
-      console.log('updated')
+
+
+    updateTask(){
+      var taskRef = db.collection("doditing").doc();
+        return taskRef.update({
+            title: doc.data().title,
+            note: doc.data().note
+    })
+    .then(() => {
+        console.log("Document successfully updated!");
+    })
+    .catch((error) => {
+        // The document probably doesn't exist.
+        console.error("Error updating document: ", error);
+    });
+  
    },
-    cancelBtn: function(){
+    cancelBtn(){
         console.log('cancel')
       },
     taskComplete(){
@@ -92,7 +109,7 @@ getTaskFromFirestore(orderBy){
     
 },
 mounted() {
-  this.getTaskFromFirebase();
+  this.getTaskFromFirestore();
 }, 
 });
 

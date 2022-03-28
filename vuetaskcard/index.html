@@ -46,7 +46,6 @@
                 <li v-for="item in tasks" :key="item.id" class="taskTitle card">
                     <input @click="taskComplete()" v-model="item.completed" type="checkbox" class="checkbox"> 
                     <label for="checkbox">{{item.title}}</label>
-                    <!-- <input type="text" class="readonly titleA" :value="`${item.title}`"> -->
                     <button class="pencilBtn">
                         <i class="bi bi-pencil-square"></i>
                     </button>
@@ -69,7 +68,7 @@
             
         </div>
         <!-- AREA WILL HOLD COMPLETED CARD TASK -->
-        <div class="completed">
+        <div class="completed container">
             <div>
                 <h5>Completed</h5>
                
@@ -79,88 +78,16 @@
         <!-- HOLDS THE COMPLETED TASK -->
             </div>
     
-        </div>
-        <div v-for="item in dodos" :key="item.id">
-            {{ item }}
-        </div> 
+        
 
     <div class="container">
         <!-- CONTAINS ALL ELEMENT OF DOCUMENT -->
         <!-- PWA BUTTON -->
         <button class="add-button">Add to home screen</button>
 
-     <!-- <div class="hero">    -->
-        <!-- <h1 id="doit">DO DI TING</h1> -->
-
-<!-- HOLDS ELEMENT TO INPUT TASK ITEMS -->
-        <!-- <div class="addTaskCard">
-            <div class="addTask">    
-                <div class="task-input">
-                    <input type="text" class="control" id="addTitle" placeholder="Title">
-                    <textarea class="" id="addNote" placeholder="Notes:"></textarea>
-                    <button class="btn-update" id="addBtn">Add Task</button>
-                  </div>
-            </div>
-        </div>
-    </div> -->
-
-<!-- ELEMENT TO DISPLAY CURRENT DATE  -->
-        <div id="date" class="greeting">
-            <!-- <h1 id="date">Today Feb 22, 2022 </h1> -->
-        </div> 
-
-        
-
-
-<div id="taskarea">
-<!-- AREA WILL HOLD ALL THE ALL ACTIVE CARD TASK -->
-<ul>
-    <li class="card taskTitle">
-        <input type="checkbox" class="checkbox">
-        <!-- <textarea class="readonly" type="text" name="notes">Task No. 1</textarea> -->
-        
-        <input type="text" class="readonly titleA" value="Task No. 1">
-        <button class="pencilBtn">
-            <i class="bi bi-pencil-square"></i>
-        </button>
-        <button class="trashBtn">
-            <i class="bi bi-trash"></i>
-        </button>
-        
-            <ul class="shown">
-                <li>
-                
-                <textarea class="readonly" type="text" name="notes"></textarea>
-
-                <input type="date">
-
-                <button @click.prevent="updateTask()" id="updateBtn" class="updateBtn taskBtns">Save</button>
-
-                <button @click.prevent="cancelBtn()" id="cancelBtn" class="cancelBtn taskBtns">Cancel</button>
-
-                </li>
-
-            </ul>
-
-    </li>
-</ul>
-</div>
-<!-- END OF NOT COMPLETED TASK CARD -->
-
-<!-- AREA WILL HOLD COMPLETED CARD TASK -->
-<div class="completed">
-    <div>
-        <h5>Old Completed</h5>
-    </div>
-    <div id="completedArea">
-        <!-- HOLDS THE COMPLETED TASK -->
-    </div>
-    
 </div>
 
 </div>
-
-
 
 </div>
 
