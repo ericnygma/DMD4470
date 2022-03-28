@@ -18,7 +18,7 @@
         <div class="nav">
             <div class="nav-bar">
                 <!-- {{Add2HS button}} -->
-            </div>
+            </div> 
         </div>
         
         
@@ -44,21 +44,21 @@
             <!-- AREA WILL HOLD ALL THE ALL ACTIVE CARD TASK -->
             <ul>
                 <li v-for="item in tasks" :key="item.id" class="taskTitle card">
-                    <input @click="taskComplete()" v-model="item.completed" type="checkbox" class="checkbox"> 
+                    <input @click="taskComplete(item.id)" v-model="item.completed" type="checkbox" class="checkbox"> 
                     <label for="checkbox">{{item.title}}</label>
                     <button class="pencilBtn">
                         <i class="bi bi-pencil-square"></i>
                     </button>
-                    <button @click="deleteTask()" class="trashBtn" id="`${item.id}`">
+                    <button @click="deleteTask(item.id)" class="trashBtn" id="`${item.id}`">
                         <i class="bi bi-trash"></i>
                     </button>
                     <ul class="shown">
                         <li>
-                            <textarea class="readonly" type="text" name="notes">{{item.note}}</textarea>
+                            <textarea class="readonly" type="text" name="notes" v-model="item.note">{{item.note}}</textarea>
 
                             <input type="date" :value="`${item.due_date}`">
 
-                             <button @click.prevent="updateTask()" id="updateBtn" class="updateBtn taskBtns">Save</button>
+                             <button @click.prevent="updateTask(item.id)" id="updateBtn" class="updateBtn taskBtns">Save</button>
 
                             <button @click.prevent="cancelBtn()" id="cancelBtn" class="cancelBtn taskBtns">Cancel</button>
                         </li>

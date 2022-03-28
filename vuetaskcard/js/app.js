@@ -12,12 +12,9 @@
 
 const db = firebase.firestore();
 const dodi = db.collection('doditing');
-
 // *  GETS TODAYS DATE * //
 const d = new Date();
-    // var h5 = document.createElement('h5');
-    // h5.innerHTML = "Today " + d.toLocaleDateString();
-    // document.querySelector('.greeting').appendChild(h5);
+    
 
 var app = new Vue({
   el: '#app',
@@ -33,8 +30,7 @@ var app = new Vue({
         due_date: ''
       },
      tasks: [],
-     
-    }
+   }
   },
   
   methods: {
@@ -56,10 +52,12 @@ var app = new Vue({
       this.new_task.note = "";
       this.new_task.due_date = "";
 },
-
+// ** LISTENS FOR CHANGES ** //
 getTaskFromFirestore(orderBy){
   // db.collection("doditing")
-  dodi.onSnapshot((querySnapshot)=>{
+  dodi.where("completed", "!=", "true")
+  .onSnapshot((querySnapshot)=>{
+    this.tasks = [];
     querySnapshot.forEach((doc)=>{
       this.tasks.push({
         title: doc.data().title,
@@ -67,27 +65,24 @@ getTaskFromFirestore(orderBy){
         due_date: doc.data().due_date,
         completed: doc.data().completed,
         id: doc.id
-        })
+      })
     })
   })
 },
-  
-  
-    deleteTask(){
-      db.collection("doditing").doc().delete()
+// ** DELETE TASK FROM FIREBASE ** //
+  deleteTask(id){
+      dodi.doc(id).delete()
       .then(() => {
         console.log("Document successfully deleted!");
     }).catch((error) => {
         console.error("Error removing document: ", error);
     });
-      
-      },
-
-
-    updateTask(){
-      var taskRef = db.collection("doditing").doc();
+  },
+    
+// ** UPDATE CHANGES TO TASK ** //
+    updateTask(id){
+      var taskRef = db.collection("doditing").doc(id);
         return taskRef.update({
-            title: doc.data().title,
             note: doc.data().note
     })
     .then(() => {
@@ -102,8 +97,23 @@ getTaskFromFirestore(orderBy){
     cancelBtn(){
         console.log('cancel')
       },
-    taskComplete(){
-      console.log('cancel')
+    taskComplete(id){
+      var tasksRef = db.collection("doditing").doc(id);
+      if(doc.data().completed === false){
+        return tasksRef.update({
+          completed: true
+       })
+        .then(()=>{
+          console.log("Document succesfully update");
+        })
+        .catch ((error)=>{
+          console.error("Error updating: ", error);
+        })
+      } else {
+        completed:false
+      }
+      
+      
     },
     
     

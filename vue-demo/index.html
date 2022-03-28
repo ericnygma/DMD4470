@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
@@ -35,17 +36,18 @@ var db = firebase.firestore();
        
 
         <ul style="display: block;">
-            <li v-for="item in contacts" :key="item.id">
-                <a :href="'mailto:' + item.email"> {{item.id}} {{item.first}} {{item.last}}</a>: 
+            <li v-for="item in contacts" :key="item.id" class="card">
+                <a :href="'mailto:' + item.email"> {{item.first}} {{item.last}}</a> 
                 <input type="text" @input="updateContact(item)" v-model="item.phone">
                 <!-- {{item.phone}} -->
             </input>
-                <input type="text" @input="updateContact(item)" v-model="item.notes">
+                <input type="text" @input="updateContact(item)" v-model="item.notes"> {{item.id}}
                 <!-- {{item.notes}} -->
             </input> 
+        
             </li>
         </ul>
-
+        
         <div>
             <input v-model="new_contact.first" type="text" placeholder="First Name">
             <input v-model="new_contact.last" type="text" placeholder="Last Name">
