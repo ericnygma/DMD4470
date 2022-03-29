@@ -7,7 +7,8 @@
 - [ColorPicker](https://ericnygma.github.io/DMD4470/color-picker/)
 - [Phonebook](https://ericnygma.github.io/DMD4470/phonebook-v3/)
 - [Midterm - TaskApp](https://ericnygma.github.io/DMD4470/taskcardapp/)
-
+- [Vue Contact Demo](https://ericnygma.github.io/DMD4470/vue-demo/)
+- [Vue Task App](https://ericnygma.github.io/DMD4470/vuetaskcard/)
 
 ### Markdown
 
