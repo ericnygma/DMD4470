@@ -49,15 +49,16 @@
                     <input @change="taskCompleted(item)" v-model="item.completed" type="checkbox" class="checkbox">
                     <input @change="updateTask(item)" type="text" name="title" v-model="item.title"> 
                     <!-- <label for="checkbox"><strong>{{item.title}}</strong> </label> -->
-                    <button class="pencilBtn">
-                        <i class="bi bi-pencil-square" @click="editTask()" ></i>
+                    <button class="pencilBtn" @click="hideNote = !hideNote">
+                        <i class="bi bi-pencil-square"></i>
                     </button>
                     <button @click="deleteTask(item.id)" class="trashBtn" id="`${item.id}`">
                         <i class="bi bi-trash"></i>
                     </button>
                     <ul class="shown">
                         <li>
-                            <textarea class="readonly hidden" @change="updateTask(item)" type="text" name="notes" v-model="item.note">{{item.note}}</textarea>
+                            <textarea v-if="hideNote" class="readonly hidden" @change="updateTask(item)"  type="text" name="notes" v-model="item.note">{{item.note}}</textarea>
+                            <textarea v-else class="readonly" @change="updateTask(item)"  type="text" name="notes" v-model="item.note">{{item.note}}</textarea>
                             <!-- TIME -->
                             <input type="date" @change="updateTask(item)" :value="`${item.due_date}`">
 

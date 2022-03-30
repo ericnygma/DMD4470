@@ -23,6 +23,7 @@ var app = new Vue({
       app_title: 'Add Task',
       app_subtitle:'Daily Task List',
       today: d.toLocaleDateString(),
+      hideNote: false,
       new_task: 
       {
         title: '',
@@ -112,7 +113,11 @@ getTaskFromFirestore(){
         }
       },
       editTask(){
-        
+        if(hideNote == false){
+          hideNote = true
+        } else {
+          hideNote = false
+        }
       }
         
       
