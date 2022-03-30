@@ -53,9 +53,8 @@ var app = new Vue({
       this.new_task.due_date = "";
 },
 // ** LISTENS FOR CHANGES ** //
-getTaskFromFirestore(orderBy){
-  // db.collection("doditing")
-  dodi.where("completed", "!=", "true")
+getTaskFromFirestore(){
+  dodi//.where("completed", "!=", "true")
   .onSnapshot((querySnapshot)=>{
     this.tasks = [];
     querySnapshot.forEach((doc)=>{
@@ -80,10 +79,12 @@ getTaskFromFirestore(orderBy){
   },
     
 // ** UPDATE CHANGES TO TASK ** //
-    updateTask(id){
-      var taskRef = db.collection("doditing").doc(id);
+    updateTask(data){
+      let taskID =data.id;
+      var taskRef = db.collection("doditing").doc(taskID);
         return taskRef.update({
-            note: doc.data().note
+            note: data.note,
+            due_date:data.due_date
     })
     .then(() => {
         console.log("Document successfully updated!");
@@ -94,32 +95,38 @@ getTaskFromFirestore(orderBy){
     });
   
    },
-    cancelBtn(){
-        console.log('cancel')
-      },
-    taskComplete(id){
-      var tasksRef = db.collection("doditing").doc(id);
-      if(doc.data().completed === false){
-        return tasksRef.update({
-          completed: true
-       })
-        .then(()=>{
-          console.log("Document succesfully update");
-        })
-        .catch ((error)=>{
-          console.error("Error updating: ", error);
-        })
-      } else {
-        completed:false
-      }
-      
-      
-    },
     
-    
+
+      taskCompleted(id){
+        var tasksRef = db.collection("doditing").doc(id);
+        if (completed != true) {
+          return tasksRef.update({
+            completed: true
+          })
+        } else {
+          return tasksRef.update({
+            completed: false
+          })
+        }}
+        
+      
+    // taskCompleted(id){
+    //   var tasksRef = db.collection("doditing").doc(id);
+    //   return tasksRef.update({
+    //       completed: true
+    //    })
+    //     .then(()=>{
+    //       console.log("Document succesfully update");
+    //     })
+    //     .catch ((error)=>{
+    //       console.error("Error updating: ", error);
+    //     })
+    //   }
+    // },
 },
 mounted() {
   this.getTaskFromFirestore();
+  
 }, 
 });
 

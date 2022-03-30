@@ -44,7 +44,8 @@
             <!-- AREA WILL HOLD ALL THE ALL ACTIVE CARD TASK -->
             <ul>
                 <li v-for="item in tasks" :key="item.id" class="taskTitle card">
-                    <input @click="taskComplete(item.id)" v-model="item.completed" type="checkbox" class="checkbox"> 
+                    <!-- <input @click="taskComplete(item.id)" v-model="item.completed" type="checkbox" class="checkbox">  -->
+                    <input @click="taskCompleted(item.id)" v-model="item.completed" type="checkbox" class="checkbox">
                     <label for="checkbox">{{item.title}}</label>
                     <button class="pencilBtn">
                         <i class="bi bi-pencil-square"></i>
@@ -54,9 +55,9 @@
                     </button>
                     <ul class="shown">
                         <li>
-                            <textarea class="readonly" type="text" name="notes" v-model="item.note">{{item.note}}</textarea>
+                            <textarea class="readonly" @change="updateTask(item)" type="text" name="notes" v-model="item.note">{{item.note}}</textarea>
 
-                            <input type="date" :value="`${item.due_date}`">
+                            <input type="date" @change="updateTask()" :value="`${item.due_date}`">
 
                              <button @click.prevent="updateTask(item.id)" id="updateBtn" class="updateBtn taskBtns">Save</button>
 
