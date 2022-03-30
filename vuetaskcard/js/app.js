@@ -32,6 +32,7 @@ var app = new Vue({
         due_date: ''
       },
      tasks: [],
+     cpTasks: [],
    }
   },
   
@@ -55,13 +56,13 @@ var app = new Vue({
       this.new_task.due_date = "";
 },
 // ** LISTENS FOR CHANGES ** //
-getTaskFromFirestore(){
-  dodi//.where("completed", "!=", "true")
+getTaskFromFirestore(sortBy){
+  dodi.where("completed", "!=", "true")
   .onSnapshot((querySnapshot)=>{
     this.tasks = [];
     querySnapshot.forEach((doc)=>{
       this.tasks.push({
-        title: doc.data().title,
+        title: doc.data().title, 
         note: doc.data().note,
         due_date: doc.data().due_date,
         completed: doc.data().completed,
@@ -70,6 +71,8 @@ getTaskFromFirestore(){
     })
   })
 },
+
+
 // ** DELETE TASK FROM FIREBASE ** //
   deleteTask(id){
       dodi.doc(id).delete()
@@ -87,7 +90,8 @@ getTaskFromFirestore(){
         return taskRef.update({
             title: data.title,
             note: data.note,
-            due_date:data.due_date 
+            due_date:data.due_date,
+
     })
     .then(() => {
         console.log("Document successfully updated!");
@@ -100,9 +104,9 @@ getTaskFromFirestore(){
    },
     
 
-      taskCompleted(id){
-        var tasksRef = db.collection("doditing").doc(id);
-        if (completed === true) {
+      taskCompleted(item){
+        var tasksRef = db.collection("doditing").doc(item.id);
+        if (item.completed === true) {
           return tasksRef.update({
             completed: true
           })
@@ -112,13 +116,7 @@ getTaskFromFirestore(){
           })
         }
       },
-      editTask(){
-        if(hideNote == false){
-          hideNote = true
-        } else {
-          hideNote = false
-        }
-      }
+      
         
       
     // taskCompleted(id){
