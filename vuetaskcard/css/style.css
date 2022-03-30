@@ -257,3 +257,18 @@ button {
   margin-right: 2px;
   margin-left: 1px;
 }
+input[type=date]{
+  border:none;
+}
+li>input[type=text]{
+  border: none;
+  font-weight: bold;
+}
+li>textarea{
+  border: none;
+  font-size: 1rem;
+}
+
+ul {
+  list-style-type: none;
+}

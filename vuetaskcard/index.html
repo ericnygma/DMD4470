@@ -27,8 +27,8 @@
             <!-- *** ADD NEW TASK HERE ***-->
             <div class="addTaskCard">
                 <div class="task-input">
-                    <input v-model="new_task.title" type="text" id="addTitle" class="control" placeholder="Title">
-                    <textarea v-model="new_task.note" type="text" id="addNote" placeholder="Details"></textarea>
+                    <input v-model="new_task.title" type="text" id="addTitle" class="control" placeholder="Add title">
+                    <textarea v-model="new_task.note" type="text" id="addNote" placeholder="Add notes"></textarea>
                     <label for="due_date" class="due">Due: </label>
                     <input v-model="new_task.due_date" type="date" id="dueDate" class="">
                     <button @click="newTask()" id="addBtn" class="addBtn">Add Task</button>
@@ -36,8 +36,9 @@
             </div>
             
         </div>
+        <h3 style="text-align: center;">{{app_subtitle}}</h3>
         <div class="greeting container" id="date">
-            <h5>{{today}}</h5>
+            <h5>TODAY, {{today}}</h5>
 <!-- <h1 id="date">Today Feb 22, 2022 </h1> -->
         </div>
         <div id="taskarea" class="container">
@@ -45,23 +46,24 @@
             <ul>
                 <li v-for="item in tasks" :key="item.id" class="taskTitle card">
                     <!-- <input @click="taskComplete(item.id)" v-model="item.completed" type="checkbox" class="checkbox">  -->
-                    <input @click="taskCompleted(item.id)" v-model="item.completed" type="checkbox" class="checkbox">
-                    <label for="checkbox">{{item.title}}</label>
+                    <input @change="taskCompleted(item)" v-model="item.completed" type="checkbox" class="checkbox">
+                    <input @change="updateTask(item)" type="text" name="title" v-model="item.title"> 
+                    <!-- <label for="checkbox"><strong>{{item.title}}</strong> </label> -->
                     <button class="pencilBtn">
-                        <i class="bi bi-pencil-square"></i>
+                        <i class="bi bi-pencil-square" @click="editTask()" ></i>
                     </button>
                     <button @click="deleteTask(item.id)" class="trashBtn" id="`${item.id}`">
                         <i class="bi bi-trash"></i>
                     </button>
                     <ul class="shown">
                         <li>
-                            <textarea class="readonly" @change="updateTask(item)" type="text" name="notes" v-model="item.note">{{item.note}}</textarea>
+                            <textarea class="readonly hidden" @change="updateTask(item)" type="text" name="notes" v-model="item.note">{{item.note}}</textarea>
                             <!-- TIME -->
                             <input type="date" @change="updateTask(item)" :value="`${item.due_date}`">
 
-                             <button @click.prevent="updateTask(item.id)" id="updateBtn" class="updateBtn taskBtns">Save</button>
+                             <button @click.prevent="updateTask(item)" id="updateBtn" class="updateBtn taskBtns hidden">Save</button>
 
-                            <button @click.prevent="cancelBtn()" id="cancelBtn" class="cancelBtn taskBtns">Cancel</button>
+                            <button @click.prevent="cancelBtn()" id="cancelBtn" class="cancelBtn taskBtns hidden">Cancel</button>
                         </li>
                     </ul>
                 </li>

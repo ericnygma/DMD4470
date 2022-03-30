@@ -20,7 +20,8 @@ var app = new Vue({
   el: '#app',
   data: function(){
     return {
-      app_title: 'DO DI TING',
+      app_title: 'Add Task',
+      app_subtitle:'Daily Task List',
       today: d.toLocaleDateString(),
       new_task: 
       {
@@ -83,8 +84,9 @@ getTaskFromFirestore(){
       let taskID =data.id;
       var taskRef = db.collection("doditing").doc(taskID);
         return taskRef.update({
+            title: data.title,
             note: data.note,
-            // due_date:data.due_date (DATE NOT UPDATING FROM THIS FUNCTIONS)
+            due_date:data.due_date 
     })
     .then(() => {
         console.log("Document successfully updated!");
@@ -97,17 +99,21 @@ getTaskFromFirestore(){
    },
     
 
-      // taskCompleted(id){
-      //   var tasksRef = db.collection("doditing").doc(id);
-      //   if (completed != true) {
-      //     return tasksRef.update({
-      //       completed: true
-      //     })
-      //   } else {
-      //     return tasksRef.update({
-      //       completed: false
-      //     })
-      //   }}
+      taskCompleted(id){
+        var tasksRef = db.collection("doditing").doc(id);
+        if (completed === true) {
+          return tasksRef.update({
+            completed: true
+          })
+        } else {
+          return tasksRef.update({
+            completed: false
+          })
+        }
+      },
+      editTask(){
+        
+      }
         
       
     // taskCompleted(id){
