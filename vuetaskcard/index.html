@@ -27,7 +27,7 @@
             <!-- *** ADD NEW TASK HERE ***-->
             <div class="addTaskCard">
                 <div class="task-input">
-                    <input v-model="new_task.title" type="text" id="addTitle" class="control" placeholder="Add title">
+                    <input v-model="new_task.title" type="text" id="addTitle" class="control bb" placeholder="Add title">
                     <textarea v-model="new_task.note" type="text" id="addNote" placeholder="Add notes"></textarea>
                     <label for="due_date" class="due">Due: </label>
                     <input v-model="new_task.due_date" type="date" id="dueDate" class="">
@@ -49,7 +49,7 @@
                     <input @change="taskCompleted(item)" v-model="item.completed" type="checkbox" class="checkbox">
                     <input @change="updateTask(item)" type="text" name="title" v-model="item.title"> 
                     <!-- <label for="checkbox"><strong>{{item.title}}</strong> </label> -->
-                    <button class="pencilBtn" @click="hideNote = !hideNote" v-model="item.note">
+                    <button class="pencilBtn" @click="hideNote = !hideNote">
                         <i class="bi bi-pencil-square"></i>
                     </button>
                     <button @click="deleteTask(item.id)" class="trashBtn" id="`${item.id}`">
@@ -72,9 +72,9 @@
             
         </div>
         <!-- AREA WILL HOLD COMPLETED CARD TASK -->
-        <div class="completed container">
+        <div class="completed container" style="margin-top: 7rem;">
             <div>
-                <h5>Completed</h5>
+                <!-- <h5>Completed</h5> -->
                
                 
             </div>
@@ -87,7 +87,7 @@
     <div class="container">
         <!-- CONTAINS ALL ELEMENT OF DOCUMENT -->
         <!-- PWA BUTTON -->
-        <button class="add-button">Add to home screen</button>
+        <button class="add-button"><img src="icon/A2HS.png"/ height="30px"> A2HS</button>
 
 </div>
 

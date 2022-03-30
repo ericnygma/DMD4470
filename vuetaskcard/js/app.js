@@ -23,7 +23,7 @@ var app = new Vue({
       app_title: 'Add Task',
       app_subtitle:'Daily Task List',
       today: d.toLocaleDateString(),
-      hideNote: false,
+      hideNote: true,
       new_task: 
       {
         title: '',
@@ -56,7 +56,7 @@ var app = new Vue({
       this.new_task.due_date = "";
 },
 // ** LISTENS FOR CHANGES ** //
-getTaskFromFirestore(sortBy){
+getTaskFromFirestore(orderBy){
   dodi.where("completed", "!=", "true")
   .onSnapshot((querySnapshot)=>{
     this.tasks = [];

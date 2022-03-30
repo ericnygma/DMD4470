@@ -106,9 +106,7 @@ textarea {
    min-width: 85%;
    margin-bottom: .50rem;
  }
- input.readonly:read-write {
 
- }
 
 
 
@@ -271,4 +269,7 @@ li>textarea{
 
 ul {
   list-style-type: none;
+}
+.bb{
+  border-bottom: #0a58ca solid .15rem;
 }
