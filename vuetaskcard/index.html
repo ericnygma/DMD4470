@@ -56,8 +56,8 @@
                     <ul class="shown">
                         <li>
                             <textarea class="readonly" @change="updateTask(item)" type="text" name="notes" v-model="item.note">{{item.note}}</textarea>
-
-                            <input type="date" @change="updateTask()" :value="`${item.due_date}`">
+                            <!-- TIME -->
+                            <input type="date" @change="updateTask(item)" :value="`${item.due_date}`">
 
                              <button @click.prevent="updateTask(item.id)" id="updateBtn" class="updateBtn taskBtns">Save</button>
 

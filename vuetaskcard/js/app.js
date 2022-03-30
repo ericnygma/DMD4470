@@ -84,7 +84,7 @@ getTaskFromFirestore(){
       var taskRef = db.collection("doditing").doc(taskID);
         return taskRef.update({
             note: data.note,
-            due_date:data.due_date
+            // due_date:data.due_date (DATE NOT UPDATING FROM THIS FUNCTIONS)
     })
     .then(() => {
         console.log("Document successfully updated!");
@@ -97,17 +97,17 @@ getTaskFromFirestore(){
    },
     
 
-      taskCompleted(id){
-        var tasksRef = db.collection("doditing").doc(id);
-        if (completed != true) {
-          return tasksRef.update({
-            completed: true
-          })
-        } else {
-          return tasksRef.update({
-            completed: false
-          })
-        }}
+      // taskCompleted(id){
+      //   var tasksRef = db.collection("doditing").doc(id);
+      //   if (completed != true) {
+      //     return tasksRef.update({
+      //       completed: true
+      //     })
+      //   } else {
+      //     return tasksRef.update({
+      //       completed: false
+      //     })
+      //   }}
         
       
     // taskCompleted(id){
