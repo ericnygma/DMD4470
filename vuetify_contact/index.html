@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/@mdi/font@6.x/css/materialdesignicons.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+  <!-- FIREBASE/FIRESTORE -->
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+</head>
+<body>
+  <div id="app">
+    <v-app>
+        <v-navigation-drawer
+      v-model="drawer"
+      app
+    >
+      <!-- DRAWER CONTENT GOES HERE -->
+    </v-navigation-drawer>
+<!-- APP BAR -->
+    <v-app-bar app shrink-on-scroll color="light-blue" dark>
+      <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
+
+      <v-toolbar-title>{{tb_title}}</v-toolbar-title>
+
+      <v-spacer></v-spacer>
+
+      <v-btn icon>
+        <v-icon>mdi-magnify</v-icon>
+      </v-btn>
+
+      <template v-slot:extension>
+        <v-btn
+          fab
+          color="cyan accent-2"
+          bottom
+          right
+          absolute
+          @click="dialog = !dialog"
+        >
+          <v-icon color="black">mdi-plus</v-icon>
+        </v-btn>
+      </template>
+
+     
+
+    </v-app-bar>
+
+    
+      
+    <v-main>
+        <!-- DIALOG POP UP ADD CONTACT -->
+        <v-row class="mt-10">
+            <v-col
+              cols="12"
+              sm="6"
+              offset-sm="3"
+            >
+              <v-card>
+               
+                <v-dialog
+                  transition="dialog-bottom-transition"
+                  v-model="dialog"
+                  max-width="500px"
+                >
+                  <v-card>
+                      
+                    <v-card-title class="light-blue darken-1">
+                        <span class="text-h5 white--text">{{input_card_title}}</span>
+              
+                        <v-spacer></v-spacer>
+              
+                        <!-- <v-btn
+                          dark
+                          icon
+                        >
+                          <v-icon>mdi-chevron-left</v-icon>
+                        </v-btn> -->
+              
+                        <v-btn
+                          dark
+                          icon
+                          @click="dialog = false"
+                        >
+                          <v-icon>mdi-close</v-icon>
+                        </v-btn>
+                      </v-card-title>
+        
+        
+                    <v-card-text>
+                        <!-- FIRST NAME -->
+                      <v-text-field
+                       v-model="addContact.first" 
+                       label="First"
+                       :rules="nameRules"
+                       hide-details="auto"
+                       ></v-text-field>
+                       <!-- LAST NAME -->
+                      <v-text-field
+                       v-model="addContact.last"
+                       label="Last"
+                       :rules="nameRules"
+                       hide-details="auto"
+                       ></v-text-field>
+                      <!-- PHONE NUMBER -->
+                      <v-text-field
+                      v-model="addContact.phone"
+                       label="Phone"
+                       :rules="nameRules"
+                       hide-details="auto"
+                       ></v-text-field>
+                      <!-- EMAIL -->
+                      <v-text-field
+                      v-model="addContact.email"
+                       label="Email"
+                       :rules="emailRules"
+                       hide-details="auto"
+                       ></v-text-field>
+                      <!-- NOTES -->
+                      <v-text-field
+                       v-model="addContact.notes"
+                       label="Notes"
+                       ></v-text-field>
+        
+                      <small class="grey--text">* This actually saves to Firebase.</small>
+                    </v-card-text>
+        
+                    <v-card-actions>
+                      <v-spacer></v-spacer>
+        
+                      <v-btn
+                        text
+                        color="primary"
+                        @click="addPerson(); dialog = false"
+                      >
+                        Submit
+                      </v-btn>
+                    </v-card-actions>
+                  </v-card>
+                </v-dialog>
+              </v-card>
+            </v-col>
+          </v-row>
+        <v-container>
+            
+<!-- DELETE WHAT YOU DO NOT NEED -->
+<div v-for="(item, index) in contacts" :key="item.id">
+<v-row justify="center">
+    <v-col
+      cols="12"
+      sm="8"
+    >
+
+   <v-card>
+        <v-card-title class="light-blue darken-1">
+          <span class="text-h5 white--text"> {{item.first}} {{item.last}} </span>
+
+          <v-spacer></v-spacer>
+
+          
+          <v-btn
+            dark
+            icon
+          >
+            <v-icon>mdi-pencil</v-icon>
+          </v-btn>
+
+          <v-btn
+            dark
+            icon
+            @click="hidden = !hidden"
+          >
+            <v-icon
+            v-if="hidden == true"
+            >mdi-chevron-down</v-icon>
+            <v-icon v-else>mdi-chevron-right</v-icon>
+          </v-btn>
+
+
+          <!-- <v-btn
+            dark
+            icon
+          >
+            <v-icon>mdi-dots-vertical</v-icon>
+          </v-btn> -->
+        </v-card-title>
+        <div>
+    <v-list v-show="hidden">
+          <v-list-item>
+            <v-list-item-action>
+              <v-icon>mdi-phone</v-icon>
+            </v-list-item-action>
+
+            <v-list-item-content>
+              <v-list-item-title>{{item.phone}}</v-list-item-title>
+            </v-list-item-content>
+            <v-list-item-action>
+              <v-icon>mdi-message-text</v-icon>
+            </v-list-item-action>
+          </v-list-item>
+
+           <v-divider inset></v-divider>
+
+          <v-list-item>
+            <v-list-item-action>
+              <v-icon>mdi-email</v-icon>
+            </v-list-item-action>
+
+            <v-list-item-content>
+              <v-list-item-title> <a :href="'mailto:' + item.email"> {{item.email}} </a> </v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+
+          <v-divider inset></v-divider>
+
+          <v-list-item>
+            <v-list-item-action>
+              <v-icon>mdi-note-text</v-icon>
+            </v-list-item-action>
+
+            <v-list-item-content>
+              <v-list-item-title>{{item.notes}}</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list>
+    </div>
+        <!-- <v-img
+          src="https://picsum.photos/700?image=996"
+          height="200px"
+        ></v-img> -->
+    </v-card>
+    </v-col>
+  </v-row>
+</div>
+
+
+
+
+        </v-container>
+      </v-main>
+    </v-app>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
+  <script src="firebase.js"></script>
+  <script>
+    new Vue({
+      el: '#app',
+      vuetify: new Vuetify(),
+      data(){
+          return{
+              app_title:"Here I Come World",
+              tb_title:"Contacts",
+              input_card_title: "Add Contact",
+              drawer: false,
+              dialog:false,
+              hidden:false,
+              nameRules:[
+                  value=> !!value || 'Required.',
+                  value=> (value && value.length >= 3) || 'Min 3 characters',
+              ],
+              emailRules:[
+                  value => !!value || 'Email is required',
+                  value => /.+@.+\..+/.test(value) || 'E-mail must be valid',
+              ],
+              phoneRules: [
+                //   value => !!value || 'Phone number is required',
+                //   value => /.+@.+\..+/.test(value) || 'Phone number must be valid',
+              ],
+              addContact:{
+                  first: '',
+                  last: '',
+                  phone: '',
+                  email: '',
+                  notes: '',
+              },
+              contacts: [],
+          }
+      },
+      methods: {
+          addPerson() {
+              db.collection("contacts").add({
+                  first:this.addContact.first,
+                  last:this.addContact.last,
+                  phone:this.addContact.phone,
+                  email:this.addContact.email,
+                  notes:this.addContact.notes
+              })
+              .then((docRef)=>{
+                  console.log("Document wirtten with ID ", docRef.id);
+              })
+              .catch((error)=> {
+                  console.error("Error adding document: ", error);
+              })
+              
+          },
+          getContactsFromFirebase(){
+              db.collection("contacts")
+              .onSnapshot((querySnapshot)=>{
+                  this.contacts = [];
+                  querySnapshot.forEach((doc)=>{
+                      this.contacts.push({
+                          first:doc.data().first,
+                          last:doc.data().last,
+                          phone:doc.data().phone,
+                          email:doc.data().email,
+                          notes:doc.data().notes,
+                          id:doc.id 
+                      })
+                      console.log(doc.data().last),
+                      console.log(this.contacts[0])
+                  })
+              })
+          }
+          
+          
+      },
+      mounted(){
+              this.getContactsFromFirebase();
+          },
+    })
+  </script>
+  
+</body>
+</html>
