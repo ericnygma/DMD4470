@@ -163,6 +163,7 @@
           <v-btn
             dark
             icon
+            v-show="hidden"
           >
             <v-icon>mdi-pencil</v-icon>
           </v-btn>
@@ -298,7 +299,7 @@
               
           },
           getContactsFromFirebase(){
-              db.collection("contacts")
+              db.collection("contacts").orderBy("first")
               .onSnapshot((querySnapshot)=>{
                   this.contacts = [];
                   querySnapshot.forEach((doc)=>{
