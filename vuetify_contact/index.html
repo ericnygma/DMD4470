@@ -89,7 +89,7 @@
                       </v-card-title>
         
         
-                    <v-card-text>
+                    <v-card-text ref="form">
                         <!-- FIRST NAME -->
                       <v-text-field
                        v-model="addContact.first" 
@@ -143,10 +143,11 @@
               </v-card>
             </v-col>
           </v-row>
+         
         <v-container>
             
 <!-- DELETE WHAT YOU DO NOT NEED -->
-<div v-for="(item, index) in contacts" :key="item.id">
+<div v-for="item in contacts" :key="item.id">
 <v-row justify="center">
     <v-col
       cols="12"
@@ -163,22 +164,25 @@
           <v-btn
             dark
             icon
-            v-show="hidden"
+            v-show="!item.hidden"
+            @click="editing = !editing"
           >
             <v-icon>mdi-pencil</v-icon>
           </v-btn>
 
+          <div id="item.id">
+            <!-- <chevron-btn></chevron-btn> -->
           <v-btn
             dark
             icon
-            @click="hidden = !hidden"
+            @click="item.hidden = !item.hidden"
           >
             <v-icon
-            v-if="hidden == true"
+            v-if="item.hidden == true"
             >mdi-chevron-down</v-icon>
             <v-icon v-else>mdi-chevron-right</v-icon>
           </v-btn>
-
+        </div>
 
           <!-- <v-btn
             dark
@@ -188,25 +192,33 @@
           </v-btn> -->
         </v-card-title>
         <div>
-    <v-list v-show="hidden">
+    <v-list v-show="!item.hidden">
           <v-list-item>
             <v-list-item-action>
               <v-icon>mdi-phone</v-icon>
             </v-list-item-action>
 
             <v-list-item-content>
-              <v-list-item-title>{{item.phone}}</v-list-item-title>
+              <v-text-field
+              v-model="item.phone"
+               label="Phone"
+               :rules="nameRules"
+               hide-details="auto"
+               disabled
+               
+               ></v-text-field>
+              <!-- <v-list-item-title>{{item.phone}}</v-list-item-title> -->
             </v-list-item-content>
-            <v-list-item-action>
-              <v-icon>mdi-message-text</v-icon>
+            <v-list-item-action> 
+              <v-icon> mdi-message-text</v-icon>
             </v-list-item-action>
           </v-list-item>
 
-           <v-divider inset></v-divider>
+           <!-- <v-divider inset></v-divider> -->
 
           <v-list-item>
-            <v-list-item-action>
-              <v-icon>mdi-email</v-icon>
+            <v-list-item-action> <a :href="'mailto:' + item.email">
+              <v-icon>mdi-email</v-icon> </a>
             </v-list-item-action>
 
             <v-list-item-content>
@@ -234,6 +246,7 @@
     </v-card>
     </v-col>
   </v-row>
+  
 </div>
 
 
@@ -243,22 +256,47 @@
       </v-main>
     </v-app>
   </div>
+<script type="text/x-template" id="chevron-template">
+  <v-btn
+            dark
+            icon
+            @click="item.hidden = !item.hidden"
+          >
+            <v-icon
+            v-if="item.hidden == true"
+            >mdi-chevron-down</v-icon>
+            <v-icon v-else>mdi-chevron-right</v-icon>
+          </v-btn> 
 
+</script>
   <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
   <script src="firebase.js"></script>
   <script>
+    // DETELE BETWEEN IF THIS DOESNOT WORK //
+    // Vue.component('chevron-btn',{
+    //   data(){
+    //     return {
+    //       hidden:false
+    //     }
+    //   },
+     
+    //   template:'#chevron-template',
+    // })
+    // DETELE BETWEEN IF THIS DOESNOT WORK //
     new Vue({
-      el: '#app',
+      el: '#app', 
       vuetify: new Vuetify(),
       data(){
           return{
               app_title:"Here I Come World",
               tb_title:"Contacts",
               input_card_title: "Add Contact",
+              editing_card_title: "Update Contact",
               drawer: false,
               dialog:false,
-              hidden:false,
+              editing:false,
+              hidden:true,
               nameRules:[
                   value=> !!value || 'Required.',
                   value=> (value && value.length >= 3) || 'Min 3 characters',
@@ -296,7 +334,11 @@
               .catch((error)=> {
                   console.error("Error adding document: ", error);
               })
-              
+              this.addContact.first = '',
+              this.addContact.last = '',
+              this.addContact.phone = '',
+              this.addContact.email = '',
+              this.addContact.notes = ''
           },
           getContactsFromFirebase(){
               db.collection("contacts").orderBy("first")
@@ -309,11 +351,10 @@
                           phone:doc.data().phone,
                           email:doc.data().email,
                           notes:doc.data().notes,
-                          id:doc.id 
+                          id:doc.id,
+                          hidden:true
                       })
-                      console.log(doc.data().last),
-                      console.log(this.contacts[0])
-                  })
+                    })
               })
           }
           
