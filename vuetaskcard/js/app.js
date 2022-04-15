@@ -24,6 +24,7 @@ var app = new Vue({
       app_subtitle:'Daily Task List',
       today: d.toLocaleDateString(),
       hideNote: true,
+      hidden:true,
       new_task: 
       {
         title: '',
@@ -66,7 +67,8 @@ getTaskFromFirestore(orderBy){
         note: doc.data().note,
         due_date: doc.data().due_date,
         completed: doc.data().completed,
-        id: doc.id
+        id: doc.id,
+        hidden:true
       })
     })
   })
