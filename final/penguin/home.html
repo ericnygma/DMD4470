@@ -94,11 +94,13 @@
     </v-navigation-drawer>
       <v-main>
         <v-container>
-          <v-card
+          <div class="mb-10">
+            <v-card
             elevation="2"
-            
-          >
-          
+         >
+          <div>
+
+          </div>
             <v-form>
               <v-container>
                 <v-row align="center" class='mx-5'>
@@ -117,23 +119,19 @@
                   :color=""
                   v-text="icon"
                   ></v-icon> -->
-
-
-                  
                   </v-avatar>
-                  <v-col
-                  >
+                  <v-col>
                     
 
                     <v-text-field
                       label="What's good?"
                       placeholder="What's Poppin?"
                       counter="225"
+                      :rules="guinRules"
                     ></v-text-field>
-                    <v-icon color="primary" class='mx-2'>mdi-panorama-variant-outline</v-icon>
-                    
-                    <v-icon color="primary" class='mx-2'>mdi-emoticon-outline</v-icon>
-                    <v-icon color="primary" class='mx-2'>mdi-calendar-clock-outline</v-icon>
+                    <v-icon color="primary" class='mx-4'>mdi-panorama-variant-outline</v-icon>
+                    <v-icon color="primary" class='mx-4'>mdi-emoticon-outline</v-icon>
+                    <v-icon color="primary" class='mx-4'>mdi-calendar-clock-outline</v-icon>
               
                   </v-col>
       
@@ -156,13 +154,73 @@
             </v-container>
           </v-form>
         
-        </v-card>  
+        </v-card> 
+
+          </div> 
                 
-            
+            <!-- TWEETS FROM ALL USERS -->
+
+            <v-card>
+              <v-container>
+                <v-card-title>
+
+                  <v-avatar size="56">
+                    <img
+                      alt="user"
+                      src="https://cdn.pixabay.com/photo/2020/06/24/19/12/cabbage-5337431_1280.jpg"
+                    >
+                  </v-avatar>
+                  <v-col>
+                    <p class="ml-3">
+                      John Doe
+                    </p>
+                   
+                  </v-card-title>
+                  <v-card-subtitle class="ml-16">Give your app a unique name/branding.</v-card-subtitle>
+  
+                  </v-col>
+                  <v-spacer></v-spacer>
+                  <v-card-actions>
+                    
+                    <v-row
+                    align="center"
+                    justify="center" 
+                    class="mx-9 px-2"
+                    >
+                      <v-icon class="mr-8" color="primary">
+                        mdi-message
+                      </v-icon>
+    
+                      <v-icon class="mx-0" color="primary">
+                        mdi-repeat
+                      </v-icon>
+                      <span class="subheading mr-8">3</span>
+                      
+    
+                      <v-icon class="mx-0" color="primary">
+                        mdi-heart-outline
+                      </v-icon>
+                      <span class="subheading mr-6">256</span>
+                      
+    
+                      <v-icon class="mx-8" color="primary">
+                        mdi-delete-outline
+                      </v-icon>
+                    </v-row>
+                    
+  
+                    
+                    
+  
+                  </v-card-actions>
+
+              </v-container>
+             
+            </v-card>
                 
 
               
-            {{hw}}</v-container>
+          </v-container>
       </v-main>
     </v-app>
   </div>
@@ -178,10 +236,10 @@
               hw:'Hello World',
               drawer:null,
               links: [
-                ['mdi-inbox-arrow-down', 'Messages'],
-                ['mdi-send', 'Contact'],
-                ['mdi-delete', 'Bookmarks'],
-                ['mdi-alert-octagon', 'Profile'],
+                ['mdi-android-messages', 'Home'],
+                ['mdi-inbox-arrow-down', 'DM'],
+                ['mdi-contacts-outline', 'Contact'],
+                ['mdi-account-circle', 'Profile'],
                 ],
               chick:
               {
@@ -195,7 +253,7 @@
                 timestamp:''
 
               },
-              rules: {
+              guinRules: {
                 min: v=> v.length <=225 || 'Max 225 characters',
               }
                   

@@ -18,13 +18,17 @@
                 class="mx-auto"
                 style="max-width: 600px;"
                 >
-                <div text-center align="center">
-                  <v-img
-              src="penguin.svg"
-            >
-                  </v-img>
-                    <h1>{{app_title}}</h1>
-                </div>
+                <v-row align="center" justify="center">
+                    <div text-center align="center">
+                        <v-img
+                    src="penguin.svg"
+                   >
+                        </v-img>
+                          <h1>{{app_title}}</h1>
+                      </div>
+                </v-row>
+
+               
                 
     <!-- <v-toolbar
       color="deep-purple accent-4"
@@ -68,7 +72,7 @@
         type="password"
         hint="hint"
       ></v-text-field>
-      <p><a href="#">Forgot password?</a></p>
+      
       
     </v-form>
     <!-- <v-divider></v-divider> -->
@@ -81,7 +85,7 @@
         :disabled="!form"
         :loading="isLoading"
         class="white--text"
-        color="primary"
+        color="deep-purple accent-4"
         depressed
       >
         Log In
@@ -99,7 +103,7 @@
           dark
         >
         <v-icon>mdi-google</v-icon>
-          Google
+          Continue with Google
         </v-btn>
       </div>
       <!-- CONTINUE WITH APPLE BTN -->
@@ -110,12 +114,13 @@
           dark
         >
         <v-icon>mdi-apple</v-icon>
-        Apple
+        Continue with Apple
         </v-btn>
       </div>
       <div display="">
       </div>
-      <p>Don't have an account? <a href="newaccount.html"> Sign up.</a></p>
+      <p>By signingup, you agree to our <a href="#">Terms</a>, <a href="#">Privacy Policy</a>, and <a href="#">Cookie Use.</a></p>
+              <p>Have an account already? <a href="login.html"> Log in.</a></p>
     
     <!-- <v-dialog
       v-model="dialog"
