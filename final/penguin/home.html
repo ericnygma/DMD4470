@@ -4,6 +4,8 @@
   <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/@mdi/font@6.x/css/materialdesignicons.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
 </head>
 <body>
@@ -51,10 +53,10 @@
                 </v-navigation-drawer>
             
                 <v-app-bar app height="72" clipped-right>
-                  <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
+                  <v-app-bar-nav-icon @click="drawer = !drawer" color="primary"></v-app-bar-nav-icon>
             
                   <v-toolbar-title>Penguin</v-toolbar-title>
-
+                  
 
                   <v-spacer></v-spacer>
 
@@ -80,7 +82,7 @@
 
                 
     
-      <v-list>
+      <!-- <v-list>
         <v-list-item
           v-for="n in 5"
           :key="n"
@@ -90,11 +92,13 @@
             <v-list-item-title>Item {{ n }}</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-      </v-list>
+      </v-list> -->
     </v-navigation-drawer>
+
       <v-main>
         <v-container>
           <div class="mb-10">
+            <!-- ADD NEW MESSAGE TO FEED -->
             <v-card
             elevation="2"
          >
@@ -105,6 +109,7 @@
               <v-container>
                 <v-row align="center" class='mx-5'>
                   <v-avatar
+                      v-model="feed.username"
                       class="ma-2"
                       color="primary"
                       size="62"
@@ -124,95 +129,132 @@
                     
 
                     <v-text-field
+                      v-model="feed.content"
                       label="What's good?"
                       placeholder="What's Poppin?"
                       counter="225"
-                      :rules="guinRules"
+                      :rules="rules"
                     ></v-text-field>
-                    <v-icon color="primary" class='mx-4'>mdi-panorama-variant-outline</v-icon>
-                    <v-icon color="primary" class='mx-4'>mdi-emoticon-outline</v-icon>
-                    <v-icon color="primary" class='mx-4'>mdi-calendar-clock-outline</v-icon>
+
+                    <v-row class="my-2">
+                      <v-btn icon class='mr-3'>
+                        <v-icon color="primary">mdi-panorama-variant-outline</v-icon>
+                      </v-btn>
+                      <v-btn icon class='mx-3'>
+                        <v-icon color="primary">mdi-emoticon-outline</v-icon>
+                      </v-btn>
+                      <v-btn icon class='ml-3'>
+                        <v-icon color="primary">mdi-calendar-clock-outline</v-icon>
+                      </v-btn>
+                    </v-row>
+                    
+                    
+                    
+                    
               
                   </v-col>
       
         <v-btn 
         icon
         large
-      @click="submit"
+        @click="addfeed()"
       >
       <v-icon color="primary">mdi-send</v-icon>
       </v-btn>
-      
-
-                </v-row>
-                
-
-          
-          
-            
-              
-            </v-container>
-          </v-form>
-        
-        </v-card> 
+       </v-row>
+      </v-container>
+      </v-form>
+     </v-card> 
 
           </div> 
                 
             <!-- TWEETS FROM ALL USERS -->
 
-            <v-card>
+            <v-card
+            v-for="item in feeds" :key="item.id">
               <v-container>
                 <v-card-title>
-
-                  <v-avatar size="56">
-                    <img
-                      alt="user"
-                      src="https://cdn.pixabay.com/photo/2020/06/24/19/12/cabbage-5337431_1280.jpg"
-                    >
-                  </v-avatar>
-                  <v-col>
-                    <p class="ml-3">
-                      John Doe
-                    </p>
-                   
-                  </v-card-title>
-                  <v-card-subtitle class="ml-16">Give your app a unique name/branding.</v-card-subtitle>
+                  <v-row 
+                  align="center"
+                  justify="center"
+                  class=""
+                  >
+                    <v-list-item class="grow">
+                      <v-list-item-avatar size="56">
+                        <img
+                          alt="user"
+                          src="https://cdn.pixabay.com/photo/2020/06/24/19/12/cabbage-5337431_1280.jpg"
+                        >
+                      </v-list-item-avatar>
+                      <v-list-item-content>
+                        
+                          <v-list-item-title>
+                            {{item.username}}
+                            <v-list-item-action-text 
+                            justify="end"
+                            class="mx-6">April 18, 10:10am</v-list-item-action-text>
+                          </v-list-item-title>
+                          
+                          <!-- <v-list-item-subtitle>April,18 10:10am</v-list-item-subtitle> -->
   
-                  </v-col>
-                  <v-spacer></v-spacer>
+                      </v-list-item-content>
+
+                  </v-row>
+                 </v-list-item>
+               </v-card-title>
+              <v-card-subtitle class="ml-16 px-7">{{item.content}}
+              </v-card-subtitle>
+  
+                  
+                  <!-- <v-spacer></v-spacer> -->
+                <v-card-subtitle>
                   <v-card-actions>
                     
                     <v-row
                     align="center"
                     justify="center" 
-                    class="mx-9 px-2"
+                    class="px-2"
                     >
-                      <v-icon class="mr-8" color="primary">
-                        mdi-message
+                    <v-btn icon class="mr-8">
+                      <v-icon color="primary">
+                        mdi-message-outline
                       </v-icon>
-    
-                      <v-icon class="mx-0" color="primary">
+                    </v-btn>
+
+                    <v-btn icon class="mr-0">
+                      <v-icon color="primary">
                         mdi-repeat
                       </v-icon>
-                      <span class="subheading mr-8">3</span>
-                      
-    
+                    </v-btn>
+
+                    <span class="subheading mr-8"></span>
+
+                    <v-btn icon class="mr-0" v-model="item.likes">
                       <v-icon class="mx-0" color="primary">
                         mdi-heart-outline
                       </v-icon>
-                      <span class="subheading mr-6">256</span>
-                      
-    
-                      <v-icon class="mx-8" color="primary">
+                    </v-btn>
+
+                    <span class="subheading mr-8">{{item.likes}}</span>
+
+                    <v-btn icon class="ml-0">
+                      <v-icon color="primary">
                         mdi-delete-outline
                       </v-icon>
-                    </v-row>
+
+                    </v-btn>
+                      
+    
+                                       
+                 </v-row>
                     
   
                     
                     
   
                   </v-card-actions>
+                </v-card-subtitle>
+                  
 
               </v-container>
              
@@ -224,7 +266,7 @@
       </v-main>
     </v-app>
   </div>
-
+  <script src="firebase.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
   <script>
@@ -241,24 +283,76 @@
                 ['mdi-contacts-outline', 'Contact'],
                 ['mdi-account-circle', 'Profile'],
                 ],
-              chick:
-              {
-                username:'',
-                name:'',
+              feed:{
+                username:'Andy',
                 avatar:'',
-                message:'',
+                content:'',
                 media:'',
-                likes:false,
+                likes:[],
                 new:1,
-                timestamp:''
-
+                createdAt:''
               },
-              guinRules: {
-                min: v=> v.length <=225 || 'Max 225 characters',
-              }
+              feeds:[
+                // {
+                //   username: 'agardner',
+                //   time: '2:30pm',
+                //   content: 'Dividers and subheaders can help break up content and can optionally line up with one another by using the same inset prop. Create custom cards to fit any use-case. Vertical dividers give you more tools for unique layouts. !!'
+                // },
+                // {
+                //   username: 'hjblackwell',
+                //   time: '3:30pm',
+                //   content: 'Dividers and subheaders can help break up content and can optionally line up with one another by using the same inset prop. Create custom cards to fit any use-case. Vertical dividers give you more tools for unique layouts. !!'
+                // },
+                // {
+                //   username: 'wtuzo',
+                //   time: '4:30pm',
+                //   content: 'Dividers and subheaders can help break up content and can optionally line up with one another by using the same inset prop. Create custom cards to fit any use-case. Vertical dividers give you more tools for unique layouts. !!'
+                // },
+              ],
+              rules: [
+                value=> value.length <=225 || 'Max 225 characters',
+            ],
                   
           }
-      }
+          
+          
+      },
+      methods: {
+            addfeed() {
+              db.collection('feeds').add ({
+                username: this.feed.username,
+                content: this.feed.content,
+                createdAt: this.feed.createdAt,
+                likes: this.feed.likes,
+              })
+              .then((docRef)=>{
+                console.log("Document written with ID: " , docRef.id);
+              })
+              .catch((error)=>{
+                console.log("Error adding document: ", error);
+              })
+              this.feed.content = ''
+            },
+            getFeedFromFirebase(){
+              db.collection("feeds")
+              .onSnapshot((querySnapshot)=>{
+                  this.feeds = [];
+                  querySnapshot.forEach((doc)=>{
+                      this.feeds.push({
+                          username:doc.data().username,
+                          content:doc.data().content,
+                          createdAt:doc.data().createdAt,
+                          likes:doc.data().likes,
+                          id:doc.id,
+                      })
+                    })
+              })
+          },
+          
+          },
+          mounted() {
+            this.getFeedFromFirebase();
+          },
     })
   </script>
 </body>
