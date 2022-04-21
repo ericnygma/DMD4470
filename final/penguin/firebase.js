@@ -17,5 +17,6 @@
   // Initialize Firebase
   firebase.initializeApp(firebaseConfig);
   var db = firebase.firestore();
+  const feeds = db.collection('feeds');  
 //   const app = initializeApp(firebaseConfig);
 //   var contactRef = db.collection("feeds");
