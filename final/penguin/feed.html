@@ -3,7 +3,13 @@
 <head>
   <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/@mdi/font@6.x/css/materialdesignicons.min.css" rel="stylesheet">
+  <!-- GOOGLE FONTS //  font-family: 'Luckiest Guy', cursive; -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap" rel="stylesheet">
+  <!-- VUETIFY -->
   <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
+  <!-- FIREBASE -->
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
@@ -125,16 +131,22 @@
                   v-text="icon"
                   ></v-icon> -->
                   </v-avatar>
-                  <v-col>
+                  <v-col
+                   col="12"
+                   >
                     
 
-                    <v-text-field
+                    <v-textarea
                       v-model="feed.content"
+                      auto-grow
                       label="What's good?"
                       placeholder="What's Poppin?"
-                      counter="225"
-                      :rules="rules"
-                    ></v-text-field>
+                      :rules="[rules.counter]"
+                      counter
+                      maxlength="225"
+                      row="1"
+                      row-height="5"
+                    ></v-textarea>
 
                     <v-row class="my-2">
                       <v-btn icon class='mr-3'>
@@ -309,9 +321,9 @@
                 publishedAt:''
               },
               feeds:[],
-              rules: [
-                value=> value.length <=225 || 'Max 225 characters',
-            ],
+              rules: {
+                counter: value=> value.length <=225 || 'Max 225 characters',
+          },
                   
           }
           
