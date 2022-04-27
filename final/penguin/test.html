@@ -96,7 +96,7 @@
       
           <v-footer
             app
-            color="transparent"
+            color="white"
             height="172"
             inset
           >
@@ -126,14 +126,14 @@
             class="d-flex flex-row-reverse sender my-2"
             v-for="item in messages" :key="item.send_id">
                 <v-card
-                color="#26c6da"
+                color="primary"
                  dark
                  max-width="600"
                  class="ml-15"
                >
                  
              
-                 <v-card-text class="text-h6 font-weight-light pa-1">
+                 <v-card-text class="text-h6 font-weight-light pa-2">
                    {{ item.content }}
                    
                  </v-card-text>
@@ -146,7 +146,7 @@
                      <v-row
                       justify="end"
                      >
-                      <span class="subheading mr-2">{{ item.sent }}</span>
+                      <span class="subheading mr-2"></span>
                      </v-row>
                    </v-list-item>
                  </v-card-actions>
@@ -175,7 +175,7 @@
                   to:'',
                   content:'',
                   sent:'',
-                  send_id:'',
+                  sent_id:'',
               },
              messages:[ ],
          }
@@ -207,8 +207,8 @@ methods: {
                           from:doc.data().from,
                           to:doc.data().to,
                           content:doc.data().content,
-                          sent:doc.data().sent,
-                          sent:doc.data().sent.toDate().toLocaleTimeString(),
+                        //   sent:doc.data().sent,
+                        //   sent:doc.data().sent.toDate().toLocaleTimeString(),
                         //   published_date:doc.data().publishedAt.toDate().toLocaleDateString(),
                         //   published_time:doc.data().publishedAt.toDate().toLocaleTimeString(),
                           send_id:doc.id,

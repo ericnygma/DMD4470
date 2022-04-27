@@ -28,17 +28,7 @@
 
                   <v-spacer></v-spacer>
 
-                  <!-- <v-responsive max-width="230">
-                    <v-text-field
-                      dense
-                      flat
-                      hide-details
-                      rounded
-                      solo-inverted
-                    ></v-text-field>
-                  </v-responsive> -->
-
-                </v-app-bar>
+                 </v-app-bar>
 
 
                 
@@ -96,13 +86,6 @@
                 
             <!-- TWEETS FROM ALL USERS -->
 
-            
-                
-
-           
-               
-            
-               
           </v-container>
           <div
           absolute
@@ -121,7 +104,7 @@
                             v-model="bio"
                             auto-grow
                             color="primary"
-                            label="Bio"
+                            label="What's Happening"
                             rows="1"
                             class="pa-0"
                           ></v-textarea>
@@ -179,6 +162,16 @@
                 ['mdi-contacts-outline', 'Contact'],
                 ['mdi-account-circle', 'Profile'],
                 ],
+                rules: [
+                value=> value.length <=225 || 'Max 225 characters',
+            ],
+                message:{
+                    avatar:'',
+                    from:'',
+                    to:'',
+                    content:'',
+                    sent:'',
+                },
                 messages: [
           {
             header: 'Today',
@@ -186,8 +179,9 @@
           { divider: true },
           {
             avatar: 'https://picsum.photos/250/300?image=660',
-            username: 'Spike Lee',
-            subtitle:
+            from: '',
+            to: '',
+            content:
             'Dividers and subheaders can help break up content and can optionally line up with one another by using the same inset prop. Create custom cards to fit any use-case. Vertical dividers give you more tools for unique layouts. !!',
           },
           {
@@ -243,37 +237,7 @@
           },
         ],
 
-              message:{
-                to:'Andy',
-                from:'',
-                content:'',
-                media:'',
-                new:1,
-                createdAt:''
-              },
-              testmessages:[
-                {
-                  to: 'agardner',
-                  from: 'Andy',
-                  time: '2:30pm',
-                  content: 'Dividers and subheaders can help break up content and can optionally line up with one another by using the same inset prop. Create custom cards to fit any use-case. Vertical dividers give you more tools for unique layouts. !!'
-                },
-                {
-                  to: 'hjblackwell',
-                  from: 'hjblackwell',
-                  time: '3:30pm',
-                  content: 'Dividers and subheaders can help break up content and can optionally line up with one another by using the same inset prop. Create custom cards to fit any use-case. Vertical dividers give you more tools for unique layouts. !!'
-                },
-                {
-                  to: 'wtuzo',
-                  from: 'wtuzo',
-                  time: '4:30pm',
-                  content: 'Dividers and subheaders can help break up content and can optionally line up with one another by using the same inset prop. Create custom cards to fit any use-case. Vertical dividers give you more tools for unique layouts. !!'
-                },
-              ],
-              rules: [
-                value=> value.length <=225 || 'Max 225 characters',
-            ],
+            
                   
           }
           

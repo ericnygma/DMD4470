@@ -16,7 +16,34 @@
 
   // Initialize Firebase
   firebase.initializeApp(firebaseConfig);
+
+  const auth = firebase.auth();
+
   var db = firebase.firestore();
-  const feeds = db.collection('feeds');  
-//   const app = initializeApp(firebaseConfig);
-//   var contactRef = db.collection("feeds");
+  const feeds = db.collection('feeds'); 
+  const messages = db.collection('messages') 
+  const users = db.collection('users')
+
+  auth.onAuthStateChanged((user) => {
+    console.log(user)
+    
+    if (user) {
+      console.log(' logged in: ', user.uid)
+      
+      // User is signed in, see docs for a list of available properties
+      // https://firebase.google.com/docs/reference/js/firebase.User
+      var uid = user;
+      // ...
+    } else {
+      // User is signed out
+      console.log('user looged out')
+      // ...
+    }
+  });
+
+  // logout
+  // logout() {
+  //   auth.signOut().then(() => {
+  //     console.log('Sign out successful!')
+  //   });
+  // };

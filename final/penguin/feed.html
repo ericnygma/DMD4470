@@ -11,6 +11,7 @@
   <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
   <!-- FIREBASE -->
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
 </head>
@@ -43,7 +44,7 @@
                     v-for="[icon, text] in links"
                     :key="icon"
                     link
-                  >
+                 >
                     <v-list-item-icon>
                       <v-icon>{{ icon }}</v-icon>
                     </v-list-item-icon>
@@ -107,10 +108,8 @@
             <!-- ADD NEW MESSAGE TO FEED -->
             <v-card
             elevation="2"
-         >
-          <div>
-
-          </div>
+        >
+         
             <v-form>
               <v-container>
                 <v-row align="center" class='mx-5'>
@@ -304,14 +303,18 @@
           return{
               hw:'Hello World',
               drawer:null,
+              isLoggedIn:false,
+              currentUser:false,
               links: [
                 ['mdi-android-messages', 'Home'],
                 ['mdi-inbox-arrow-down', 'DM'],
                 ['mdi-contacts-outline', 'Contact'],
                 ['mdi-account-circle', 'Profile'],
+                ['mdi-cross', 'Logout']
                 ],
               feed:{
                 username:'Andy',
+                email:'',
                 avatar:'',
                 content:'',
                 media:'',
@@ -367,6 +370,7 @@
                       // console.log(new Date(doc.data().publishedAt.seconds*1000)),
                       // console.log(doc.data().publishedAt.toDate().toLocaleDateString())
                       // console.log(doc.data().publishedAt.toDate().toLocaleTimeString())
+                     
                     })
                     
               })
@@ -379,6 +383,34 @@
             .catch((error)=>{
               console.error("Error deleting feed item: ", error);
             })
+          },
+          observeUser(){
+            firebase.auth().onAuthStateChanged((user) => {
+            if (user) {
+            // User is signed in, see docs for a list of available properties
+            // https://firebase.google.com/docs/reference/js/firebase.User
+            var uid = user.uid;
+            var uEmail = user.email;
+
+            this.feeds = []
+            this.feeds.push({
+              email:user.email,
+              uid:user.uid,
+            })
+            console.log(uid);
+            console.log(uEmail)
+            // ...
+            } else {
+            // User is signed out
+            // ...
+            }
+        });
+          },
+          logout(){
+            firebase.auth().signOut()
+            .then(()=>{
+              console.log('Successful sign out')
+            });
           },
     //       likePost(id){
             
@@ -405,6 +437,7 @@
           },
           mounted() {
             this.getFeedFromFirebase();
+            this.observeUser();
           },
     })
   </script>

@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/@mdi/font@6.x/css/materialdesignicons.min.css" rel="stylesheet">
+  <!-- GOOGLE FONTS //  font-family: 'Luckiest Guy', cursive; -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap" rel="stylesheet">
+  <!-- VUETIFY -->
+  <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
+  <!-- FIREBASE -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+</head>
+<body>
+  <div id="app">
+    <v-app id="inspire">
+      <v-navigation-drawer
+                  v-model="drawer"
+                  app
+                >
+                  <!-- LEFT DRAW -->
+
+                  <v-sheet
+                  color="grey lighten-4"
+                  class="pa-4"
+                >
+                  <v-avatar
+                    class="mb-4"
+                    color="grey darken-1"
+                    size="64"
+                  ></v-avatar>
+          
+                  <div>Eric Nygma</div>
+                </v-sheet>
+          
+                <v-divider></v-divider>
+          
+                <v-list>
+                  <v-list-item
+                    v-for="[icon, text] in links"
+                    :key="icon"
+                    link
+                    href
+                 >
+                    <v-list-item-icon>
+                      <v-icon>{{ icon }}</v-icon>
+                    </v-list-item-icon>
+          
+                    <v-list-item-content>
+                      <v-list-item-title>{{ text }}</v-list-item-title>
+                    </v-list-item-content>
+                  </v-list-item>
+                </v-list>
+              </v-navigation-drawer>
+
+
+                </v-navigation-drawer>
+            
+                <v-app-bar app height="72" clipped-right>
+                  <v-app-bar-nav-icon @click="drawer = !drawer" color="primary"></v-app-bar-nav-icon>
+            
+                  <v-toolbar-title>Profile</v-toolbar-title>
+                  
+
+                  <v-spacer></v-spacer>
+
+                 
+
+                </v-app-bar>
+
+
+                
+                <v-navigation-drawer
+                  app
+                  clipped
+                  right
+                >
+
+                
+    
+      
+    </v-navigation-drawer>
+
+      <v-main>
+        <v-container>
+          <div class="mb-10">
+            <!-- ADD NEW MESSAGE TO FEED -->
+            
+
+          </div> 
+                
+            <!-- TWEETS FROM ALL USERS -->
+            <v-card
+            class="mx-auto"
+            max-width="434"
+            tile
+          >
+            <v-img
+              height="100%"
+              src="https://cdn.vuetifyjs.com/images/cards/server-room.jpg"
+            >
+              <v-row
+                align="end"
+                class="fill-height"
+              >
+                <v-col
+                  align-self="start"
+                  class="pa-0"
+                  cols="12"
+                >
+                  <v-avatar
+                    class="profile"
+                    color="grey"
+                    size="200"
+                    tile
+                  >
+                    <v-img src="https://cdn.vuetifyjs.com/images/profiles/marcus.jpg"></v-img>
+                  </v-avatar>
+                </v-col>
+                <v-col class="py-0">
+                  <v-list-item
+                    color="rgba(0, 0, 0, .4)"
+                    dark
+                  >
+                    <v-list-item-content>
+                      <v-list-item-title class="text-h6">
+                        Marcus Black
+                      </v-list-item-title>
+                      <v-list-item-subtitle>Network Engineer</v-list-item-subtitle>
+                    </v-list-item-content>
+                  </v-list-item>
+                </v-col>
+              </v-row>
+            </v-img>
+          </v-card>
+
+           <v-col>
+            <v-list-item
+            class="d-flex justify-center mb-6"
+            align="center"
+             >
+                <v-list-content>
+                  <v-list-item-title class="text-h6">
+                      Wale Furlorin
+                    </v-list-item-title>
+                    <v-list-item-subtitle>
+                        student@uconn.edu
+                    </v-list-item-subtitle>
+                    <v-list-item-subtitle>
+                        Richard Pryor's flame gave birth to pipe dreams.
+                    </v-list-item-subtitle>
+                </v-list-content>
+             </v-list-item>
+
+                <v-col class="d-flex justify-center mb-6">
+                    <v-btn
+                text
+                @click="$refs.form.reset()"
+              >
+                Edit Profile 
+              </v-btn>
+                </v-col>
+            
+
+            <v-divider></v-divider>
+            <v-card-actions>
+              <v-btn
+                text
+                @click="$refs.form.reset()"
+              >
+                Delete Account
+              </v-btn>
+              <v-spacer></v-spacer>
+              <v-btn
+                :loading="isLoading"
+                class="white--text"
+                color="deep-purple accent-4"
+                depressed
+                @click="addNewUser()"
+              >
+                Sign Out
+              </v-btn>
+            </v-card-actions>
+           </v-col>
+          
+                
+
+              
+          </v-container>
+      </v-main>
+    </v-app>
+  </div>
+  <script src="firebase.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
+  <script>
+   
+    new Vue({
+      el: '#app',
+      vuetify: new Vuetify(),
+      data(){
+          return{
+              hw:'Hello World',
+              drawer:null,
+              isLoggedIn:false,
+              currentUser:false,
+              links: [
+                ['mdi-android-messages', 'Home'],
+                ['mdi-inbox-arrow-down', 'DM'],
+                ['mdi-contacts-outline', 'Contact'],
+                ['mdi-account-circle', 'Profile'],
+                ['mdi-cross', 'Logout']
+                ],
+              user:{
+                username:'',
+                email:'',
+                uid:'',
+                avatar:'',
+                bio:'',
+                media:'',
+                likes:[],
+                new:1,
+              },
+              user:[],
+              
+                  
+          }
+          
+          
+      },
+      methods: {
+                     
+          observeUser(){
+            firebase.auth().onAuthStateChanged((user) => {
+            if (user) {
+                var userInfo = db.collection("users").doc(user.uid);
+                userInfo.get().then(snapshot => {
+                    console.log(snapshot.doc)
+                })
+              .onSnapshot((querySnapshot)=>{
+                  this.user = [];
+                  console.log(this.feeds)
+                  querySnapshot.forEach((doc)=>{
+                      this.user.push({
+                          username:doc.data().username,
+                          content:doc.data().content,
+                          likes:doc.data().likes.length,
+                          
+                          id:doc.id,
+                      })
+                      // console.log(doc.data().publishedAt)
+                      // console.log(doc.data())
+                      // console.log(doc.data().publishedAt),
+                      // console.log(new Date(doc.data().publishedAt.seconds*1000)),
+                      // console.log(doc.data().publishedAt.toDate().toLocaleDateString())
+                      // console.log(doc.data().publishedAt.toDate().toLocaleTimeString())
+                     
+                    })
+                    
+              })
+            // User is signed in, see docs for a list of available properties
+            // https://firebase.google.com/docs/reference/js/firebase.User
+            var uid = user.uid;
+            var uEmail = user.email;
+
+            this.feeds = []
+            this.feeds.push({
+              email:user.email,
+              uid:user.uid,
+            })
+            console.log(uid);
+            console.log(uEmail)
+            // ...
+            } else {
+            // User is signed out
+            // ...
+            }
+        });
+          },
+          logout(){
+            firebase.auth().signOut()
+            .then(()=>{
+              console.log('Successful sign out')
+            });
+          },
+    
+          
+          
+          },
+          mounted() {
+            this.getFeedFromFirebase();
+            this.observeUser();
+          },
+    })
+  </script>
+</body>
+</html>
