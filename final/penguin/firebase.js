@@ -28,11 +28,26 @@
     console.log(user)
     
     if (user) {
-      console.log(' logged in: ', user.uid)
+      var docRef = db.collection("users").doc(user.uid);
+      // console.log(' logged in: ', user.uid)
       
       // User is signed in, see docs for a list of available properties
+      
+        // var userInfo = db.collection("users").doc(user.uid);
+        // userInfo.get().then((doc) => {
+        //   if (doc.exists) {
+        //     console.log("Document data:", doc.data());
+        //   } else {
+        //     // doc.data() will be undefined in this case
+        //     console.log("No such document!");
+        //   }
+        //   }).catch((error) => {
+        //       console.log("Error getting document:", error);
+        // });
+       
       // https://firebase.google.com/docs/reference/js/firebase.User
       var uid = user;
+      console.log('repeat logged in: ', uid)
       // ...
     } else {
       // User is signed out
@@ -41,9 +56,3 @@
     }
   });
 
-  // logout
-  // logout() {
-  //   auth.signOut().then(() => {
-  //     console.log('Sign out successful!')
-  //   });
-  // };

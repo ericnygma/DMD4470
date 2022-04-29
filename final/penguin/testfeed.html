@@ -29,13 +29,13 @@
                   class="pa-4"
                 >
                   <v-avatar
-                    class="mb-4"
-                    color="grey darken-1"
-                    size="85"
+                    class="profile"
+                    color="grey"
+                    size="100"
+                    width="150"
+                    
                   >
-                  <img
-                   :src="avatar"
-                   alt="">
+                <img :src="cuAvatar" alt="">
                 </v-avatar>
           
                   <div>{{ currentUser }}</div>
@@ -93,7 +93,20 @@
                   right
                 >
 
-      </v-navigation-drawer>
+                
+    
+      <!-- <v-list>
+        <v-list-item
+          v-for="n in 5"
+          :key="n"
+          link
+        >
+          <v-list-item-content>
+            <v-list-item-title>Item {{ n }}</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list> -->
+    </v-navigation-drawer>
 
       <v-main>
         <v-container>
@@ -113,8 +126,8 @@
                       size="62"
                     >
                   <img 
-                  alt="Avatar"
-                  :src="avatar"
+                 alt="Avatar"
+                  :src="cuAvatar"
                   >
                   <v-icon 
                   v-else
@@ -193,8 +206,10 @@
                             justify="end"
                             class="mx-6">{{item.published_date}} {{item.published_time}}</v-list-item-action-text>
                           </v-list-item-title>
-                        
-                        </v-list-item-content>
+                          
+                          <!-- <v-list-item-subtitle>April,18 10:10am</v-list-item-subtitle> -->
+  
+                      </v-list-item-content>
 
                   </v-row>
                  </v-list-item>
@@ -203,7 +218,7 @@
               </v-card-subtitle>
   
                   
-                 
+                  <!-- <v-spacer></v-spacer> -->
                 <v-card-subtitle>
                   <v-card-actions>
                     
@@ -227,13 +242,10 @@
                     <span class="subheading mr-8"></span>
 
                     <v-btn icon class="mr-0" 
-                    @click="likePost(item.id), isLiked = !isLiked"
+                    @click="likes(item.id)"
                     >
-                      <v-icon class="mx-0" color="primary" v-if="!isLiked">
+                      <v-icon class="mx-0" color="primary">
                         mdi-heart-outline
-                      </v-icon>
-                      <v-icon class="mx-0" color="primary" v-else>
-                        mdi-heart
                       </v-icon>
                     </v-btn>
 
@@ -245,11 +257,25 @@
                       </v-icon>
 
                     </v-btn>
+                      
+    
+                                       
                  </v-row>
-                 </v-card-actions>
+                    
+  
+                    
+                    
+  
+                  </v-card-actions>
                 </v-card-subtitle>
+                  
+
               </v-container>
-           </v-card>
+             
+            </v-card>
+                
+
+              
           </v-container>
       </v-main>
     </v-app>
@@ -258,8 +284,7 @@
   <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
   <script>
-    
-
+   
     new Vue({
       el: '#app',
       vuetify: new Vuetify(),
@@ -268,7 +293,7 @@
               drawer:null,
               isLoggedIn:false,
               currentUser:null,
-              isliked:null,
+              cuAvatar:'',
               links: [
                 ['mdi-android-messages', 'Home', 'feed.html'],
                 ['mdi-inbox-arrow-down', 'DM', 'messages.html'],
@@ -283,7 +308,8 @@
                 media:'',
                 likes:[],
                 new:1,
-                publishedAt: firebase.firestore.FieldValue.serverTimestamp()
+                createdAt:'',
+                publishedAt:firebase.firestore.FieldValue.serverTimestamp()
               },
               feeds:[],
               rules: {
@@ -291,7 +317,9 @@
           },
                   
           }
-     },
+          
+          
+      },
       created(){
         firebase.auth().onAuthStateChanged((user) => {
             if (user) {
@@ -301,11 +329,22 @@
               var docRef = db.collection("users").doc(user.uid);
               docRef.get()
               .then((doc) =>{
+                  console.log('you rang: ', doc.data());
                   this.currentUser = doc.data().username;
-                  this.avatar = doc.data().avatar;
+                  this.cuAvatar = doc.data().avatar;
               })
             // User is signed in, see docs for a list of available properties
             // https://firebase.google.com/docs/reference/js/firebase.User
+            var uid = user.uid;
+            var uEmail = user.email;
+
+            this.feeds = []
+            this.feeds.push({
+              email:user.email,
+              uid:user.uid,
+            })
+            console.log(uid);
+            console.log(uEmail)
             // ...
             } else {
             // User is signed out
@@ -317,10 +356,10 @@
             addfeed() {
               db.collection('feeds').add ({
                 username: this.currentUser,
-                avatar: this.avatar,
+                avatar: this.cuAvatar,
                 content: this.feed.content,
                 likes: this.feed.likes,
-                publishedAt: this.feed.publishedAt 
+                publishedAt: this.feed.publishedAt
               })
               .then((docRef)=>{
                 console.log("Document written with ID: " , docRef.id);
@@ -330,7 +369,7 @@
               })
               this.feed.content = ''
             },
-            // GET FEEDS FROM FIREBASE
+            // GETS UPDATED FEEDS FROM FIREBASE
             getFeedFromFirebase(){
               db.collection("feeds").orderBy('publishedAt', 'desc')
               .onSnapshot((querySnapshot)=>{
@@ -346,7 +385,15 @@
                           published_time:doc.data().publishedAt.toDate().toLocaleTimeString(),
                           id:doc.id,
                       })
-                   })
+                      // console.log(doc.data().publishedAt)
+                      // console.log(doc.data())
+                      // console.log(doc.data().publishedAt),
+                      // console.log(new Date(doc.data().publishedAt.seconds*1000)),
+                      // console.log(doc.data().publishedAt.toDate().toLocaleDateString())
+                      // console.log(doc.data().publishedAt.toDate().toLocaleTimeString())
+                     
+                    })
+                    
               })
           },
           // DELETES SELECTED FEED
@@ -359,16 +406,41 @@
               console.error("Error deleting feed item: ", error);
             })
           },
-          // UPDATE LIKES ON FEED IN "LIKES" ARRAY FIELD
-          likePost(id){
+        //  LIKES POST 
+        likes(id){
+           // Atomically add a new region to the "regions" array field.
             feeds.doc(id).update({
             likes: firebase.firestore.FieldValue.arrayUnion(this.currentUser)
             });
+
+        }
+         
+    //       likePost(id){
+            
+    //   var docRef = db.collection("feeds").doc(docID);
+
+    //   // Set the "capital" field of the city 'DC'
+
+    //   //firebase.firestore.FieldValue.arrayUnion("joelsalisbury")
+
+    //   return docRef
+    //     .update({
+    //       likes: firebase.firestore.FieldValue.arrayUnion("agardner"),
+    //     })
+    //     .then(() => {
+    //       console.log("Document successfully updated!");
+    //     })
+    //     .catch((error) => {
+    //       // The document probably doesn't exist.
+    //       console.error("Error updating document: ", error);
+    //     });
+    // },
+          
+          
           },
-         },
           mounted() {
             this.getFeedFromFirebase();
-           },
+          },
     })
   </script>
 </body>

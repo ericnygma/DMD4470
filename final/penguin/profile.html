@@ -17,7 +17,8 @@
 </head>
 <body>
   <div id="app">
-    <v-app id="inspire">
+    <v-app id="inspire"
+    v-for="item in userinfo" :key="item.id">
       <v-navigation-drawer
                   v-model="drawer"
                   app
@@ -27,26 +28,29 @@
                   <v-sheet
                   color="grey lighten-4"
                   class="pa-4"
+                  
                 >
                   <v-avatar
                     class="mb-4"
                     color="grey darken-1"
                     size="64"
-                  ></v-avatar>
+                  > </v-avatar>
           
-                  <div>Eric Nygma</div>
+                  <div>{{ item.username }}</div>
                 </v-sheet>
           
                 <v-divider></v-divider>
-          
+          <!-- MENU FOR RIGHT DRAWER -->
                 <v-list>
                   <v-list-item
-                    v-for="[icon, text] in links"
-                    :key="icon"
+                    v-for="[icon, text, href] in links"
+                    :key="href"
                     link
-                    href
+                    :href="href"
+                    
                  >
-                    <v-list-item-icon>
+                 <a href="href"> </a>
+                    <v-list-item-icon class="mr-2">
                       <v-icon>{{ icon }}</v-icon>
                     </v-list-item-icon>
           
@@ -88,12 +92,12 @@
       <v-main>
         <v-container>
           <div class="mb-10">
-            <!-- ADD NEW MESSAGE TO FEED -->
+           
             
 
           </div> 
                 
-            <!-- TWEETS FROM ALL USERS -->
+           
             <v-card
             class="mx-auto"
             max-width="434"
@@ -128,7 +132,7 @@
                   >
                     <v-list-item-content>
                       <v-list-item-title class="text-h6">
-                        Marcus Black
+                        {{ item.username }}
                       </v-list-item-title>
                       <v-list-item-subtitle>Network Engineer</v-list-item-subtitle>
                     </v-list-item-content>
@@ -145,13 +149,13 @@
              >
                 <v-list-content>
                   <v-list-item-title class="text-h6">
-                      Wale Furlorin
+                      {{item.username}}
                     </v-list-item-title>
                     <v-list-item-subtitle>
-                        student@uconn.edu
+                        {{ item.email }}
                     </v-list-item-subtitle>
                     <v-list-item-subtitle>
-                        Richard Pryor's flame gave birth to pipe dreams.
+                        {{ item.bio }}
                     </v-list-item-subtitle>
                 </v-list-content>
              </v-list-item>
@@ -170,7 +174,7 @@
             <v-card-actions>
               <v-btn
                 text
-                @click="$refs.form.reset()"
+                @click="deleteAccount()"
               >
                 Delete Account
               </v-btn>
@@ -180,7 +184,7 @@
                 class="white--text"
                 color="deep-purple accent-4"
                 depressed
-                @click="addNewUser()"
+                @click="logout()"
               >
                 Sign Out
               </v-btn>
@@ -198,22 +202,25 @@
   <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
   <script>
+  //  const user = firebase.auth().currentUser;
    
+
+    
+    
+    
+    
+
     new Vue({
       el: '#app',
       vuetify: new Vuetify(),
       data(){
           return{
-              hw:'Hello World',
               drawer:null,
-              isLoggedIn:false,
-              currentUser:false,
               links: [
-                ['mdi-android-messages', 'Home'],
-                ['mdi-inbox-arrow-down', 'DM'],
+                ['mdi-android-messages', 'Home','feed.html'],
+                ['mdi-inbox-arrow-down', 'DM', 'messages.html'],
                 ['mdi-contacts-outline', 'Contact'],
-                ['mdi-account-circle', 'Profile'],
-                ['mdi-cross', 'Logout']
+                ['mdi-account-circle', 'Profile', 'profile.html'],
                 ],
               user:{
                 username:'',
@@ -225,75 +232,54 @@
                 likes:[],
                 new:1,
               },
-              user:[],
-              
-                  
+              userinfo:[],
           }
           
           
       },
+      
       methods: {
-                     
-          observeUser(){
-            firebase.auth().onAuthStateChanged((user) => {
-            if (user) {
-                var userInfo = db.collection("users").doc(user.uid);
-                userInfo.get().then(snapshot => {
-                    console.log(snapshot.doc)
+        // GET THIS USER DOCUMENT FROM COLLECTION
+          getUserInfo(){
+            auth.onAuthStateChanged((user)=>{
+              if (user){
+                this.userinfo = [];
+                db.collection("users").doc(user.uid)
+              .onSnapshot((doc) => {
+                this.userinfo.push({
+                  username:doc.data().username,
+                  email:doc.data().email,
+                  bio:doc.data().bio,
+                  avatar:doc.data().avatar,
+                  id:doc.data().id,
                 })
-              .onSnapshot((querySnapshot)=>{
-                  this.user = [];
-                  console.log(this.feeds)
-                  querySnapshot.forEach((doc)=>{
-                      this.user.push({
-                          username:doc.data().username,
-                          content:doc.data().content,
-                          likes:doc.data().likes.length,
-                          
-                          id:doc.id,
-                      })
-                      // console.log(doc.data().publishedAt)
-                      // console.log(doc.data())
-                      // console.log(doc.data().publishedAt),
-                      // console.log(new Date(doc.data().publishedAt.seconds*1000)),
-                      // console.log(doc.data().publishedAt.toDate().toLocaleDateString())
-                      // console.log(doc.data().publishedAt.toDate().toLocaleTimeString())
-                     
-                    })
-                    
-              })
-            // User is signed in, see docs for a list of available properties
-            // https://firebase.google.com/docs/reference/js/firebase.User
-            var uid = user.uid;
-            var uEmail = user.email;
-
-            this.feeds = []
-            this.feeds.push({
-              email:user.email,
-              uid:user.uid,
+              console.log("Current data: ", doc.data());
+              });
+              }
             })
-            console.log(uid);
-            console.log(uEmail)
-            // ...
-            } else {
-            // User is signed out
-            // ...
-            }
-        });
           },
+          //  LOGS CURRENT USER OUT - WORKS
           logout(){
             firebase.auth().signOut()
             .then(()=>{
               console.log('Successful sign out')
+              window.location.href = "sigin_user.html"
             });
           },
-    
+          // DELETES ACCOUNT - WIP
+          deleteAccount(){
+            firebase.auth().currentUser
+            .delete().then(()=>{
+              console.log('user: ', user.id, ' Successful deleted account')
+            }).catch((error)=>{
+              console.log("failed to delete user")
+            })
+          }
           
           
           },
           mounted() {
-            this.getFeedFromFirebase();
-            this.observeUser();
+            this.getUserInfo();
           },
     })
   </script>

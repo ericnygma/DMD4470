@@ -144,7 +144,7 @@
             dialog: false,
             email: '',
             form: false,
-            isLoading: false,
+            // isLoading: false,
             password: '',
             rules: {
                 email: v => !!(v || '').match(/@/) || 'Please enter a valid email',
@@ -166,7 +166,7 @@
                 console.log(userCredential.user)
                 var user = userCredential.user;
                 alert(`You are logged in as ${user.email}`);
-                window.location.href = "feed.html"
+                window.location.href = "profile.html"
 
             // ...
             })
