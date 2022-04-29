@@ -17,8 +17,7 @@
 </head>
 <body>
   <div id="app">
-    <v-app id="inspire"
-    v-for="item in userinfo" :key="item.id">
+    <v-app id="inspire">
       <v-navigation-drawer
                   v-model="drawer"
                   app
@@ -36,7 +35,7 @@
                     size="64"
                   > </v-avatar>
           
-                  <div>{{ item.username }}</div>
+                  <div>{{ currentUser }}</div>
                 </v-sheet>
           
                 <v-divider></v-divider>
@@ -122,7 +121,7 @@
                     size="200"
                     tile
                   >
-                    <v-img src="https://cdn.vuetifyjs.com/images/profiles/marcus.jpg"></v-img>
+                    <v-img :src=currentAvatar></v-img>
                   </v-avatar>
                 </v-col>
                 <v-col class="py-0">
@@ -132,7 +131,7 @@
                   >
                     <v-list-item-content>
                       <v-list-item-title class="text-h6">
-                        {{ item.username }}
+                        {{ currentUser }}
                       </v-list-item-title>
                       <v-list-item-subtitle>Network Engineer</v-list-item-subtitle>
                     </v-list-item-content>
@@ -149,13 +148,13 @@
              >
                 <v-list-content>
                   <v-list-item-title class="text-h6">
-                      {{item.username}}
+                      {{ currentUser }}
                     </v-list-item-title>
                     <v-list-item-subtitle>
-                        {{ item.email }}
+                        {{ currentEmail }}
                     </v-list-item-subtitle>
                     <v-list-item-subtitle>
-                        {{ item.bio }}
+                        {{ currentBio }}
                     </v-list-item-subtitle>
                 </v-list-content>
              </v-list-item>
@@ -204,61 +203,66 @@
   <script>
   //  const user = firebase.auth().currentUser;
    
-
-    
-    
-    
-    
-
-    new Vue({
+      new Vue({
       el: '#app',
       vuetify: new Vuetify(),
       data(){
           return{
               drawer:null,
+              isLoggedIn:false,
+              currentUser:null,
+              currentEmail:'',
+              currentAvatar:'',
+              currentBio:'',
               links: [
                 ['mdi-android-messages', 'Home','feed.html'],
                 ['mdi-inbox-arrow-down', 'DM', 'messages.html'],
-                ['mdi-contacts-outline', 'Contact'],
+                // ['mdi-contacts-outline', 'Contact'],
                 ['mdi-account-circle', 'Profile', 'profile.html'],
                 ],
-              user:{
-                username:'',
-                email:'',
-                uid:'',
-                avatar:'',
-                bio:'',
-                media:'',
-                likes:[],
-                new:1,
-              },
-              userinfo:[],
-          }
+         }
           
           
       },
-      
+      created(){
+        firebase.auth().onAuthStateChanged((user) => {
+            if (user) {
+                this.isLoggedIn = true;
+                // this.currentUser = user.uid;
+              console.log('Feed infor: ', user.uid);
+              var docRef = db.collection("users").doc(user.uid);
+              docRef.get()
+              .then((doc) =>{
+                  this.currentUser = doc.data().username;
+                  this.currentAvatar = doc.data().avatar;
+                  this.currentEmail = doc.data().email;
+                  this.currentBio = doc.data().bio;
+              })
+            // User is signed in, see docs for a list of available properties
+            // https://firebase.google.com/docs/reference/js/firebase.User
+            // ...
+            } else {
+            // User is signed out
+            // ...
+            }
+        });
+      },
       methods: {
-        // GET THIS USER DOCUMENT FROM COLLECTION
-          getUserInfo(){
-            auth.onAuthStateChanged((user)=>{
-              if (user){
-                this.userinfo = [];
-                db.collection("users").doc(user.uid)
-              .onSnapshot((doc) => {
-                this.userinfo.push({
-                  username:doc.data().username,
-                  email:doc.data().email,
-                  bio:doc.data().bio,
-                  avatar:doc.data().avatar,
-                  id:doc.data().id,
-                })
-              console.log("Current data: ", doc.data());
-              });
-              }
+        //  EDIT USER PROFILE AND DOCS - WIP
+        //  NEED TO UPDATE USER DOCS ALSO
+        editProfile(){
+          firebase.auth().updateProfile({
+            displayName: '',
+            photoURL:'',
+          }).then(()=>{
+              console.log('Successful update')
+              var displayName = user.displayName;
+              var photoURL = user.photoURL;
+            }).catch((error)=> {
+
             })
           },
-          //  LOGS CURRENT USER OUT - WORKS
+        //  LOGS CURRENT USER OUT - WORKS
           logout(){
             firebase.auth().signOut()
             .then(()=>{
@@ -278,9 +282,7 @@
           
           
           },
-          mounted() {
-            this.getUserInfo();
-          },
+          
     })
   </script>
 </body>
