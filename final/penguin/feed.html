@@ -33,9 +33,10 @@
                     color="grey darken-1"
                     size="85"
                   >
-                  <img
-                   :src="avatar"
-                   alt="">
+                  <v-img
+              height="100%"
+              :src=currentAvatar
+            >
                 </v-avatar>
           
                   <div>{{ currentUser }}</div>
@@ -87,13 +88,13 @@
 
 
                 <!-- CONTENTS FOR RIGHT SIDE DRAWER -->
-                <v-navigation-drawer
+                <!-- <v-navigation-drawer
                   app
                   clipped
                   right
                 >
 
-      </v-navigation-drawer>
+                </v-navigation-drawer> -->
 
       <v-main>
         <v-container>
@@ -112,9 +113,9 @@
                       color="primary"
                       size="62"
                     >
-                  <img 
-                  alt="Avatar"
-                  :src="avatar"
+                    <v-img
+                    height="100%"
+                    :src=currentAvatar
                   >
                   <v-icon 
                   v-else
@@ -181,9 +182,10 @@
                     <v-list-item class="grow">
                       <v-list-item-avatar size="63">
                         <img
-                          alt="user"
-                          :src="item.avatar"
+                          height="100%"
+                          :src=item.avatar
                         >
+                        
                       </v-list-item-avatar>
                       <v-list-item-content>
                         
@@ -268,7 +270,9 @@
               drawer:null,
               isLoggedIn:false,
               currentUser:null,
+              currentAvatar:'',
               isliked:null,
+
               links: [
                 ['mdi-android-messages', 'Home', 'feed.html'],
                 ['mdi-inbox-arrow-down', 'DM', 'messages.html'],
@@ -302,7 +306,7 @@
               docRef.get()
               .then((doc) =>{
                   this.currentUser = doc.data().username;
-                  this.avatar = doc.data().avatar;
+                  this.currentAvatar = doc.data().avatar;
               })
             // User is signed in, see docs for a list of available properties
             // https://firebase.google.com/docs/reference/js/firebase.User
@@ -317,7 +321,7 @@
             addfeed() {
               db.collection('feeds').add ({
                 username: this.currentUser,
-                avatar: this.avatar,
+                avatar: this.currentAvatar,
                 content: this.feed.content,
                 likes: this.feed.likes,
                 publishedAt: this.feed.publishedAt 
