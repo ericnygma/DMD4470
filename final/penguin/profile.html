@@ -33,7 +33,12 @@
                     class="mb-4"
                     color="grey darken-1"
                     size="64"
-                  > </v-avatar>
+                  > 
+                  <v-img
+                  height="100%"
+                  :src=currentAvatar
+                >
+                </v-avatar>
           
                   <div>{{ currentUser }}</div>
                 </v-sheet>
@@ -104,7 +109,7 @@
           >
             <v-img
               height="100%"
-              src="https://cdn.vuetifyjs.com/images/cards/server-room.jpg"
+              :src=currentAvatar
             >
               <v-row
                 align="end"
@@ -115,14 +120,14 @@
                   class="pa-0"
                   cols="12"
                 >
-                  <v-avatar
+                  <!-- <v-avatar
                     class="profile"
                     color="grey"
                     size="200"
                     tile
                   >
                     <v-img :src=currentAvatar></v-img>
-                  </v-avatar>
+                  </v-avatar> -->
                 </v-col>
                 <v-col class="py-0">
                   <v-list-item
@@ -130,10 +135,10 @@
                     dark
                   >
                     <v-list-item-content>
-                      <v-list-item-title class="text-h6">
+                      <!-- <v-list-item-title class="text-h6">
                         {{ currentUser }}
-                      </v-list-item-title>
-                      <v-list-item-subtitle>Network Engineer</v-list-item-subtitle>
+                      </v-list-item-title> -->
+                      <v-list-item-subtitle></v-list-item-subtitle>
                     </v-list-item-content>
                   </v-list-item>
                 </v-col>
