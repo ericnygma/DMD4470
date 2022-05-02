@@ -165,12 +165,78 @@
              </v-list-item>
 
                 <v-col class="d-flex justify-center mb-6">
-                    <v-btn
-                text
-                @click="$refs.form.reset()"
-              >
-                Edit Profile 
-              </v-btn>
+
+                    <!-- *** TEMPLATE *** -->
+                   <v-row justify="center">
+                    <v-dialog
+                      v-model="dialog"
+                      persistent
+                      max-width="600px"
+                    >
+                      <template v-slot:activator="{ on, attrs }">
+                        <v-btn
+                          color="primary"
+                          dark
+                          v-bind="attrs"
+                          v-on="on"
+                        >
+                          Edit Profile
+                        </v-btn>
+                      </template>
+                      <v-card>
+                        <v-card-title>
+                          <span class="text-h5">User Profile</span>
+                        </v-card-title>
+                        <v-card-text>
+                          <v-container>
+                            <v-row>
+                              
+                              <v-col cols="12">
+                                <v-text-field
+                                  label="Username"
+                                  v-model="currentUser"
+                                ></v-text-field>
+                              </v-col>
+                              <v-col cols="12">
+                                <v-text-field
+                                    v-model="currentAvatar"
+                                    placeholder="Pick an avatar"
+                                    label="Avatar"
+                                ></v-text-field>
+                              </v-col>
+                              <v-col cols="12">
+                                <v-text-field
+                                  label="Bio"
+                                  v-model="currentBio"
+                                ></v-text-field>
+                              </v-col>
+                              
+                            </v-row>
+                          </v-container>
+                          <!-- <small>*indicates required field</small> -->
+                        </v-card-text>
+                        <v-card-actions>
+                          <v-spacer></v-spacer>
+                          <v-btn
+                            color="blue darken-1"
+                            text
+                            @click="dialog = false"
+                          >
+                            Close
+                          </v-btn>
+                          <v-btn
+                            color="blue darken-1"
+                            text
+                            @click="editProfile(); dialog = false"
+                          >
+                            Save
+                          </v-btn>
+                        </v-card-actions>
+                      </v-card>
+                    </v-dialog>
+                  </v-row>
+
+
                 </v-col>
             
 
@@ -179,6 +245,7 @@
               <v-btn
                 text
                 @click="deleteAccount()"
+                disabled
               >
                 Delete Account
               </v-btn>
@@ -186,7 +253,7 @@
               <v-btn
                 :loading="isLoading"
                 class="white--text"
-                color="deep-purple accent-4"
+                color="primary"
                 depressed
                 @click="logout()"
               >
@@ -213,12 +280,18 @@
       vuetify: new Vuetify(),
       data(){
           return{
-              drawer:null,
+            drawer:null,
               isLoggedIn:false,
               currentUser:null,
+              newUsername:'',
+              newAvatar:'',
               currentEmail:'',
               currentAvatar:'',
               currentBio:'',
+              dialog:false,
+              rules: [
+                value => !value || value.size < 2000000 || 'Avatar size should be less than 2 MB!',
+                ],
               links: [
                 ['mdi-android-messages', 'Home','feed.html'],
                 ['mdi-inbox-arrow-down', 'DM', 'messages.html'],
@@ -226,8 +299,6 @@
                 ['mdi-account-circle', 'Profile', 'profile.html'],
                 ],
          }
-          
-          
       },
       created(){
         firebase.auth().onAuthStateChanged((user) => {
@@ -256,16 +327,25 @@
         //  EDIT USER PROFILE AND DOCS - WIP
         //  NEED TO UPDATE USER DOCS ALSO
         editProfile(){
-          firebase.auth().updateProfile({
-            displayName: '',
-            photoURL:'',
-          }).then(()=>{
-              console.log('Successful update')
-              var displayName = user.displayName;
-              var photoURL = user.photoURL;
-            }).catch((error)=> {
+          const user = firebase.auth().currentUser;
 
-            })
+            user.updateProfile({
+            displayName: this.currentUser,
+            photoURL: this.currentAvatar
+            }).then(() => {
+                return db.collection('users').doc(user.uid).set({
+                    username:this.currentUser,
+                    avatar:this.currentAvatar,
+                    bio: this.currentBio,
+                    email:this.currentEmail
+
+                })
+            // Update successful
+            // ...
+            }).catch((error) => {
+            // An error occurred
+            // ...
+            });  
           },
         //  LOGS CURRENT USER OUT - WORKS
           logout(){

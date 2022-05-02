@@ -55,7 +55,7 @@
         v-model="username"
         auto-grow
         filled
-        color="deep-purple"
+        color="primary"
         label="Username"
         rows="1"
       ></v-textarea>
@@ -64,7 +64,7 @@
         v-model="email"
         :rules="[rules.email]"
         filled
-        color="deep-purple"
+        color="primary"
         label="Email address"
         type="email"
     ></v-text-field>
@@ -73,7 +73,7 @@
         v-model="password"
         :rules="[rules.password, rules.length(6)]"
         filled
-        color="deep-purple"
+        color="primary"
         counter="6"
         label="Password"
         style="min-height: 96px"
@@ -92,7 +92,7 @@
         v-model="bio"
         auto-grow
         filled
-        color="deep-purple"
+        color="primary"
         label="Bio"
         rows="1"
       ></v-textarea>
@@ -100,7 +100,7 @@
       <v-checkbox
         v-model="agreement"
         :rules="[rules.required]"
-        color="deep-purple"
+        color="primary"
       >
         <template v-slot:label>
           I agree to the&nbsp;
@@ -129,7 +129,7 @@
         :disabled="!form"
         :loading="isLoading"
         class="white--text"
-        color="deep-purple accent-4"
+        color="primary"
         depressed
         @click="addNewUser()"
       >
@@ -160,7 +160,7 @@
           <v-spacer></v-spacer>
           <v-btn
             class="white--text"
-            color="deep-purple accent-4"
+            color="primary"
             @click="agreement = true, dialog = false"
           >
             Yes
@@ -185,7 +185,7 @@
             username:'',
             email:'',
             phone:'',
-            avatar:'',
+            avatar:'https://source.unsplash.com/1600x1600/?penguin',
             bio:'',
             agreement: false,
             dialog: false,
@@ -209,19 +209,21 @@
             
             .then((userCredential) => {
                 var user = userCredential.user;
-                return db.collection('users').doc(user.uid).set({
+                 return db.collection('users').doc(user.uid).set({
                     username:this.username,
                     email:this.email,
                     phone:this.phone,
-                    avatar:'',
+                    avatar:this.avatar,
                     bio:this.bio,
-                })
+                }),
+                alert(`You are logged in as ${user.email}`);
+                window.location.href = "feed.html";   
                 // Signed in 
                 
-                console.log(userCredential.user)
+                
+                
                 // var user = userCredential.user;
-                alert(`Welcome ${user.email}`);
-
+                
             // ...
             })
             .catch((error) => {

@@ -105,17 +105,23 @@
                           :key="item.title"
                           ripple
                         >
-                          <v-list-item-avatar>
+                          <v-list-item-avatar size="75">
                             <img :src="item.avatar" size="100%">
                           </v-list-item-avatar>
                           <v-list-item-content>
                             <v-list-item-title v-html="item.from"></v-list-item-title>
-                            <span class="grey--text text--lighten-1" v-html="item.sent_date"></span>
+                            <span class="grey--text text--lighten-1" v-html="item.sent_time"></span>
                             <v-list-item-subtitle
                               v-html="item.content"
                             ></v-list-item-subtitle>
                           </v-list-item-content>
                         </v-list-item>
+
+                        <v-divider
+                        v-model="item.divider"
+                        inset
+                        ></v-divider>
+
                       </template>
                     </v-list>
                   
@@ -178,19 +184,20 @@
                   this.currentUser = doc.data().username;
                   this.currentAvatar = doc.data().avatar;
               })
-              db.collection("messages").orderBy('sent', 'desc')
+              
+              db.collection("messages")       //.where(this.currentUser,'==', 'to')
               .onSnapshot((querySnapshot)=>{
                   this.messages = [];
                   console.log(messages)
                   querySnapshot.forEach((doc)=>{
                       this.messages.push({
-                          to:doc.data().to,
+                          currentUser:doc.data().to,
                           from:doc.data().from,
                           avatar:doc.data().avatar,
                           content:doc.data().content,
-                          sent:doc.data().sent,
-                          sent_date:doc.data().sent.toDate().toLocaleDateString(),
-                          sent_time:doc.data().sent.toDate().toLocaleTimeString(),
+                          // sent:doc.data().sent,
+                          // sent_date:doc.data().sent.toDate().toLocaleDateString(),
+                          // sent_time:doc.data().sent.toDate().toLocaleTimeString(),
                           id:doc.id,
                       })
                       console.log('To: ',doc.data().to )
@@ -198,10 +205,10 @@
                       console.log('Message: ',doc.data().content)
                       console.log("Time: ",doc.data().sent)
                       console.log('All: ',doc.data())
+                      console.log(this.currentUser == doc.data().to )
                    })
               })
-            // User is signed in, see docs for a list of available properties
-            // https://firebase.google.com/docs/reference/js/firebase.User
+            
             // ...
             } else {
             // User is signed out
