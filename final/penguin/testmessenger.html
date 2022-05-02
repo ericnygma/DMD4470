@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/@mdi/font@6.x/css/materialdesignicons.min.css" rel="stylesheet">
+  <!-- GOOGLE FONTS //  font-family: 'Luckiest Guy', cursive; -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap" rel="stylesheet">
+  <!-- VUETIFY -->
+  <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
+  <!-- FIREBASE -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+
+<style>
+   
+</style>
+
+
+</head>
+<body>
+  <div id="app">
+    <v-app id="inspire">
+      <v-navigation-drawer
+                  v-model="drawer"
+                  app
+                >
+                  <!-- LEFT DRAW -->
+
+                  <v-sheet
+                  color="grey lighten-4"
+                  class="pa-4"
+                >
+                  <v-avatar
+                    class="mb-4"
+                    color="grey darken-1"
+                    size="85"
+                  >
+                  <v-img
+              height="100%"
+              :src=currentAvatar
+            >
+                </v-avatar>
+          
+                  <div>{{ currentUser }}</div>
+                </v-sheet>
+          
+                <v-divider></v-divider>
+          <!-- MENU FOR LEFT SIDE DRAWER -->
+                <v-list>
+                  <v-list-item
+                    v-for="[icon, text, href] in links"
+                    :key="icon"
+                    :href="href"
+                    link
+                 >
+                 <a href="href"> </a>
+                    <v-list-item-icon class="mr-2">
+                      <v-icon>{{ icon }}</v-icon>
+                    </v-list-item-icon>
+          
+                    <v-list-item-content>
+                      <v-list-item-title>{{ text }}</v-list-item-title>
+                    </v-list-item-content>
+                  </v-list-item>
+                </v-list>
+              </v-navigation-drawer>
+
+
+                </v-navigation-drawer>
+            
+                <v-app-bar app height="72" clipped-right>
+                  <v-app-bar-nav-icon @click="drawer = !drawer" color="primary"></v-app-bar-nav-icon>
+            
+                  <v-toolbar-title>Inbox</v-toolbar-title>
+                </v-app-bar>
+
+
+
+
+
+
+               
+<v-main>
+    <div>
+        <v-toolbar
+        color="orange lighten-1"
+        dark
+        class="mt=16"
+        elevation="5"
+        sticky
+      >
+        <!-- <v-app-bar-nav-icon></v-app-bar-nav-icon> -->
+    
+        <v-toolbar-title>Message Board</v-toolbar-title>
+    
+        <v-spacer></v-spacer>
+    
+        
+      </v-toolbar>
+    </div> 
+    
+
+
+
+
+
+
+
+<!-- ADD NEW MESSAGE TO FEED -->
+          <div class="mb-10">
+            
+            <v-card
+            elevation="2"
+        >
+         
+            <v-form>
+              <v-container>
+                <v-row align="center" class='mx-5'>
+                  <v-avatar
+                      v-model="feed.username"
+                      class="ma-2"
+                      color="primary"
+                      size="62"
+                    >
+                    <v-img
+                    height="100%"
+                    :src=currentAvatar
+                  >
+                  <v-icon 
+                  v-else
+                  :color=""
+                  v-text="icon"
+                  ></v-icon>
+                  </v-avatar>
+                  <v-col
+                   col="12"
+                   >
+                    
+
+                    <v-textarea
+                      v-model="feed.content"
+                      auto-grow
+                      label="What's good?"
+                      placeholder="What's Poppin?"
+                      :rules="[rules.counter]"
+                      counter
+                      maxlength="225"
+                      row="1"
+                      row-height="5"
+                    ></v-textarea>
+
+                    
+                 </v-col>
+      
+        <v-btn 
+        icon
+        large
+        @click="addfeed()"
+      >
+      <v-icon color="primary">mdi-send</v-icon>
+      </v-btn>
+       </v-row>
+      </v-container>
+      </v-form>
+     </v-card> 
+
+          </div> 
+
+             <v-container>  
+            <!-- COLLECTS ALL MESSAGE IN MESSAGE COLLECTION -->
+            <v-row justify="center">
+                <v-col
+                  cols="12"
+               >
+                  <!-- <v-card> -->
+                    
+            
+                    <v-list two-line>
+                      <template v-for="(item, index) in items">
+                        <v-subheader
+                          v-if="item.header"
+                          :key="item.header"
+                          inset
+                        >
+                          {{ item.header }}
+                        </v-subheader>
+            
+                        <v-divider
+                          v-else-if="item.divider"
+                          :key="index"
+                          inset
+                        ></v-divider>
+            
+                        <v-list-item
+                          v-else
+                          :key="item.title"
+                          ripple
+                        >
+                          <v-list-item-avatar size="63">
+                            <img :src="item.avatar">
+                          </v-list-item-avatar>
+                          <v-list-item-content>
+                            <v-list-item-title v-html="item.title"></v-list-item-title>
+                            <v-list-item-subtitle
+                              v-html="item.subtitle"
+                            ></v-list-item-subtitle>
+                          </v-list-item-content>
+                        </v-list-item>
+                      </template>
+                    </v-list>
+                  <!-- </v-card> -->
+                </v-col> 
+              </v-row>
+              <div  v-for="item in messages" :key="messages.n">
+                <p>{{ item.usernameFrom }}</p>
+                <p>{{ item.content }}</p>
+              
+              </div>
+              
+            
+          </v-container>
+      </v-main>
+    </v-app>
+  </div>
+  <script src="firebase.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
+  <script>
+    
+
+    new Vue({
+      el: '#app',
+      vuetify: new Vuetify(),
+      data(){
+          return{
+              hw:'hamburger',
+              drawer:null,
+              isLoggedIn:false,
+              currentUser:null,
+              currentAvatar:'',
+              isliked:null,
+            messages:[],
+              items: [
+                {
+                header: 'Today',
+                },
+                { divider: true },
+                {
+                avatar: 'https://picsum.photos/250/300?image=660',
+                title: 'Meeting @ Noon',
+                subtitle:
+                `<span class="font-weight-bold">Spike Lee</span> &mdash; I'll be in your neighborhood`,
+                },
+                {
+                avatar: 'https://picsum.photos/250/300?image=821',
+                title: 'Summer BBQ <span class="grey--text text--lighten-1"></span>',
+                subtitle:
+                '<span class="font-weight-bold">to Operations support</span> &mdash; Wish I could come.',
+                },
+                {
+                avatar: 'https://picsum.photos/250/300?image=783',
+                title: 'Yes yes',
+                subtitle:
+                '<span class="font-weight-bold">Bella</span> &mdash; Do you have Paris recommendations',
+                },
+                {
+                header: 'Yesterday',
+                },
+                { divider: true },
+                {
+                avatar: 'https://picsum.photos/250/300?image=1006',
+                title: 'Dinner tonight?',
+                subtitle:
+                '<span class="font-weight-bold">LaToya</span> &mdash; Do you want to hang out?',
+                },
+                {
+                avatar: 'https://picsum.photos/250/300?image=146',
+                title: 'So long',
+                subtitle:
+                '<span class="font-weight-bold">Nancy</span> &mdash; Do you see what time it is?',
+                },
+                {
+                 header: 'Last Week',
+                },
+                { divider: true },
+                {
+                avatar: 'https://picsum.photos/250/300?image=1008',
+                title: 'Breakfast?',
+                subtitle:
+                '<span class="font-weight-bold">LaToya</span> &mdash; Do you want to hang out?',
+                },
+                {
+                avatar: 'https://picsum.photos/250/300?image=839',
+                title:
+                'Winter Porridge <span class="grey--text text--lighten-1"></span>',
+                subtitle:
+                '<span class="font-weight-bold">cc: Daniel</span> &mdash; Tell me more...',
+                },
+                {
+                avatar: 'https://picsum.photos/250/300?image=145',
+                title: 'Oui oui',
+                subtitle:
+                '<span class="font-weight-bold">Nancy</span> &mdash; Do you see what time it is?',
+                },
+                ],
+
+
+              links: [
+                ['mdi-android-messages', 'Home', 'feed.html'],
+                ['mdi-inbox-arrow-down', 'DM', 'messages.html'],
+                // ['mdi-contacts-outline', 'Contact'],
+                ['mdi-account-circle', 'Profile', 'profile.html'],
+                ],
+              feed:{
+                username:'',
+                email:'',
+                avatar:'',
+                content:'',
+                media:'',
+                likes:[],
+                new:1,
+                publishedAt: firebase.firestore.FieldValue.serverTimestamp()
+              },
+              feeds:[],
+              rules: {
+                counter: value=> value.length <=225 || 'Max 225 characters',
+          },
+                  
+          }
+     },
+      created(){
+        firebase.auth().onAuthStateChanged((user) => {
+            if (user) {
+                this.isLoggedIn = true;
+                // this.currentUser = user.uid;
+              console.log('Feed infor: ', user.uid);
+              var docRef = db.collection("users").doc(user.uid);
+              docRef.get()
+              .then((doc) =>{
+                  this.currentUser = doc.data().username;
+                  this.currentAvatar = doc.data().avatar;
+              })
+              db.collection("messages").orderBy('publishedAt', 'desc')
+              .onSnapshot((querySnapshot)=>{
+                  this.messages = [];
+                  console.log(messages)
+                  querySnapshot.forEach((doc)=>{
+                      this.messages.push({
+                          usernameTo:doc.data().to,
+                          usernameFrom:doc.data().from,
+                          avatar:doc.data().avatar,
+                          content:doc.data().content,
+                          publishedAt:doc.data().publishedAt,
+                          published_date:doc.data().publishedAt.toDate().toLocaleDateString(),
+                          published_time:doc.data().publishedAt.toDate().toLocaleTimeString(),
+                          id:doc.id,
+                      })
+                      console.log('To: ',doc.data().to )
+                      console.log('From: ',doc.data().from)
+                      console.log('Message: ',doc.data().content)
+                      console.log("Time: ",doc.data().publishedAt)
+                      console.log('All: ',doc.data())
+                   })
+              })
+            // User is signed in, see docs for a list of available properties
+            // https://firebase.google.com/docs/reference/js/firebase.User
+            // ...
+            } else {
+            // User is signed out
+            // ...
+            }
+        });
+      },
+      methods: {},
+      mounted(){}
+            
+    })
+  </script>
+</body>
+</html>

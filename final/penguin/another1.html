@@ -71,17 +71,77 @@
              <v-app-bar app height="72" clipped-right>
                   <v-app-bar-nav-icon @click="drawer = !drawer" color="primary"></v-app-bar-nav-icon>
             
-                  <v-toolbar-title>Messages</v-toolbar-title>
+                  <v-toolbar-title>Inbox</v-toolbar-title>
                 </v-app-bar>
 
             
-               
+               <!-- BOTTOM BAR FOR SENDING MESSAGES -->
+                   <v-app-bar
+                     app
+                     bottom
+                     color="white lighten-1"
+                     elevation="5"
+                     height="85"
+                     class="ma-2"
+                     
+                   >
+                   <v-textarea
+                   v-model="message.content"
+                   auto-grow
+                   label="What's good?"
+                   placeholder="What's your message?"
+                   :rules="[rules.counter]"
+                   counter
+                   maxlength="225"
+                   row="1"
+                   row-height="5"
+                 ></v-textarea>
+             <v-btn 
+             icon
+             large
+             @click="send()"
+             >
+             <v-icon color="primary">mdi-penguin</v-icon>
+             </v-btn>
+                 </v-app-bar>
 <v-main>
+<!-- ADD RECIEVER OF MESSAGE -->
+          <div class="mb-10">
+           <v-card
+            elevation="2"
+        >
+         
+            <v-form>
+              <v-container>
+                <v-row align="center" class='mx-5'>
+                  
+                  <v-col
+                   col="12"
+                   >
+                   <v-textarea
+                      v-model="message.to"
+                      auto-grow
+                      label="To: "
+                      placeholder=""
+                      :rules="[rules.counter]"
+                      row="1"
+                      row-height="5"
+                    ></v-textarea>
+                    </v-col>
+                </v-row>
+                </v-container>
+            </v-form>
+        </v-card> 
+    </div> 
 
              <v-container>  
             <!-- COLLECTS ALL MESSAGE IN MESSAGE COLLECTION -->
-            <v-row justify="center">
-                <v-col>
+            <v-row justify="end">
+                <v-col
+                  cols="12"
+                  sm="8"
+                  md="6"
+                >
                    <v-list two-line>
                       <template v-for="item in messages">
                         <v-subheader
@@ -209,8 +269,26 @@
             }
         });
       },
-      methods: {},
-      mounted(){},
+      methods: {
+        send(){
+          db.collection('messages').add({
+            from: this.currentUser,
+            avatar:this.currentAvatar,
+            to: this.message.to,
+            content: this.message.content,
+            sent:this.message.sent
+        })
+            .then((docRef)=>{
+            console.log("Document written with id: ", docRef.id);
+        })
+            .catch((error)=>{
+            console.log("Error sending document: ", error);
+        })
+        this.message.content = ''
+    },
+    
+      },
+      mounted(){}
             
     })
   </script>

@@ -24,12 +24,13 @@
 <body>
   <div id="app">
     <v-app id="inspire">
-        <!-- LEFT DRAWER -->
       <v-navigation-drawer
                   v-model="drawer"
                   app
                 >
-                 <v-sheet
+                  <!-- LEFT DRAW -->
+
+                  <v-sheet
                   color="grey lighten-4"
                   class="pa-4"
                 >
@@ -38,13 +39,13 @@
                     color="grey darken-1"
                     size="85"
                   >
-                  <v-img
+                  <!-- <v-img
               height="100%"
               :src=currentAvatar
-            >
+            > -->
                 </v-avatar>
           
-                  <div>{{ currentUser }}</div>
+                  <!-- <div>{{ currentUser }}</div> -->
                 </v-sheet>
           
                 <v-divider></v-divider>
@@ -67,69 +68,109 @@
                   </v-list-item>
                 </v-list>
               </v-navigation-drawer>
-              <!-- TOP BAR WITH PAGE DESCRIPTION -->
-             <v-app-bar app height="72" clipped-right>
+
+
+                </v-navigation-drawer>
+            
+                <v-app-bar app height="72" clipped-right>
                   <v-app-bar-nav-icon @click="drawer = !drawer" color="primary"></v-app-bar-nav-icon>
             
-                  <v-toolbar-title>Messages</v-toolbar-title>
+                  <v-toolbar-title>Inbox</v-toolbar-title>
+                  
+
+                  
                 </v-app-bar>
 
-            
-               
-<v-main>
 
-             <v-container>  
-            <!-- COLLECTS ALL MESSAGE IN MESSAGE COLLECTION -->
-            <v-row justify="center">
-                <v-col>
-                   <v-list two-line>
-                      <template v-for="item in messages">
-                        <v-subheader
-                          v-if="item.header"
-                          :key="item.header"
-                          inset
-                        >
-                          {{
-                            item.header
-                          }}
-                        </v-subheader>
+              
+      <v-main>
+        
+
+
+
+
+
+
+
+
+<!-- ADD NEW MESSAGE TO FEED -->
+          <div class="mb-10">
             
-                        <v-divider
-                          v-else-if="item.divider"
-                          :key="index"
-                          inset
-                        ></v-divider>
-            
-                        <v-list-item
-                          v-else
-                          :key="item.title"
-                          ripple
-                        >
-                          <v-list-item-avatar>
-                            <img :src="item.avatar" size="100%">
-                          </v-list-item-avatar>
-                          <v-list-item-content>
-                            <v-list-item-title v-html="item.from"></v-list-item-title>
-                            <span class="grey--text text--lighten-1" v-html="item.sent_date"></span>
-                            <v-list-item-subtitle
-                              v-html="item.content"
-                            ></v-list-item-subtitle>
-                          </v-list-item-content>
-                        </v-list-item>
-                      </template>
-                    </v-list>
-                  
-                </v-col>
-              </v-row>
-         </v-container>
-           
-      </v-main>
-     
+            <v-card
+            elevation="2"
+        >
+         
+            <v-form>
+              <v-container>
+                <v-row align="center" class='mx-5'>
+                  <v-avatar
+                      v-model="feed.username"
+                      class="ma-2"
+                      color="primary"
+                      size="62"
+                    >
+                    <v-img
+                    height="100%"
+                    :src=currentAvatar
+                  >
+                  <v-icon 
+                  v-else
+                  :color=""
+                  v-text="icon"
+                  ></v-icon>
+                  </v-avatar>
+                  <v-col
+                   col="12"
+                   >
+                    
+
+                    <v-textarea
+                      v-model="feed.content"
+                      auto-grow
+                      label="What's good?"
+                      placeholder="What's Poppin?"
+                      :rules="[rules.counter]"
+                      counter
+                      maxlength="225"
+                      row="1"
+                      row-height="5"
+                    ></v-textarea>
+
+                    <!-- ADD PICTURES & EMOJI TO POST -- FEATURE NOT FUNCTIONAL -->
+                    <!-- <v-row class="my-2">
+                      <v-btn icon class='mr-3'>
+                        <v-icon color="primary">mdi-panorama-variant-outline</v-icon>
+                      </v-btn>
+                      <v-btn icon class='mx-3'>
+                        <v-icon color="primary">mdi-emoticon-outline</v-icon>
+                      </v-btn>
+                      <v-btn icon class='ml-3'>
+                        <v-icon color="primary">mdi-calendar-clock-outline</v-icon>
+                      </v-btn>
+                    </v-row> -->
+                 </v-col>
       
+        <v-btn 
+        icon
+        large
+        @click="addfeed()"
+      >
+      <v-icon color="primary">mdi-send</v-icon>
+      </v-btn>
+       </v-row>
+      </v-container>
+      </v-form>
+     </v-card> 
+
+          </div> 
+                
+            <!-- TWEETS FROM ALL USERS -->
+           
+            
+          </v-container>
+      </v-main>
     </v-app>
   </div>
-
-
   <script src="firebase.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
@@ -145,21 +186,25 @@
               isLoggedIn:false,
               currentUser:null,
               currentAvatar:'',
-              messages:[],
+              isliked:null,
+
               links: [
                 ['mdi-android-messages', 'Home', 'feed.html'],
                 ['mdi-inbox-arrow-down', 'DM', 'messages.html'],
                 // ['mdi-contacts-outline', 'Contact'],
                 ['mdi-account-circle', 'Profile', 'profile.html'],
                 ],
-            message:{
-                to:'',
-                from:'',
+              feed:{
+                username:'',
+                email:'',
                 avatar:'',
                 content:'',
-                sent: firebase.firestore.FieldValue.serverTimestamp()
+                media:'',
+                likes:[],
+                new:1,
+                publishedAt: firebase.firestore.FieldValue.serverTimestamp()
               },
-              messages:[],
+              feeds:[],
               rules: {
                 counter: value=> value.length <=225 || 'Max 225 characters',
           },
@@ -178,28 +223,6 @@
                   this.currentUser = doc.data().username;
                   this.currentAvatar = doc.data().avatar;
               })
-              db.collection("messages").orderBy('sent', 'desc')
-              .onSnapshot((querySnapshot)=>{
-                  this.messages = [];
-                  console.log(messages)
-                  querySnapshot.forEach((doc)=>{
-                      this.messages.push({
-                          to:doc.data().to,
-                          from:doc.data().from,
-                          avatar:doc.data().avatar,
-                          content:doc.data().content,
-                          sent:doc.data().sent,
-                          sent_date:doc.data().sent.toDate().toLocaleDateString(),
-                          sent_time:doc.data().sent.toDate().toLocaleTimeString(),
-                          id:doc.id,
-                      })
-                      console.log('To: ',doc.data().to )
-                      console.log('From: ',doc.data().from)
-                      console.log('Message: ',doc.data().content)
-                      console.log("Time: ",doc.data().sent)
-                      console.log('All: ',doc.data())
-                   })
-              })
             // User is signed in, see docs for a list of available properties
             // https://firebase.google.com/docs/reference/js/firebase.User
             // ...
@@ -210,7 +233,7 @@
         });
       },
       methods: {},
-      mounted(){},
+      mounted(){}
             
     })
   </script>

@@ -43,46 +43,74 @@
 
       <v-main>
         <v-container>
-          <div class="mb-10">
-            <!-- ADD LIST OF NEW MESSAGE -->
-            <!-- <v-card
-            elevation="2"
-         > -->
-         <v-list two-line>
-            <template v-for="(item, index) in messages">
-              <v-subheader
-                v-if="item.header"
-                :key="item.header"
-                inset
-              >
-                {{item.header}}
+          <v-card class="overflow-hidden">
+            <v-app-bar
+              absolute
+              color="white"
+              elevate-on-scroll
+              scroll-target="#scrolling-techniques-7"
+            >
+              <v-app-bar-nav-icon></v-app-bar-nav-icon>
+        
+              <v-toolbar-title>Title</v-toolbar-title>
+        
+              <v-spacer></v-spacer>
+        
+              
+              <v-btn icon>
+                <v-icon>mdi-dots-vertical</v-icon>
+              </v-btn>
+            </v-app-bar>
+            
+              <v-container style="height: 1500px;">
 
-              </v-subheader>
-  
-              <v-divider
-                v-else-if="item.divider"
-                :key="index"
-                inset
-              ></v-divider>
-  
-              <v-list-item
-                v-else
-                :key="item.username"
-                ripple
-              >
-                
-                <v-list-item-content>
-                  <v-list-item-title v-html="item.username"></v-list-item-title>
-                  <v-list-item-subtitle
-                    v-html="item.subtitle"
-                  ></v-list-item-subtitle>
-                </v-list-item-content>
-              </v-list-item>
-            </template>
-          </v-list>
-     <!-- </v-card>  -->
+                <div class="mb-10">
+                  <!-- ADD LIST OF NEW MESSAGE -->
+                  <!-- <v-card
+                  elevation="2"
+               > -->
+               <v-list two-line>
+                  <template v-for="(item, index) in messages">
+                    <v-subheader
+                      v-if="item.header"
+                      :key="item.header"
+                      inset
+                    >
+                      {{item.header}}
+      
+                    </v-subheader>
+        
+                    <v-divider
+                      v-else-if="item.divider"
+                      :key="index"
+                      inset
+                    ></v-divider>
+        
+                    <v-list-item
+                      v-else
+                      :key="item.username"
+                      ripple
+                    >
+                      
+                      <v-list-item-content>
+                        <v-list-item-title v-html="item.username"></v-list-item-title>
+                        <v-list-item-subtitle
+                          v-html="item.subtitle"
+                        ></v-list-item-subtitle>
+                      </v-list-item-content>
+                    </v-list-item>
+                  </template>
+                </v-list>
+           <!-- </v-card>  -->
+      
+                </div> 
+              </v-container>
+            
+          </v-card>
 
-          </div> 
+
+
+          
                 
             <!-- TWEETS FROM ALL USERS -->
 
