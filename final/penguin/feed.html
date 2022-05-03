@@ -239,9 +239,10 @@
                       <v-icon
                        class="mx-0" 
                        color="primary" 
-                       v-if="item.isLiked == true">
+                       v-if="item.isLiked == false">
                         mdi-heart-outline
                       </v-icon>
+
                       <v-icon
                        class="mx-0" 
                        color="primary" 
@@ -328,6 +329,14 @@
               .onSnapshot((querySnapshot)=>{
                   this.feeds = [];
                   querySnapshot.forEach((doc)=>{
+                    var isliked = false
+                    if ((doc.data().likes).indexOf(this.currentUser) > -1){
+                      isLiked = true
+                      }
+                      else{
+                      isLiked = false
+                      }
+
                       this.feeds.push({
                           username:doc.data().username,
                           avatar:doc.data().avatar,
@@ -337,7 +346,7 @@
                           published_date:doc.data().publishedAt.toDate().toLocaleDateString(),
                           published_time:doc.data().publishedAt.toDate().toLocaleTimeString(),
                           id:doc.id,
-                          isliked:false
+                          isLiked:isLiked
                       })
                    })
               })

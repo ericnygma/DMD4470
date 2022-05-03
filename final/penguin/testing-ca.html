@@ -127,6 +127,7 @@
       <v-spacer></v-spacer>
       <v-btn
         :disabled="!form"
+        :loading="isLoading"
         class="white--text"
         color="primary"
         depressed
@@ -135,6 +136,30 @@
         Submit
       </v-btn>
     </v-card-actions>
+    <!-- SUBMIT LOADING DIALOG -->
+    <div class="text-center">
+        <v-dialog
+           v-model="dialogca"
+           hide-overlay
+           persistent
+           width="300"
+         >
+           <v-card
+             color="primary"
+             dark
+           >
+             <v-card-text>
+               Welcome to Penguin
+               <v-progress-linear
+                 indeterminate
+                 color="white"
+                 class="mb-0"
+               ></v-progress-linear>
+             </v-card-text>
+           </v-card>
+         </v-dialog>
+       </div>
+       <!-- PRIVACY DIALOG -->
     <v-dialog
       v-model="dialog"
       absolute
@@ -188,6 +213,7 @@
             bio:'',
             agreement: false,
             dialog: false,
+            dialogca:false,
             form: false,
             // isLoading: false,
             password: '',
@@ -214,8 +240,9 @@
                     phone:this.phone,
                     avatar:this.avatar,
                     bio:this.bio,
-                }),
-                window.location.href = "profile.html";   
+                })
+                
+                 
                 // Signed in 
                 
                 
@@ -228,11 +255,12 @@
             var errorCode = error.code;
             var errorMessage = error.message;
             alert(`User already exist. Try again.`)
-            this.form.reset()
+            
             // ..
         });
         }
       },
+      
     })
   </script>
 </body>

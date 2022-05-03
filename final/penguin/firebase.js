@@ -25,7 +25,7 @@
   const users = db.collection('users')
 
   auth.onAuthStateChanged((user) => {
-    console.log(user)
+    // console.log(user)
     
     if (user) {
       var docRef = db.collection("users").doc(user.uid);
@@ -51,7 +51,7 @@
       // ...
     } else {
       // User is signed out
-      console.log('user looged out')
+      console.log('user loged out')
       // ...
     }
   });
