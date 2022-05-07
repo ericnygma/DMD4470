@@ -1,17 +1,3 @@
-# Andy's List of Projects
-
-## In class
-- [ClassChat](https://ericnygma.github.io/DMD4470/inclass/class-roster/)
-
-## Assignments
-- [ColorPicker](https://ericnygma.github.io/DMD4470/color-picker/)
-- [Phonebook](https://ericnygma.github.io/DMD4470/phonebook-v3/)
-- [Midterm - TaskApp](https://ericnygma.github.io/DMD4470/taskcardapp/)
-- [Vue Contact Demo](https://ericnygma.github.io/DMD4470/vue-demo/)
-- [Vue Task App](https://ericnygma.github.io/DMD4470/vuetaskcard/)
-- [Contacts-beta](https://ericnygma.github.io/DMD4470/vuetify_contact/)
-
-
 # PENGUIN 
 
 ## FINAL - Penguin
@@ -39,6 +25,11 @@
  ### DM
  brings user to DM area
  - which user is able to send direct message to other users.
+
+
+
+
+ 
 
 
 
