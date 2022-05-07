@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/@mdi/font@6.x/css/materialdesignicons.min.css" rel="stylesheet">
+  <!-- GOOGLE FONTS //  font-family: 'Luckiest Guy', cursive; -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap" rel="stylesheet">
+  <!-- VUETIFY -->
+  <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
+  <!-- FIREBASE -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+</head>
+<body>
+  <div id="app">
+    <v-app id="inspire">
+      <v-navigation-drawer
+                  v-model="drawer"
+                  app
+                >
+                  <!-- LEFT DRAW -->
+
+                  <v-sheet
+                  color="grey lighten-4"
+                  class="pa-4"
+                  
+                >
+                  <v-avatar
+                    class="mb-4"
+                    color="grey darken-1"
+                    size="64"
+                  > 
+                  <v-img
+                  height="100%"
+                  :src=currentAvatar
+                >
+                </v-avatar>
+          
+                  <div>{{ currentUser }}</div>
+                </v-sheet>
+          
+                <v-divider></v-divider>
+          <!-- MENU FOR RIGHT DRAWER -->
+                <v-list>
+                  <v-list-item
+                    v-for="[icon, text, href] in links"
+                    :key="href"
+                    link
+                    :href="href"
+                    
+                 >
+                 <a href="href"> </a>
+                    <v-list-item-icon class="mr-2">
+                      <v-icon>{{ icon }}</v-icon>
+                    </v-list-item-icon>
+          
+                    <v-list-item-content>
+                      <v-list-item-title>{{ text }}</v-list-item-title>
+                    </v-list-item-content>
+                  </v-list-item>
+                </v-list>
+              </v-navigation-drawer>
+
+
+                </v-navigation-drawer>
+            
+                <v-app-bar app height="72" clipped-right>
+                  <v-app-bar-nav-icon @click="drawer = !drawer" color="primary"></v-app-bar-nav-icon>
+            
+                  <v-toolbar-title>Profile</v-toolbar-title>
+                  
+
+                  <v-spacer></v-spacer>
+
+                 
+
+                </v-app-bar>
+
+
+                
+                <v-navigation-drawer
+                  app
+                  clipped
+                  right
+                >
+
+                
+    
+      
+    </v-navigation-drawer>
+
+      <v-main>
+        <v-container>
+          <div class="mb-10">
+           
+            
+
+          </div> 
+                
+           
+            <v-card
+            class="mx-auto"
+            max-width="434"
+            tile
+          >
+            <v-img
+              height="100%"
+              :src=currentAvatar
+            >
+              <v-row
+                align="end"
+                class="fill-height"
+              >
+                <v-col
+                  align-self="start"
+                  class="pa-0"
+                  cols="12"
+                >
+                  
+                </v-col>
+                <v-col class="py-0">
+                  <v-list-item
+                    color="rgba(0, 0, 0, .4)"
+                    dark
+                  >
+                    <v-list-item-content>
+                      <!-- <v-list-item-title class="text-h6">
+                        {{ currentUser }}
+                      </v-list-item-title> -->
+                      <v-list-item-subtitle></v-list-item-subtitle>
+                    </v-list-item-content>
+                  </v-list-item>
+                </v-col>
+              </v-row>
+            </v-img>
+          </v-card>
+
+           <v-col>
+            <v-list-item
+            class="d-flex justify-center mb-6"
+            align="center"
+             >
+                <v-list-content>
+                  <v-list-item-title class="text-h6">
+                      {{ currentUser }}
+                    </v-list-item-title>
+                    <v-list-item-subtitle>
+                        {{ currentEmail }}
+                    </v-list-item-subtitle>
+                    <v-list-item-subtitle>
+                        {{ currentBio }}
+                    </v-list-item-subtitle>
+                </v-list-content>
+             </v-list-item>
+
+                <v-col class="d-flex justify-center mb-6">
+
+                   <!-- *** TEMPLATE *** -->
+                   <v-row justify="center">
+                    <v-dialog
+                      v-model="dialog"
+                      persistent
+                      max-width="600px"
+                    >
+                      <template v-slot:activator="{ on, attrs }">
+                        <v-btn
+                          color="primary"
+                          dark
+                          v-bind="attrs"
+                          v-on="on"
+                        >
+                          Edit Profile
+                        </v-btn>
+                      </template>
+                      <v-card>
+                        <v-card-title>
+                          <span class="text-h5">User Profile</span>
+                        </v-card-title>
+                        <v-card-text>
+                          <v-container>
+                            <v-row>
+                              
+                              <v-col cols="12">
+                                <v-text-field
+                                  label="Username"
+                                  v-model="currentUser"
+                                ></v-text-field>
+                              </v-col>
+                              <v-col cols="12">
+                                <v-text-field
+                                    v-model="currentAvatar"
+                                    :rules="rules"
+                                    placeholder="Pick an avatar"
+                                    label="Avatar"
+                                ></v-text-field>
+                              </v-col>
+                              <v-col cols="12">
+                                <v-text-field
+                                  label="Bio"
+                                  v-model="currentBio"
+                                ></v-text-field>
+                              </v-col>
+                              
+                            </v-row>
+                          </v-container>
+                          <!-- <small>*indicates required field</small> -->
+                        </v-card-text>
+                        <v-card-actions>
+                          <v-spacer></v-spacer>
+                          <v-btn
+                            color="blue darken-1"
+                            text
+                            @click="dialog = false"
+                          >
+                            Close
+                          </v-btn>
+                          <v-btn
+                            color="blue darken-1"
+                            text
+                            @click="editProfile(); dialog = false"
+                          >
+                            Save
+                          </v-btn>
+                        </v-card-actions>
+                      </v-card>
+                    </v-dialog>
+                  </v-row>
+
+
+                </v-col>
+            
+
+            <v-divider></v-divider>
+            <v-card-actions>
+              <v-btn
+                text
+                @click="deleteAccount()"
+              >
+                Delete Account
+              </v-btn>
+              <v-spacer></v-spacer>
+              <v-btn
+                :loading="isLoading"
+                class="white--text"
+                color="deep-purple accent-4"
+                depressed
+                @click="logout()"
+              >
+                Sign Out
+              </v-btn>
+            </v-card-actions>
+           </v-col>
+          
+                
+
+              
+          </v-container>
+      </v-main>
+    </v-app>
+  </div>
+  <script src="firebase.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
+  <script>
+  //  const user = firebase.auth().currentUser;
+   
+      new Vue({
+      el: '#app',
+      vuetify: new Vuetify(),
+      data(){
+          return{
+              drawer:null,
+              isLoggedIn:false,
+              currentUser:null,
+              newUsername:'',
+              newAvatar:'',
+              currentEmail:'',
+              currentAvatar:'',
+              currentBio:'',
+              dialog:false,
+              rules: [
+                value => !value || value.size < 2000000 || 'Avatar size should be less than 2 MB!',
+                ],
+              links: [
+                ['mdi-android-messages', 'Home','feed.html'],
+                ['mdi-inbox-arrow-down', 'DM', 'messages.html'],
+                // ['mdi-contacts-outline', 'Contact'],
+                ['mdi-account-circle', 'Profile', 'profile.html'],
+                ],
+         }
+      },
+      created(){
+          firebase.auth().onAuthStateChanged((user) => {
+            if (user) {
+                this.isLoggedIn = true;
+                // this.currentUser = user.uid;
+              console.log('Feed infor: ', user.uid);
+              var docRef = db.collection("users").doc(user.uid);
+              docRef.get()
+              .then((doc) =>{
+                  this.currentUser = doc.data().username;
+                  this.currentAvatar = doc.data().avatar;
+                  this.currentEmail = doc.data().email;
+                  this.currentBio = doc.data().bio;
+              })
+            
+           // ...
+            } else {
+            // User is signed out
+            // ...
+            }
+        });
+      },
+      methods: {
+        //  EDIT USER PROFILE AND DOCS - WIP
+        //  NEED TO UPDATE USER DOCS ALSO
+        editProfile(){
+            const user = firebase.auth().currentUser;
+
+            user.updateProfile({
+            displayName: this.currentUser,
+            photoURL: this.currentAvatar
+            }).then(() => {
+                return db.collection('users').doc(user.uid).set({
+                    username:this.currentUser,
+                    avatar:this.currentAvatar,
+                    bio: this.currentBio,
+                    email:this.currentEmail
+
+                })
+            // Update successful
+            // ...
+            }).catch((error) => {
+            // An error occurred
+            // ...
+            });  
+        },
+        //  LOGS CURRENT USER OUT - WORKS
+          logout(){
+            firebase.auth().signOut()
+            .then(()=>{
+              console.log('Successful sign out')
+              window.location.href = "sigin_user.html"
+            });
+          },
+          // DELETES ACCOUNT - WIP
+          deleteAccount(){
+            firebase.auth().currentUser
+            .delete().then(()=>{
+              console.log('user: ', user.id, ' Successful deleted account')
+            }).catch((error)=>{
+              console.log("failed to delete user")
+            })
+          }
+          
+          
+          },
+          
+    })
+  </script>
+</body>
+</html>

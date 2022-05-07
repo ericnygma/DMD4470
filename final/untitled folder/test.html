@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/@mdi/font@6.x/css/materialdesignicons.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+</head>
+<body>
+  <div id="app">
+    <v-app>
+        <v-app-bar
+            app
+            clipped-right
+            flat
+            height="72"
+          >
+            <v-spacer></v-spacer>
+      
+            
+          </v-app-bar>
+      
+          <v-navigation-drawer
+            v-model="drawer"
+            app
+            width="300"
+          >
+            <v-navigation-drawer
+              v-model="drawer"
+              absolute
+              color="grey lighten-3"
+              mini-variant
+            >
+              <v-avatar
+                class="d-block text-center mx-auto mt-4"
+                color="grey darken-1"
+                size="36"
+              ></v-avatar>
+      
+              <v-divider class="mx-3 my-5"></v-divider>
+      
+              <v-avatar
+                v-for="n in 6"
+                :key="n"
+                class="d-block text-center mx-auto mb-9"
+                color="grey lighten-1"
+                size="28"
+              ></v-avatar>
+            </v-navigation-drawer>
+      
+            <v-sheet
+              color="grey lighten-5"
+              height="128"
+              width="100%"
+            ></v-sheet>
+      
+            <v-list
+              class="pl-14"
+              shaped
+            >
+              <v-list-item
+                v-for="n in 5"
+                :key="n"
+                link
+              >
+                <v-list-item-content>
+                  <v-list-item-title>Item {{ n }}</v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+            </v-list>
+          </v-navigation-drawer>
+      
+          <v-navigation-drawer
+            app
+            clipped
+            right
+          >
+            <v-list>
+              <v-list-item
+                v-for="n in 5"
+                :key="n"
+                link
+              >
+                <v-list-item-content>
+                  <v-list-item-title>Item {{ n }}</v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+            </v-list>
+          </v-navigation-drawer>
+      
+          <v-main>
+            <!--  -->
+          </v-main>
+      
+          <v-footer
+            app
+            color="white"
+            height="172"
+            inset
+          >
+            <v-textarea
+            v-model="message.content"
+              background-color="grey lighten-1"
+              auto-grow
+              row="1"
+              row-height="5"
+              rounded
+             >
+            <v-btn
+             slot="append"
+             icon
+             @click="send()"
+             >
+             <v-icon
+             color="primary">mdi-send</v-icon>
+            </v-btn>
+        
+        </v-textarea>
+          </v-footer>
+      <v-main>
+          <!-- MESSAGES -->
+        <v-container>
+            <div 
+            class="d-flex flex-row-reverse sender my-2"
+            v-for="item in messages" :key="item.send_id">
+                <v-card
+                color="primary"
+                 dark
+                 max-width="600"
+                 class="ml-15"
+               >
+                 
+             
+                 <v-card-text class="text-h6 font-weight-light pa-2">
+                   {{ item.content }}
+                   
+                 </v-card-text>
+             
+                 <v-card-actions class="pa-0">
+                   <v-list-item class="grow">
+                     
+             
+                
+                     <v-row
+                      justify="end"
+                     >
+                      <span class="subheading mr-2"></span>
+                     </v-row>
+                   </v-list-item>
+                 </v-card-actions>
+               </v-card>
+                 
+            </div>
+           
+            
+
+        </v-container>
+      </v-main>
+    </v-app>
+  </div>
+  <script src="firebase.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
+  <script>
+    new Vue({
+      el: '#app',
+      vuetify: new Vuetify(),
+      data(){
+          return{
+              drawer:null,
+              message:{
+                  from:'',
+                  to:'',
+                  content:'',
+                  sent:'',
+                  sent_id:'',
+              },
+             messages:[ ],
+         }
+
+      },
+methods: {
+    send(){
+        db.collection('messages').add ({
+                from: this.message.from,
+                to: this.message.to,
+                content: this.message.content,
+                sent:firebase.firestore.FieldValue.serverTimestamp()
+              })
+              .then((docRef)=>{
+                console.log("Document written with ID: " , docRef.id);
+              })
+              .catch((error)=>{
+                console.log("Error adding document: ", error);
+              })
+              this.message.content = ''
+    },
+    getMessagesFromFirebase(){
+              db.collection("messages")
+              .onSnapshot((querySnapshot)=>{
+                  this.messages = [];
+                  console.log(this.messages)
+                  querySnapshot.forEach((doc)=>{
+                      this.messages.push({
+                          from:doc.data().from,
+                          to:doc.data().to,
+                          content:doc.data().content,
+                        //   sent:doc.data().sent,
+                        //   sent:doc.data().sent.toDate().toLocaleTimeString(),
+                        //   published_date:doc.data().publishedAt.toDate().toLocaleDateString(),
+                        //   published_time:doc.data().publishedAt.toDate().toLocaleTimeString(),
+                          send_id:doc.id,
+                      })
+                      // console.log(doc.data().publishedAt)
+                      console.log(doc.data())
+                      console.log(this.messages)
+                      // console.log(doc.data().publishedAt),
+                      // console.log(new Date(doc.data().publishedAt.seconds*1000)),
+                      // console.log(doc.data().publishedAt.toDate().toLocaleDateString())
+                      // console.log(doc.data().publishedAt.toDate().toLocaleTimeString())
+                    })
+                    
+              })
+          },
+},
+mounted() {
+            this.getMessagesFromFirebase();
+          },
+    })
+  </script>
+</body>
+</html>

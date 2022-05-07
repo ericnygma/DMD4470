@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/@mdi/font@6.x/css/materialdesignicons.min.css" rel="stylesheet">
+  <!-- GOOGLE FONTS //  font-family: 'Luckiest Guy', cursive; -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap" rel="stylesheet">
+  <!-- VUETIFY -->
+  <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
+  <!-- FIREBASE -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+</head>
+<body>
+  <div id="app">
+    <v-app id="inspire">
+      <v-navigation-drawer
+                  v-model="drawer"
+                  app
+                >
+                  <!-- LEFT DRAW -->
+
+                  <v-sheet
+                  color="primary"
+                  class="pa-4"
+                >
+                  <v-avatar
+                    class="mb-4"
+                    color="grey darken-1"
+                    size="85"
+                  >
+                  <v-img
+              height="100%"
+              :src=currentAvatar
+            >
+                </v-avatar>
+          
+                  <div>{{ currentUser }}</div>
+                </v-sheet>
+          
+                <v-divider></v-divider>
+          <!-- MENU FOR LEFT SIDE DRAWER -->
+                <v-list>
+                  <v-list-item
+                    v-for="[icon, text, href] in links"
+                    :key="icon"
+                    :href="href"
+                    link
+                 >
+                 <a href="href"> </a>
+                    <v-list-item-icon class="mr-2">
+                      <v-icon color="primary">{{ icon }}</v-icon>
+                    </v-list-item-icon>
+          
+                    <v-list-item-content>
+                      <v-list-item-title>{{ text }}</v-list-item-title>
+                    </v-list-item-content>
+                  </v-list-item>
+                </v-list>
+              </v-navigation-drawer>
+
+
+                </v-navigation-drawer>
+            
+                <v-app-bar app height="72" clipped-right>
+                  <v-app-bar-nav-icon @click="drawer = !drawer" color="primary"></v-app-bar-nav-icon>
+            
+                  <v-toolbar-title>Penguin</v-toolbar-title>
+                  
+
+                  <!-- <v-spacer></v-spacer>
+                    ** SEARCH TEXT FIELD - MAYBE **
+                  <v-responsive max-width="230">
+                    <v-text-field
+                      dense
+                      flat
+                      hide-details
+                      rounded
+                      solo-inverted
+                    ></v-text-field>
+                  </v-responsive> -->
+
+                </v-app-bar>
+
+
+                <!-- CONTENTS FOR RIGHT SIDE DRAWER -->
+                <!-- <v-navigation-drawer
+                  app
+                  clipped
+                  right
+                >
+
+                </v-navigation-drawer> -->
+
+      <v-main>
+        <v-container>
+          <div class="mb-10">
+            <!-- ADD NEW MESSAGE TO FEED -->
+            <v-card
+            elevation="2"
+        >
+         
+            <v-form>
+              <v-container>
+                <v-row align="center" class='mx-5'>
+                  <v-avatar
+                      v-model="feed.username"
+                      class="ma-2"
+                      color="primary"
+                      size="62"
+                    >
+                    <v-img
+                    height="100%"
+                    :src=currentAvatar
+                  >
+                  <v-icon 
+                  v-else
+                  :color=""
+                  v-text="icon"
+                  ></v-icon>
+                  </v-avatar>
+                  <v-col
+                   col="12"
+                   >
+                    
+
+                    <v-textarea
+                      v-model="feed.content"
+                      auto-grow
+                      label="What's good?"
+                      placeholder="What's Poppin?"
+                      :rules="[rules.counter]"
+                      counter
+                      maxlength="225"
+                      row="1"
+                      row-height="5"
+                    ></v-textarea>
+
+                    <!-- ADD PICTURES & EMOJI TO POST -- FEATURE NOT FUNCTIONAL -->
+                    <!-- <v-row class="my-2">
+                      <v-btn icon class='mr-3'>
+                        <v-icon color="primary">mdi-panorama-variant-outline</v-icon>
+                      </v-btn>
+                      <v-btn icon class='mx-3'>
+                        <v-icon color="primary">mdi-emoticon-outline</v-icon>
+                      </v-btn>
+                      <v-btn icon class='ml-3'>
+                        <v-icon color="primary">mdi-calendar-clock-outline</v-icon>
+                      </v-btn>
+                    </v-row> -->
+                 </v-col>
+      
+        <v-btn 
+        icon
+        large
+        @click="addfeed()"
+      >
+      <v-icon color="primary">mdi-send</v-icon>
+      </v-btn>
+       </v-row>
+      </v-container>
+      </v-form>
+     </v-card> 
+
+          </div> 
+                
+            <!-- TWEETS FROM ALL USERS -->
+
+            <v-card
+            v-for="item in feeds" :key="item.id">
+              <v-container>
+                <v-card-title>
+                  <v-row 
+                  align="center"
+                  justify="center"
+                  class=""
+                  >
+                    <v-list-item class="grow">
+                      <v-list-item-avatar size="63">
+                        <img
+                          height="100%"
+                          :src=item.avatar
+                        >
+                        
+                      </v-list-item-avatar>
+                      <v-list-item-content>
+                        
+                          <v-list-item-title>
+                            {{item.username}}
+                            <v-list-item-action-text 
+                            justify="end"
+                            class="mx-6">{{item.published_date}} {{item.published_time}}</v-list-item-action-text>
+                          </v-list-item-title>
+                        
+                        </v-list-item-content>
+
+                  </v-row>
+                 </v-list-item>
+               </v-card-title>
+              <v-card-subtitle class="ml-16 px-7">{{item.content}}
+              </v-card-subtitle>
+  
+                  
+                 
+                <v-card-subtitle>
+                  <v-card-actions>
+                    
+                    <v-row
+                    align="center"
+                    justify="center" 
+                    class="px-2"
+                    >
+                    <v-btn icon class="mr-8">
+                      <v-icon color="primary">
+                        mdi-message-outline
+                      </v-icon>
+                    </v-btn>
+
+                    <v-btn
+                     icon 
+                     class="mr-0">
+                      <v-icon
+                       color="primary">
+                        mdi-repeat
+                      </v-icon>
+                    </v-btn>
+
+                    <span class="subheading mr-8"></span>
+
+                    <v-btn
+                     icon
+                     class="mr-0" 
+                     @click="likePost(item.id); item.isLiked = !item.isLiked"
+                    >
+                      <v-icon
+                       class="mx-0" 
+                       color="primary" 
+                       v-if="item.isLiked == false">
+                        mdi-heart-outline
+                      </v-icon>
+
+                      <v-icon
+                       class="mx-0" 
+                       color="primary" 
+                       v-else>
+                        mdi-heart
+                      </v-icon>
+                    </v-btn>
+
+                    <span class="subheading mr-8">{{item.likes}}</span>
+
+                    <v-btn
+                     icon 
+                     class="ml-0" 
+                     @click="deleteFeed(item.id)">
+                      <v-icon
+                       color="primary">
+                        mdi-delete-outline
+                      </v-icon>
+
+                    </v-btn>
+                 </v-row>
+                 </v-card-actions>
+                </v-card-subtitle>
+              </v-container>
+           </v-card>
+          </v-container>
+      </v-main>
+    </v-app>
+  </div>
+  <script src="firebase.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
+  <script>
+    
+
+    new Vue({
+      el: '#app',
+      vuetify: new Vuetify(),
+      data(){
+          return{
+              drawer:null,
+              isLoggedIn:false,
+              currentUser:null,
+              currentAvatar:'',
+              isliked:false,
+
+              links: [
+              ['mdi-android-messages', 'Home', 'feed.html'],
+                ['mdi-contacts-outline', 'Messages', 'messages.html'],
+                ['mdi-inbox-arrow-down', 'DM', 'dm.html'],
+                ['mdi-account-circle', 'Profile', 'profile.html'],
+                ],
+              feed:{
+                username:'',
+                email:'',
+                avatar:'',
+                content:'',
+                media:'',
+                likes:[],
+                new:1,
+                publishedAt: firebase.firestore.FieldValue.serverTimestamp()
+              },
+              feeds:[],
+              rules: {
+                counter: value=> value.length <=225 || 'Max 225 characters',
+          },
+                  
+          }
+     },
+      created(){
+        firebase.auth().onAuthStateChanged((user) => {
+            if (user) {
+                this.isLoggedIn = true;
+                // this.currentUser = user.uid;
+              console.log('Feed infor: ', user.uid);
+              var docRef = db.collection("users").doc(user.uid);
+              docRef.get()
+              .then((doc) =>{
+                  this.currentUser = doc.data().username;
+                  this.currentAvatar = doc.data().avatar;
+              })
+              // GET FEEDS FROM FIREBASE
+            db.collection("feeds").orderBy('publishedAt', 'desc')
+              .onSnapshot((querySnapshot)=>{
+                  this.feeds = [];
+                  querySnapshot.forEach((doc)=>{
+                    var isliked = false
+                    if ((doc.data().likes).indexOf(this.currentUser) > -1){
+                      isLiked = true
+                      }
+                      else{
+                      isLiked = false
+                      }
+
+                      this.feeds.push({
+                          username:doc.data().username,
+                          avatar:doc.data().avatar,
+                          content:doc.data().content,
+                          likes:doc.data().likes.length,
+                          publishedAt:doc.data().publishedAt,
+                          published_date:doc.data().publishedAt.toDate().toLocaleDateString(),
+                          published_time:doc.data().publishedAt.toDate().toLocaleTimeString(),
+                          id:doc.id,
+                          isLiked:isLiked
+                      })
+                   })
+              })
+          
+            // ...
+            } else {
+            // User is signed out
+            // ...
+            }
+        });
+      },
+      methods: {
+            addfeed() {
+              db.collection('feeds').add ({
+                username: this.currentUser,
+                avatar: this.currentAvatar,
+                content: this.feed.content,
+                likes: this.feed.likes,
+                publishedAt: this.feed.publishedAt 
+              })
+              .then((docRef)=>{
+                console.log("Document written with ID: " , docRef.id);
+              })
+              .catch((error)=>{
+                console.log("Error adding document: ", error);
+              })
+              this.feed.content = ''
+            },
+            
+          // DELETES SELECTED FEED
+          deleteFeed(id){
+            feeds.doc(id).delete()
+            .then(()=>{
+              console.log("Feed id: ", id," deleted successfully");
+            })
+            .catch((error)=>{
+              console.error("Error deleting feed item: ", error);
+            })
+          },
+          // UPDATE LIKES ON FEED IN "LIKES" ARRAY FIELD
+          likePost(id){
+            feeds.doc(id).update({
+            likes: firebase.firestore.FieldValue.arrayUnion(this.currentUser)
+            });
+          },
+         },
+          mounted() {},
+    })
+  </script>
+</body>
+</html>
