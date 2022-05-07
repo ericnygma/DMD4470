@@ -30,7 +30,7 @@
                   app
                 >
                  <v-sheet
-                  color="grey lighten-4"
+                  color="primary"
                   class="pa-4"
                 >
                   <v-avatar
@@ -58,7 +58,7 @@
                  >
                  <a href="href"> </a>
                     <v-list-item-icon class="mr-2">
-                      <v-icon>{{ icon }}</v-icon>
+                      <v-icon color="primary">{{ icon }}</v-icon>
                     </v-list-item-icon>
           
                     <v-list-item-content>
@@ -71,7 +71,7 @@
              <v-app-bar app height="72" clipped-right>
                   <v-app-bar-nav-icon @click="drawer = !drawer" color="primary"></v-app-bar-nav-icon>
             
-                  <v-toolbar-title>Inbox</v-toolbar-title>
+                  <v-toolbar-title>DM</v-toolbar-title>
                 </v-app-bar>
 
             
@@ -141,7 +141,7 @@
 
              <v-container>  
             <!-- COLLECTS ALL MESSAGE IN MESSAGE COLLECTION -->
-            <v-row justify="end">
+            <v-row justify="start">
                 <v-col
                   cols="12"
                   sm="8"
@@ -174,11 +174,12 @@
                             <img :src="item.avatar" size="100%">
                           </v-list-item-avatar>
                           <v-list-item-content>
-                            <v-list-item-title v-html="item.from"></v-list-item-title>
-                            <span class="grey--text text--lighten-1" v-html="item.sent_date"></span>
+                            <v-list-item-title class="font-weight-bold"> {{item.from}} 
+                              <span class="grey--text text--lighten">  &mdash;{{item.sent_date}}  {{item.sent_time}} </span>
+                            </v-list-item-title>
+                            
                             <v-list-item-subtitle
-                              v-html="item.content"
-                            ></v-list-item-subtitle>
+                            > {{item.content}} </v-list-item-subtitle>
                           </v-list-item-content>
                         </v-list-item>
                       </template>
@@ -186,6 +187,9 @@
                   
                 </v-col>
               </v-row>
+
+
+              
          </v-container>
            
       </v-main>
@@ -214,8 +218,8 @@
               contacts:[],
               links: [
                 ['mdi-android-messages', 'Home', 'feed.html'],
-                ['mdi-inbox-arrow-down', 'DM', 'messages.html'],
-                // ['mdi-contacts-outline', 'Contact'],
+                ['mdi-contacts-outline', 'Messages', 'messages.html'],
+                ['mdi-inbox-arrow-down', 'DM', 'dm.html'],
                 ['mdi-account-circle', 'Profile', 'profile.html'],
                 ],
             message:{

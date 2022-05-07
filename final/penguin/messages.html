@@ -30,7 +30,7 @@
                   app
                 >
                  <v-sheet
-                  color="grey lighten-4"
+                  color="primary"
                   class="pa-4"
                 >
                   <v-avatar
@@ -58,7 +58,7 @@
                  >
                  <a href="href"> </a>
                     <v-list-item-icon class="mr-2">
-                      <v-icon>{{ icon }}</v-icon>
+                      <v-icon color="primary">{{ icon }}</v-icon>
                     </v-list-item-icon>
           
                     <v-list-item-content>
@@ -99,7 +99,7 @@
                           :key="index"
                           inset
                         ></v-divider>
-            
+                        
                         <v-list-item
                           v-else
                           :key="item.title"
@@ -109,14 +109,15 @@
                             <img :src="item.avatar" size="100%">
                           </v-list-item-avatar>
                           <v-list-item-content>
-                            <v-list-item-title v-html="item.from"></v-list-item-title>
-                            <span class="grey--text text--lighten-1" v-html="item.sent_time"></span>
+                            <v-list-item-title class="font-weight-bold"> {{item.from}} 
+                              <span class="grey--text text--lighten"> &mdash;  {{item.sent_time}} </span>
+                            </v-list-item-title>
+                            
                             <v-list-item-subtitle
-                              v-html="item.content"
-                            ></v-list-item-subtitle>
+                            >  {{item.content}} </v-list-item-subtitle>
                           </v-list-item-content>
                         </v-list-item>
-
+                      
                         <v-divider
                         v-model="item.divider"
                         inset
@@ -153,9 +154,9 @@
               currentAvatar:'',
               messages:[],
               links: [
-                ['mdi-android-messages', 'Home', 'feed.html'],
-                ['mdi-inbox-arrow-down', 'DM', 'messages.html'],
-                // ['mdi-contacts-outline', 'Contact'],
+              ['mdi-android-messages', 'Home', 'feed.html'],
+                ['mdi-contacts-outline', 'Messages', 'messages.html'],
+                ['mdi-inbox-arrow-down', 'DM', 'dm.html'],
                 ['mdi-account-circle', 'Profile', 'profile.html'],
                 ],
             message:{
@@ -185,21 +186,23 @@
                   this.currentAvatar = doc.data().avatar;
               })
               
-              db.collection("messages")       //.where(this.currentUser,'==', 'to')
+              db.collection("messages")       
               .onSnapshot((querySnapshot)=>{
                   this.messages = [];
                   console.log(messages)
                   querySnapshot.forEach((doc)=>{
+                    if (doc.data().to == this.currentUser) {
                       this.messages.push({
-                          currentUser:doc.data().to,
+                        currentUser:doc.data().to,
                           from:doc.data().from,
                           avatar:doc.data().avatar,
                           content:doc.data().content,
-                          // sent:doc.data().sent,
-                          // sent_date:doc.data().sent.toDate().toLocaleDateString(),
-                          // sent_time:doc.data().sent.toDate().toLocaleTimeString(),
+                          sent:doc.data().sent,
+                          sent_date:doc.data().sent.toDate().toLocaleDateString(),
+                          sent_time:doc.data().sent.toDate().toLocaleTimeString(),
                           id:doc.id,
                       })
+                    }
                       console.log('To: ',doc.data().to )
                       console.log('From: ',doc.data().from)
                       console.log('Message: ',doc.data().content)
