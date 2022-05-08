@@ -58,7 +58,7 @@
         v-model="email"
         :rules="[rules.email]"
         filled
-        color="deep-purple"
+        color="primary"
         label="Email address"
         type="email"
     ></v-text-field>
@@ -67,7 +67,7 @@
         v-model="password"
         :rules="[rules.password, rules.length(6)]"
         filled
-        color="deep-purple"
+        color="primary"
         counter="6"
         label="Password"
         style="min-height: 96px"
@@ -89,7 +89,7 @@
         :disabled="!form"
         :loading="isLoading"
         class="white--text"
-        color="deep-purple accent-4"
+        color="primary"
         depressed
         @click="userSignIn()"
       >
